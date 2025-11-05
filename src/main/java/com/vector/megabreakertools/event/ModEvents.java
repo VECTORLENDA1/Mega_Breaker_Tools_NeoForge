@@ -1,21 +1,23 @@
 package com.vector.megabreakertools.event;
 
+
+
+import com.vector.megabreakertools.MegaBreakerTools;
+import com.vector.megabreakertools.item.custom.pickaxe.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.vector.megabreakertools.MegaBreakerTools;
-import net.vector.megabreakertools.item.custom.pickaxe.*;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Mod.EventBusSubscriber(modid = MegaBreakerTools.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = MegaBreakerTools.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEvents {
     private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
 

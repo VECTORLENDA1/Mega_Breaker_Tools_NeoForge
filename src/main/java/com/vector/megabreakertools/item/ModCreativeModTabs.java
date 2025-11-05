@@ -4,59 +4,23 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
-import net.vector.megabreakertools.MegaBreakerTools;
-import net.vector.megabreakertools.block.ModBlocks;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+import static com.vector.megabreakertools.MegaBreakerTools.MODID;
 
 
-//Isto serve para cria um guia no modo creativo dop jogo, para os teus items
+//Isto serve para cria um guia no modo creativo do jogo, para os teus items
 public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MegaBreakerTools.MODID);
+            net.neoforged.neoforge.registries.DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final RegistryObject<CreativeModeTab> MEGABREAKERTOOLS = CREATIVE_MODE_TABS.register("mega_breaker_tools",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.CELESTINE.get()))
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MEGA_BREAKER_TOOLS = CREATIVE_MODE_TABS.register("mega_breaker_tools",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SIMPLE_BREAKER.get()))
                 .title(Component.translatable("creativetab.mega_breaker_tools"))
                 .displayItems((pParameters, pOutput) -> {
 
-                    //ITEMS//
-                    pOutput.accept(ModItems.CELESTINE.get());
-                    pOutput.accept(ModItems.ZENITHRA.get());
-                    pOutput.accept(ModItems.ASTRALITE.get());
-                    pOutput.accept(ModItems.RAW_ASTRALITE.get());
-                    pOutput.accept(ModItems.RAW_NEXALITE.get());
-                    pOutput.accept(ModItems.NEXALITE.get());
-                    pOutput.accept(ModItems.IGNITHRA.get());
-                    pOutput.accept(ModItems.RAW_IGNITHRA.get());
-                    pOutput.accept(ModItems.ANTRACITE.get());
-                    pOutput.accept(ModItems.RAW_OBSCURIDIUM.get());
-                    pOutput.accept(ModItems.OBSCURIDIUM.get());
-                    pOutput.accept(ModItems.OBSCURITE.get());
-
-
-                    //BLOCKS//
-                    pOutput.accept(ModBlocks.END_STONE_CELESTINE_ORE.get());
-                    pOutput.accept(ModBlocks.NEXALITE_BLOCK.get());
-                    pOutput.accept(ModBlocks.IGNITHRA_BLOCK.get());
-                    pOutput.accept(ModBlocks.RAW_IGNITHRA_BLOCK.get());
-                    pOutput.accept(ModBlocks.DEEPSLATE_IGNITHRA_ORE.get());
-                    pOutput.accept(ModBlocks.IGNITHRA_ORE.get());
-                    pOutput.accept(ModBlocks.ASTRALITE_BLOCK.get());
-                    pOutput.accept(ModBlocks.DEEPSLATE_ASTRALITE_ORE.get());
-                    pOutput.accept(ModBlocks.END_STONE_ZENITHRA_ORE.get());
-                    pOutput.accept(ModBlocks.RAW_NEXALITE_BLOCK.get());
-                    pOutput.accept(ModBlocks.RAW_ASTRALITE_BLOCK.get());
-                    pOutput.accept(ModBlocks.ZENITHRA_BLOCK.get());
-                    pOutput.accept(ModBlocks.CELESTINE_BLOCK.get());
-                    pOutput.accept(ModBlocks.DEEPSLATE_NEXALITE_ORE.get());
-                    pOutput.accept(ModBlocks.NETHER_ANTRACITE_ORE.get());
-                    pOutput.accept(ModBlocks.ANTRACITE_BLOCK.get());
-                    pOutput.accept(ModBlocks.BEDROCK_OBSCURIDIUM_ORE.get());
-                    pOutput.accept(ModBlocks.OBSCURIDIUM_BLOCK.get());
-                    pOutput.accept(ModBlocks.RAW_OBSCURIDIUM_BLOCK.get());
-                    pOutput.accept(ModBlocks.OBSCURITE_BLOCK.get());
 
 
                     //TOOLS
