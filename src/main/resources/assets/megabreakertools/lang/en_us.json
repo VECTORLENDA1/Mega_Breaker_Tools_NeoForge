@@ -1,0 +1,60 @@
+{
+
+
+  "1":             "||ITEMS||",
+  "item.megabreakertools.celestine": "Celestine Gem",
+  "item.megabreakertools.zenithra": "Zenithra Gem",
+  "item.megabreakertools.astralite": "Astralite",
+  "item.megabreakertools.raw_astralite": "Raw Astralite",
+  "item.megabreakertools.raw_nexalite": "Raw Nexalite",
+  "item.megabreakertools.nexalite": "Nexalite",
+  "item.megabreakertools.ignithra": "Ignithra",
+  "item.megabreakertools.raw_ignithra": "Raw Ignithra",
+  "item.megabreakertools.antracite": "Antracite",
+  "item.megabreakertools.obscuridium": "Obscuridium",
+  "item.megabreakertools.obscurite": "Obscurite",
+  "item.megabreakertools.raw_obscuridium": "Raw Obscuridium",
+
+
+
+
+  "2":             "||BLOCKS||",
+  "block.megabreakertools.end_stone_celestine_ore": "End Stone Celestine Ore",
+  "block.megabreakertools.nexalite_block": "Block of Nexalite",
+  "block.megabreakertools.ignithra_block": "Block of Ignithra",
+  "block.megabreakertools.deepslate_ignithra_ore": "Deepslate Ignithra Ore",
+  "block.megabreakertools.ignithra_ore": "Ignithra Ore",
+  "block.megabreakertools.raw_ignithra_block": "Block of Raw Ignithra",
+  "block.megabreakertools.astralite_block": "Block of Astralite",
+  "block.megabreakertools.zenithra_block": "Block of Zenithra",
+  "block.megabreakertools.deepslate_astralite_ore": "Deepslate Astralite Ore",
+  "block.megabreakertools.deepslate_nexalite_ore": "Deepslate Nexalite Ore",
+  "block.megabreakertools.end_stone_zenithra_ore": "End Stone Zenithra Ore",
+  "block.megabreakertools.raw_astralite_block": "Block of Raw Astralite",
+  "block.megabreakertools.raw_nexalite_block": "Block of Raw Nexalite",
+  "block.megabreakertools.celestine_block": "Block of Celestine",
+  "block.megabreakertools.antracite_block": "Block of Antracite",
+  "block.megabreakertools.nether_antracite_ore": "Nether Antracite Ore",
+  "block.megabreakertools.bedrock_obscuridium_ore": "Bedrock Obscuridium Block",
+  "block.megabreakertools.obscuridium_block": "Obscuridium Block",
+  "block.megabreakertools.obscurite_block": "Obscurite Block",
+  "block.megabreakertools.raw_obscuridium_block": "Raw Obscuridium Block",
+
+
+  "3":            "||MEGATOOLS||",
+  "item.megabreakertools.simple_breaker": "Simple Breaker",
+  "item.megabreakertools.mega_simple_breaker": "Mega Simple Breaker",
+  "item.megabreakertools.advance_breaker": "Advance Breaker",
+  "item.megabreakertools.mega_advance_breaker": "Mega Advance Breaker",
+  "item.megabreakertools.ultra_breaker": "Ultra Breaker",
+  "item.megabreakertools.mega_ultra_breaker": "Mega Ultra Breaker",
+  "item.megabreakertools.ultimate_breaker": "Ultimate Breaker",
+  "item.megabreakertools.mega_ultimate_breaker": "Mega Ultimate Breaker",
+  "item.megabreakertools.legendary_breaker": "Legendary Breaker",
+  "item.megabreakertools.mega_legendary_breaker": "Mega Legendary Breaker",
+  "item.megabreakertools.atomic_breaker": "Atomic Breaker",
+  "item.megabreakertools.mega_atomic_breaker": "Mega Atomic Breaker",
+
+
+  "creativetab.mega_breaker_tools": "Mega Breaker Tools"
+}

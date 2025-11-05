@@ -1,0 +1,12 @@
+{
+  "values": [
+    "megabreakertools:deepslate_astralite_ore",
+    "megabreakertools:deepslate_nexalite_ore",
+    "megabreakertools:astralite_block",
+    "megabreakertools:nexalite_block",
+    "megabreakertools:raw_astralite_block",
+    "megabreakertools:raw_nexalite_block",
+    "megabreakertools:nether_antracite_ore",
+    "megabreakertools:antracite_block"
+  ]
+}

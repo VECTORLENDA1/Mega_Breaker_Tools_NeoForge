@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "megabreakertools:block/deepslate_nexalite_ore"
+  }
+}
