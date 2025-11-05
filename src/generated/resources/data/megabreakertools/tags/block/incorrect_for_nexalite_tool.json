@@ -1,0 +1,8 @@
+{
+  "remove": [
+    "#megabreakertools:needs_nexalite_tool"
+  ],
+  "values": [
+    "#minecraft:incorrect_for_iron_tool"
+  ]
+}

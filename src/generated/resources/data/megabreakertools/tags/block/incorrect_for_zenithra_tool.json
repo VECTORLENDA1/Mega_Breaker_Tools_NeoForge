@@ -1,0 +1,8 @@
+{
+  "remove": [
+    "#megabreakertools:needs_zenithra_tool"
+  ],
+  "values": [
+    "#minecraft:incorrect_for_diamond_tool"
+  ]
+}
