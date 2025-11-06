@@ -8,6 +8,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.function.Supplier;
+
 import static com.vector.megabreakertools.MegaBreakerTools.MODID;
 
 
@@ -16,7 +18,7 @@ public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             net.neoforged.neoforge.registries.DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MEGA_BREAKER_TOOLS = CREATIVE_MODE_TABS.register("mega_breaker_tools",
+    public static final Supplier<CreativeModeTab> MEGA_BREAKER_TOOLS = CREATIVE_MODE_TABS.register("mega_breaker_tools",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SIMPLE_BREAKER.get()))
                 .title(Component.translatable("creativetab.mega_breaker_tools"))
                 .displayItems((pParameters, pOutput) -> {
