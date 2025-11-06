@@ -8,7 +8,6 @@ import com.vector.megabreakertools.item.ModItems;
 import com.vector.megabreakertools.recipe.ModRecipes;
 import com.vector.megabreakertools.screen.ModMenuTypes;
 import com.vector.megabreakertools.screen.custom.SimpleCraftingTableScreen;
-import com.vector.megabreakertools.util.ModTags;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -18,7 +17,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -68,14 +66,6 @@ public class MegaBreakerTools {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
-        }
-
-        @SubscribeEvent
-        public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        }
-
-        @SubscribeEvent
-        public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
         }
 
         @SubscribeEvent

@@ -19,7 +19,8 @@ public class ModCreativeModTabs {
             net.neoforged.neoforge.registries.DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     public static final Supplier<CreativeModeTab> MEGA_BREAKER_TOOLS = CREATIVE_MODE_TABS.register("mega_breaker_tools",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SIMPLE_BREAKER.get()))
+            () -> CreativeModeTab.builder()
+                .icon(() -> new ItemStack(ModItems.SIMPLE_BREAKER.get()))
                 .title(Component.translatable("creativetab.mega_breaker_tools"))
                 .displayItems((pParameters, pOutput) -> {
 

@@ -20,7 +20,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(ModTags.Blocks.NEEDS_IGNITHRA_TOOL)
                 .addTag(BlockTags.NEEDS_STONE_TOOL);
-
         tag(ModTags.Blocks.INCORRECT_FOR_IGNITHRA_TOOL)
                 .addTag(BlockTags.INCORRECT_FOR_STONE_TOOL)
                 .remove(ModTags.Blocks.NEEDS_IGNITHRA_TOOL);
@@ -29,7 +28,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(ModTags.Blocks.NEEDS_ASTRALITE_TOOL)
                 .addTag(BlockTags.NEEDS_IRON_TOOL);
-
         tag(ModTags.Blocks.INCORRECT_FOR_ASTRALITE_TOOL)
                 .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL)
                 .remove(ModTags.Blocks.NEEDS_ASTRALITE_TOOL);
