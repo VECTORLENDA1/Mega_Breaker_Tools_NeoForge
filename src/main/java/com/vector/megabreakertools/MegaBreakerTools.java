@@ -8,6 +8,7 @@ import com.vector.megabreakertools.item.ModItems;
 import com.vector.megabreakertools.recipe.ModRecipes;
 import com.vector.megabreakertools.screen.ModMenuTypes;
 import com.vector.megabreakertools.screen.custom.SimpleCraftingTableScreen;
+import com.vector.megabreakertools.util.ModTags;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -34,8 +35,6 @@ public class MegaBreakerTools {
 
         modEventBus.addListener(this::commonSetup);
         NeoForge.EVENT_BUS.register(this);
-
-
 
 
         ModItems.Register(modEventBus);

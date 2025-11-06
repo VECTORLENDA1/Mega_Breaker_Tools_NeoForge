@@ -7,20 +7,20 @@ import net.neoforged.neoforge.common.SimpleTier;
 
 public class ModMegaToolTiers {
     public static final Tier IGNITHRA = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_IGNITHRA_TOOL,
-            400, 4f, 0f, 15, () -> Ingredient.of(ModItems.IGNITHRA.get()));
+            400, 4f, 0f, 15, () -> Ingredient.of(ModItems.IGNITHRA));
 
     public static final Tier ASTRALITE = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_ASTRALITE_TOOL,
-            1000, 6f, 0f, 20, () -> Ingredient.of(ModItems.ASTRALITE.get()));
+            1000, 6f, 0f, 20, () -> Ingredient.of(ModItems.ASTRALITE));
 
     public static final Tier NEXALITE = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_NEXALITE_TOOL,
-            1000, 8f, 0f, 20, () -> Ingredient.of(ModItems.NEXALITE.get()));
+            1000, 8f, 0f, 20, () -> Ingredient.of(ModItems.NEXALITE));
 
     public static final Tier ZENITHRA = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_ZENITHRA_TOOL,
-            2000, 10f, 0f, 25, () -> Ingredient.of(ModItems.ZENITHRA.get()));
+            2000, 10f, 0f, 25, () -> Ingredient.of(ModItems.ZENITHRA));
 
     public static final Tier CELESTINE = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_CELESTINE_TOOL,
-            2000, 12f, 0f, 25, () -> Ingredient.of(ModItems.CELESTINE.get()));
+            2000, 12f, 0f, 25, () -> Ingredient.of(ModItems.CELESTINE));
 
     public static final Tier OBSCURITE = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_OBSCURITE_TOOL,
-            4500, 14f, 0f, 30, () -> Ingredient.of(ModItems.OBSCURITE.get()));
+            4500, 14f, 0f, 30, () -> Ingredient.of(ModItems.OBSCURITE));
 }
