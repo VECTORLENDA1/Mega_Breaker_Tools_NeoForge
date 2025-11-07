@@ -11,9 +11,9 @@ import java.util.function.Supplier;
 
 public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS =
-            DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, "simpleores");
+            DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, "megabreakertools");
     public static final DeferredRegister<RecipeType<?>> TYPES =
-            DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, "simpleores");
+            DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, "megabreakertools");
 
 
     public static final Supplier<RecipeSerializer<SimpleCraftingTableRecipe>> SIMPLE_CRAFTING_TABLE_SERIALIZER =

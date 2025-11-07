@@ -1,8 +1,8 @@
 {
   "type": "simpleores:simple_crafting_table",
   "category": "equipment",
-  "key": {
-    "#": {
+  "ingredient": {
+    "S": {
       "item": "minecraft:stick"
     },
     "N": {
@@ -11,10 +11,10 @@
   },
   "pattern": [
     "NNNNN",
-    "NN#NN",
-    "  #  ",
-    "  #  ",
-    "  #  "
+    "NNSNN",
+    "  S  ",
+    "  S  ",
+    "  S  "
   ],
   "result": {
     "count": 1,

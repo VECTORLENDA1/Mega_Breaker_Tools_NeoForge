@@ -48,6 +48,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .addTag(BlockTags.INCORRECT_FOR_DIAMOND_TOOL)
                 .remove(ModTags.Blocks.NEEDS_CELESTINE_TOOL);
 
+
+
         tag(ModTags.Blocks.NEEDS_ZENITHRA_TOOL)
                 .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
         tag(ModTags.Blocks.INCORRECT_FOR_ZENITHRA_TOOL)
