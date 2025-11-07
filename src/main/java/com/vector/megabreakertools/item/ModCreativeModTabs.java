@@ -26,19 +26,34 @@ public class ModCreativeModTabs {
 
 
 
-                    //TOOLS
+                    //TOOLS//
                     pOutput.accept(ModItems.SIMPLE_BREAKER.get());
-                    pOutput.accept(ModItems.MEGA_SIMPLE_BREAKER.get());
                     pOutput.accept(ModItems.ADVANCE_BREAKER.get());
-                    pOutput.accept(ModItems.MEGA_ADVANCE_BREAKER.get());
                     pOutput.accept(ModItems.ULTRA_BREAKER.get());
-                    pOutput.accept(ModItems.MEGA_ULTRA_BREAKER.get());
                     pOutput.accept(ModItems.ULTIMATE_BREAKER.get());
-                    pOutput.accept(ModItems.MEGA_ULTIMATE_BREAKER.get());
                     pOutput.accept(ModItems.LEGENDARY_BREAKER.get());
-                    pOutput.accept(ModItems.MEGA_LEGENDARY_BREAKER.get());
                     pOutput.accept(ModItems.ATOMIC_BREAKER.get());
+                    pOutput.accept(ModItems.SIMPLE_SHOVEL.get());
+                    pOutput.accept(ModItems.ADVANCE_SHOVEL.get());
+                    pOutput.accept(ModItems.ULTRA_SHOVEL.get());
+                    pOutput.accept(ModItems.ULTIMATE_SHOVEL.get());
+                    pOutput.accept(ModItems.LEGENDARY_SHOVEL.get());
+                    pOutput.accept(ModItems.ATOMIC_SHOVEL.get());
+
+
+                    //MEGA TOOLS//
+                    pOutput.accept(ModItems.MEGA_SIMPLE_BREAKER.get());
+                    pOutput.accept(ModItems.MEGA_ADVANCE_BREAKER.get());
+                    pOutput.accept(ModItems.MEGA_ULTRA_BREAKER.get());
+                    pOutput.accept(ModItems.MEGA_ULTIMATE_BREAKER.get());
+                    pOutput.accept(ModItems.MEGA_LEGENDARY_BREAKER.get());
                     pOutput.accept(ModItems.MEGA_ATOMIC_BREAKER.get());
+                    pOutput.accept(ModItems.MEGA_SIMPLE_SHOVEL.get());
+                    pOutput.accept(ModItems.MEGA_ADVANCE_SHOVEL.get());
+                    pOutput.accept(ModItems.MEGA_ULTRA_SHOVEL.get());
+                    pOutput.accept(ModItems.MEGA_ULTIMATE_SHOVEL.get());
+                    pOutput.accept(ModItems.MEGA_LEGENDARY_SHOVEL.get());
+                    pOutput.accept(ModItems.MEGA_ATOMIC_SHOVEL.get());
 
             })
                 .build());

@@ -1,9 +1,10 @@
 package com.vector.megabreakertools.event;
 
 
-
 import com.vector.megabreakertools.MegaBreakerTools;
 import com.vector.megabreakertools.item.custom.pickaxe.*;
+
+import com.vector.megabreakertools.item.custom.shovel.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -24,12 +25,21 @@ public class ModEvents {
     // Done with the help of https://github.com/CoFH/CoFHCore/blob/1.19.x/src/main/java/cofh/core/event/AreaEffectEvents.java
     // Don't be a jerk License
     @SubscribeEvent
-    public static void onHammerUsage(BlockEvent.BreakEvent event) {
+    public static void onToolsUsage(BlockEvent.BreakEvent event) {
         Player player = event.getPlayer();
         ItemStack mainHandItem = player.getMainHandItem();
 
-        // SIMPLE BREAKER //
-        if (mainHandItem.getItem() instanceof SimpleBreakerItem SimpleBreaker && player instanceof ServerPlayer serverPlayer) {
+        //**********************************************************************************************************************//
+
+                                                    //Pickaxe and Mega Pickaxe//
+
+        //**********************************************************************************************************************//
+
+
+
+
+        // SIMPLE SHOVEL //
+        if (mainHandItem.getItem() instanceof SimpleBreakerItem Simplebreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if (HARVESTED_BLOCKS.contains(initialBlockPos)) {
                 return;
@@ -38,7 +48,7 @@ public class ModEvents {
             List<BlockPos> blocksToBreak = new ArrayList<>();
 
             for (BlockPos pos : SimpleBreakerItem.getBlocksToBeDestroyed(1, initialBlockPos, serverPlayer)) {
-                if (pos.equals(initialBlockPos) || !SimpleBreaker.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                if (pos.equals(initialBlockPos) || !Simplebreaker.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                     continue;
                 }
                 blocksToBreak.add(pos);
@@ -57,8 +67,8 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA SIMPLE BREAKER //
-        if(mainHandItem.getItem() instanceof MegaSimpleBreakerItem MegaSimplebreaker && player instanceof ServerPlayer serverPlayer) {
+        // MEGA SIMPLE SHOVEL //
+        if(mainHandItem.getItem() instanceof MegaSimpleBreakerItem MegaSimpleBreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
                 return;
@@ -67,7 +77,7 @@ public class ModEvents {
             List<BlockPos> blocksToBreak = new ArrayList<>();
 
             for(BlockPos pos : MegaSimpleBreakerItem.getBlocksToBeDestroyed(1, initialBlockPos, serverPlayer)) {
-                if (pos.equals(initialBlockPos) || !MegaSimplebreaker.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                if (pos.equals(initialBlockPos) || !MegaSimpleBreaker.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                     continue;
                 }
                 blocksToBreak.add(pos);
@@ -87,7 +97,7 @@ public class ModEvents {
         }
 
 
-        //ADVANCE BREAKER//
+        //ADVANCE SHOVEL//
         if(mainHandItem.getItem() instanceof AdvanceBreakerItem Advancebreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -116,7 +126,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ADVANCE BREAKER//
+        // MEGA ADVANCE SHOVEL//
         if(mainHandItem.getItem() instanceof MegaAdvanceBreakerItem MegaAdvancebreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -145,7 +155,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //ULTRA BREAKER//
+        //ULTRA SHOVEL//
         if(mainHandItem.getItem() instanceof UltraBreakerItem Ultrabreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -174,7 +184,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ULTRA BREAKER//
+        // MEGA ULTRA SHOVEL//
         if(mainHandItem.getItem() instanceof MegaUltraBreakerItem MegaUltrabreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -203,7 +213,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //ULTIMATE BREAKER//
+        //ULTIMATE SHOVEL//
         if(mainHandItem.getItem() instanceof UltimateBreakerItem Ultimatebreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -232,7 +242,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ULTIMATE BREAKER//
+        // MEGA ULTIMATE SHOVEL//
         if(mainHandItem.getItem() instanceof MegaUltimateBreakerItem MegaUltimatebreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -261,7 +271,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //LEGENDARY BREAKER//
+        //LEGENDARY SHOVEL//
         if(mainHandItem.getItem() instanceof LegendaryBreakerItem Legendarybreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -290,7 +300,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA LEGENDARY BREAKER//
+        // MEGA LEGENDARY SHOVEL//
         if(mainHandItem.getItem() instanceof MegaLegendaryBreakerItem MegaLegendarybreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -319,7 +329,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //ATOMIC BREAKER//
+        //ATOMIC SHOVEL//
         if(mainHandItem.getItem() instanceof AtomicBreakerItem Atomicbreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -348,7 +358,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ATOMIC BREAKER//
+        // MEGA ATOMIC SHOVEL//
         if(mainHandItem.getItem() instanceof MegaAtomicBreakerItem MegaAtomicbreaker && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -359,6 +369,363 @@ public class ModEvents {
 
             for(BlockPos pos : MegaAtomicBreakerItem.getBlocksToBeDestroyed(6, initialBlockPos, serverPlayer)) {
                 if(pos.equals(initialBlockPos) || !MegaAtomicbreaker.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+
+        //**********************************************************************************************************************//
+
+                                                    //Shovels and Mega Shovels//
+
+        //**********************************************************************************************************************//
+
+
+        // SIMPLE SHOVEL //
+        if (mainHandItem.getItem() instanceof SimpleShovelItem SimpleShovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if (HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for (BlockPos pos : SimpleShovelItem.getBlocksToBeDestroyed(1, initialBlockPos, serverPlayer)) {
+                if (pos.equals(initialBlockPos) || !SimpleShovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        // MEGA SIMPLE SHOVEL //
+        if(mainHandItem.getItem() instanceof MegaSimpleShovelItem MegaSimpleshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : MegaSimpleShovelItem.getBlocksToBeDestroyed(1, initialBlockPos, serverPlayer)) {
+                if (pos.equals(initialBlockPos) || !MegaSimpleshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+
+        //ADVANCE SHOVEL//
+        if(mainHandItem.getItem() instanceof AdvanceShovelItem Advanceshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : AdvanceShovelItem.getBlocksToBeDestroyed(2, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !Advanceshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        // MEGA ADVANCE SHOVEL//
+        if(mainHandItem.getItem() instanceof MegaAdvanceShovelItem MegaAdvanceshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : MegaAdvanceShovelItem.getBlocksToBeDestroyed(2, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !MegaAdvanceshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        //ULTRA SHOVEL//
+        if(mainHandItem.getItem() instanceof UltraShovelItem Ultrashovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : UltraShovelItem.getBlocksToBeDestroyed(3, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !Ultrashovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        // MEGA ULTRA SHOVEL//
+        if(mainHandItem.getItem() instanceof MegaUltraShovelItem MegaUltrashovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : MegaUltraShovelItem.getBlocksToBeDestroyed(3, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !MegaUltrashovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        //ULTIMATE SHOVEL//
+        if(mainHandItem.getItem() instanceof UltimateShovelItem Ultimateshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : UltimateShovelItem.getBlocksToBeDestroyed(4, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !Ultimateshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        // MEGA ULTIMATE SHOVEL//
+        if(mainHandItem.getItem() instanceof MegaUltimateShovelItem MegaUltimateshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : MegaUltimateShovelItem.getBlocksToBeDestroyed(4, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !MegaUltimateshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        //LEGENDARY SHOVEL//
+        if(mainHandItem.getItem() instanceof LegendaryShovelItem Legendaryshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : LegendaryShovelItem.getBlocksToBeDestroyed(5, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !Legendaryshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        // MEGA LEGENDARY SHOVEL//
+        if(mainHandItem.getItem() instanceof MegaLegendaryShovelItem MegaLegendaryshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : MegaLegendaryShovelItem.getBlocksToBeDestroyed(5, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !MegaLegendaryshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        //ATOMIC SHOVEL//
+        if(mainHandItem.getItem() instanceof AtomicShovelItem Atomicshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : AtomicShovelItem.getBlocksToBeDestroyed(6, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !Atomicshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
+                    continue;
+                }
+                blocksToBreak.add(pos);
+            }
+
+            HARVESTED_BLOCKS.addAll(blocksToBreak);
+
+            int initialDamage = mainHandItem.getDamageValue();
+
+            for (BlockPos pos : blocksToBreak) {
+                serverPlayer.gameMode.destroyBlock(pos);
+            }
+
+            mainHandItem.setDamageValue(initialDamage);
+
+            blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+        }
+
+        // MEGA ATOMIC SHOVEL//
+        if(mainHandItem.getItem() instanceof MegaAtomicShovelItem MegaAtomicshovel && player instanceof ServerPlayer serverPlayer) {
+            BlockPos initialBlockPos = event.getPos();
+            if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
+                return;
+            }
+
+            List<BlockPos> blocksToBreak = new ArrayList<>();
+
+            for(BlockPos pos : MegaAtomicShovelItem.getBlocksToBeDestroyed(6, initialBlockPos, serverPlayer)) {
+                if(pos.equals(initialBlockPos) || !MegaAtomicshovel.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
                     continue;
                 }
                 blocksToBreak.add(pos);
