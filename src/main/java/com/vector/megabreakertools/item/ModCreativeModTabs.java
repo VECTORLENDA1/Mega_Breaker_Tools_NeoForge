@@ -39,6 +39,12 @@ public class ModCreativeModTabs {
                     pOutput.accept(ModItems.ULTIMATE_SHOVEL.get());
                     pOutput.accept(ModItems.LEGENDARY_SHOVEL.get());
                     pOutput.accept(ModItems.ATOMIC_SHOVEL.get());
+                    pOutput.accept(ModItems.SIMPLE_AXE.get());
+                    pOutput.accept(ModItems.ADVANCE_AXE.get());
+                    pOutput.accept(ModItems.ULTRA_AXE.get());
+                    pOutput.accept(ModItems.ULTIMATE_AXE.get());
+                    pOutput.accept(ModItems.LEGENDARY_AXE.get());
+                    pOutput.accept(ModItems.ATOMIC_AXE.get());
 
 
                     //MEGA TOOLS//
@@ -54,6 +60,12 @@ public class ModCreativeModTabs {
                     pOutput.accept(ModItems.MEGA_ULTIMATE_SHOVEL.get());
                     pOutput.accept(ModItems.MEGA_LEGENDARY_SHOVEL.get());
                     pOutput.accept(ModItems.MEGA_ATOMIC_SHOVEL.get());
+                    pOutput.accept(ModItems.MEGA_SIMPLE_AXE.get());
+                    pOutput.accept(ModItems.MEGA_ADVANCE_AXE.get());
+                    pOutput.accept(ModItems.MEGA_ULTRA_AXE.get());
+                    pOutput.accept(ModItems.MEGA_ULTIMATE_AXE.get());
+                    pOutput.accept(ModItems.MEGA_LEGENDARY_AXE.get());
+                    pOutput.accept(ModItems.MEGA_ATOMIC_AXE.get());
 
             })
                 .build());

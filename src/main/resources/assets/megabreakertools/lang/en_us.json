@@ -26,6 +26,13 @@
   "item.megabreakertools.legendary_shovel": "Legendary Shovel",
   "item.megabreakertools.atomic_shovel": "Atomic Shovel",
 
+  "4":            "||SHOVEL TOOLS||",
+  "item.megabreakertools.simple_axe": "Simple Axe",
+  "item.megabreakertools.advance_axe": "Advance Axe",
+  "item.megabreakertools.ultra_axe": "Ultra Axe",
+  "item.megabreakertools.ultimate_axe": "Ultimate Axe",
+  "item.megabreakertools.legendary_axe": "Legendary Axe",
+  "item.megabreakertools.atomic_axe": "Atomic Axe",
 
 
 
@@ -34,7 +41,8 @@
 
 
 
-  "6":            "||MEGA PICKAXE TOOLS||",
+
+  "5":            "||MEGA PICKAXE TOOLS||",
   "item.megabreakertools.mega_simple_breaker": "Mega Simple Breaker",
   "item.megabreakertools.mega_advance_breaker": "Mega Advance Breaker",
   "item.megabreakertools.mega_ultra_breaker": "Mega Ultra Breaker",
@@ -42,7 +50,7 @@
   "item.megabreakertools.mega_legendary_breaker": "Mega Legendary Breaker",
   "item.megabreakertools.mega_atomic_breaker": "Mega Atomic Breaker",
 
-  "7":            "||MEGA SHOVEL TOOLS||",
+  "6":            "||MEGA SHOVEL TOOLS||",
   "item.megabreakertools.mega_simple_shovel": "Mega Simple Shovel",
   "item.megabreakertools.mega_advance_shovel": "Mega Advance Shovel",
   "item.megabreakertools.mega_ultra_shovel": "Mega Ultra Shovel",
@@ -50,7 +58,13 @@
   "item.megabreakertools.mega_legendary_shovel": "Mega Legendary Shovel",
   "item.megabreakertools.mega_atomic_shovel": "Mega Atomic Shovel",
 
-
+  "7":            "||MEGA SHOVEL TOOLS||",
+  "item.megabreakertools.mega_simple_axe": "Mega Simple Axe",
+  "item.megabreakertools.mega_advance_axe": "Mega Advance Axe",
+  "item.megabreakertools.mega_ultra_axe": "Mega Ultra Axe",
+  "item.megabreakertools.mega_ultimate_axe": "Mega Ultimate Axe",
+  "item.megabreakertools.mega_legendary_axe": "Mega Legendary Axe",
+  "item.megabreakertools.mega_atomic_axe": "Mega Atomic Axe",
 
 
 
