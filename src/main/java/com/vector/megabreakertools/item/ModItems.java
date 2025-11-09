@@ -174,22 +174,22 @@ public class ModItems {
     //Mega Hoe Tools\\
     public static final DeferredItem<MegaSimpleScytheItem> MEGA_SIMPLE_SCYTHE = ITEMS.register("mega_simple_scythe",
             () -> new MegaSimpleScytheItem(ModMegaToolTiers.IGNITHRA, new Item.Properties()
-                    .attributes(AxeItem.createAttributes(ModMegaToolTiers.IGNITHRA, 3, -1.0F))));//defaut - 1 damage, 4 attack speed
+                    .attributes(HoeItem.createAttributes(ModMegaToolTiers.IGNITHRA, 3, -1.0F))));//defaut - 1 damage, 4 attack speed
     public static final DeferredItem<MegaAdvanceScytheItem> MEGA_ADVANCE_SCYTHE = ITEMS.register("mega_advance_scythe",
             () -> new MegaAdvanceScytheItem(ModMegaToolTiers.ASTRALITE, new Item.Properties()
-                    .attributes(AxeItem.createAttributes(ModMegaToolTiers.ASTRALITE, 5, -0.8F))));
+                    .attributes(HoeItem.createAttributes(ModMegaToolTiers.ASTRALITE, 5, -0.8F))));
     public static final DeferredItem<MegaUltraScytheItem> MEGA_ULTRA_SCYTHE = ITEMS.register("mega_ultra_scythe",
             () -> new MegaUltraScytheItem(ModMegaToolTiers.NEXALITE, new Item.Properties()
-                    .attributes(AxeItem.createAttributes(ModMegaToolTiers.NEXALITE, 7, -0.6F))));
+                    .attributes(HoeItem.createAttributes(ModMegaToolTiers.NEXALITE, 7, -0.6F))));
     public static final DeferredItem<MegaUltimateScytheItem> MEGA_ULTIMATE_SCYTHE = ITEMS.register("mega_ultimate_scythe",
             () -> new MegaUltimateScytheItem(ModMegaToolTiers.CELESTINE, new Item.Properties()
-                    .attributes(AxeItem.createAttributes(ModMegaToolTiers.CELESTINE, 9, -0.4F))));
+                    .attributes(HoeItem.createAttributes(ModMegaToolTiers.CELESTINE, 9, -0.4F))));
     public static final DeferredItem<MegaLegendaryScytheItem> MEGA_LEGENDARY_SCYTHE = ITEMS.register("mega_legendary_scythe",
             () -> new MegaLegendaryScytheItem(ModMegaToolTiers.ZENITHRA, new Item.Properties()
-                    .attributes(AxeItem.createAttributes(ModMegaToolTiers.ZENITHRA, 11, -0.2F))));
+                    .attributes(HoeItem.createAttributes(ModMegaToolTiers.ZENITHRA, 11, -0.2F))));
     public static final DeferredItem<MegaAtomicScytheItem> MEGA_ATOMIC_SCYTHE = ITEMS.register("mega_atomic_scythe",
             () -> new MegaAtomicScytheItem(ModMegaToolTiers.OBSCURITE, new Item.Properties().fireResistant()
-                    .attributes(AxeItem.createAttributes(ModMegaToolTiers.OBSCURITE, 13, 0f))));
+                    .attributes(HoeItem.createAttributes(ModMegaToolTiers.OBSCURITE, 13, 0f))));
 
 
     public static void Register(IEventBus eventBus) {
