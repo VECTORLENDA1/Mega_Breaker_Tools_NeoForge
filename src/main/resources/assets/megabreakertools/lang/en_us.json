@@ -11,12 +11,12 @@
 
 
   "2":            "||PICKAXE TOOLS||",
-  "item.megabreakertools.simple_breaker": "Simple Breaker",
-  "item.megabreakertools.advance_breaker": "Advance Breaker",
-  "item.megabreakertools.ultra_breaker": "Ultra Breaker",
-  "item.megabreakertools.ultimate_breaker": "Ultimate Breaker",
-  "item.megabreakertools.legendary_breaker": "Legendary Breaker",
-  "item.megabreakertools.atomic_breaker": "Atomic Breaker",
+  "item.megabreakertools.simple_pickaxe": "Simple Pickaxe",
+  "item.megabreakertools.advance_pickaxe": "Advance Pickaxe",
+  "item.megabreakertools.ultra_pickaxe": "Ultra Pickaxe",
+  "item.megabreakertools.ultimate_pickaxe": "Ultimate Pickaxe",
+  "item.megabreakertools.legendary_pickaxe": "Legendary Pickaxe",
+  "item.megabreakertools.atomic_pickaxe": "Atomic Pickaxe",
 
   "3":            "||SHOVEL TOOLS||",
   "item.megabreakertools.simple_shovel": "Simple Shovel",
@@ -26,7 +26,7 @@
   "item.megabreakertools.legendary_shovel": "Legendary Shovel",
   "item.megabreakertools.atomic_shovel": "Atomic Shovel",
 
-  "4":            "||SHOVEL TOOLS||",
+  "4":            "||AXE TOOLS||",
   "item.megabreakertools.simple_axe": "Simple Axe",
   "item.megabreakertools.advance_axe": "Advance Axe",
   "item.megabreakertools.ultra_axe": "Ultra Axe",
@@ -34,15 +34,15 @@
   "item.megabreakertools.legendary_axe": "Legendary Axe",
   "item.megabreakertools.atomic_axe": "Atomic Axe",
 
+  "5":            "||HOE TOOLS||",
+  "item.megabreakertools.simple_hoe": "Simple Hoe",
+  "item.megabreakertools.advance_hoe": "Advance Hoe",
+  "item.megabreakertools.ultra_hoe": "Ultra Hoe",
+  "item.megabreakertools.ultimate_hoe": "Ultimate Hoe",
+  "item.megabreakertools.legendary_hoe": "Legendary Hoe",
+  "item.megabreakertools.atomic_hoe": "Atomic Hoe",
 
-
-
-
-
-
-
-
-  "5":            "||MEGA PICKAXE TOOLS||",
+  "6":            "||MEGA PICKAXE TOOLS||",
   "item.megabreakertools.mega_simple_breaker": "Mega Simple Breaker",
   "item.megabreakertools.mega_advance_breaker": "Mega Advance Breaker",
   "item.megabreakertools.mega_ultra_breaker": "Mega Ultra Breaker",
@@ -50,21 +50,29 @@
   "item.megabreakertools.mega_legendary_breaker": "Mega Legendary Breaker",
   "item.megabreakertools.mega_atomic_breaker": "Mega Atomic Breaker",
 
-  "6":            "||MEGA SHOVEL TOOLS||",
-  "item.megabreakertools.mega_simple_shovel": "Mega Simple Shovel",
-  "item.megabreakertools.mega_advance_shovel": "Mega Advance Shovel",
-  "item.megabreakertools.mega_ultra_shovel": "Mega Ultra Shovel",
-  "item.megabreakertools.mega_ultimate_shovel": "Mega Ultimate Shovel",
-  "item.megabreakertools.mega_legendary_shovel": "Mega Legendary Shovel",
-  "item.megabreakertools.mega_atomic_shovel": "Mega Atomic Shovel",
-
   "7":            "||MEGA SHOVEL TOOLS||",
-  "item.megabreakertools.mega_simple_axe": "Mega Simple Axe",
-  "item.megabreakertools.mega_advance_axe": "Mega Advance Axe",
-  "item.megabreakertools.mega_ultra_axe": "Mega Ultra Axe",
-  "item.megabreakertools.mega_ultimate_axe": "Mega Ultimate Axe",
-  "item.megabreakertools.mega_legendary_axe": "Mega Legendary Axe",
-  "item.megabreakertools.mega_atomic_axe": "Mega Atomic Axe",
+  "item.megabreakertools.mega_simple_excavator": "Mega Simple Excavator",
+  "item.megabreakertools.mega_advance_excavator": "Mega Advance Excavator",
+  "item.megabreakertools.mega_ultra_excavator": "Mega Ultra Excavator",
+  "item.megabreakertools.mega_ultimate_excavator": "Mega Ultimate Excavator",
+  "item.megabreakertools.mega_legendary_excavator": "Mega Legendary Excavator",
+  "item.megabreakertools.mega_atomic_excavator": "Mega Atomic Excavator",
+
+  "8":            "||MEGA AXE TOOLS||",
+  "item.megabreakertools.mega_simple_lumberjack": "Mega Simple Lumberjack",
+  "item.megabreakertools.mega_advance_lumberjack": "Mega Advance Lumberjack",
+  "item.megabreakertools.mega_ultra_alumberjack": "Mega Ultra Lumberjack",
+  "item.megabreakertools.mega_ultimate_lumberjack": "Mega Ultimate Lumberjack",
+  "item.megabreakertools.mega_legendary_lumberjack": "Mega Legendary Lumberjack",
+  "item.megabreakertools.mega_atomic_lumberjack": "Mega Atomic Lumberjack",
+
+  "9":            "||MEGA HOE TOOLS||",
+  "item.megabreakertools.mega_simple_scythe": "Mega Simple Scythe",
+  "item.megabreakertools.mega_advance_scythe": "Mega Advance Scythe",
+  "item.megabreakertools.mega_ultra_scythe": "Mega Ultra Scythe",
+  "item.megabreakertools.mega_ultimate_scythe": "Mega Ultimate Scythe",
+  "item.megabreakertools.mega_legendary_hscythe": "Mega Legendary Scythe",
+  "item.megabreakertools.mega_atomic_scythe": "Mega Atomic Scythe",
 
 
 
