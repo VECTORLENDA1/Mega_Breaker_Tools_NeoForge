@@ -104,29 +104,40 @@ public class UltraAxeItem extends DiggerItem {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
+        BlockPos clickedPos = context.getClickedPos();
         Player player = context.getPlayer();
-        if (playerHasShieldUseIntent(context)) {
-            return InteractionResult.PASS;
-        } else {
-            Optional<BlockState> optional = this.evaluateNewBlockState(level, blockpos, player, level.getBlockState(blockpos), context);
-            if (optional.isEmpty()) {
-                return InteractionResult.PASS;
-            } else {
-                ItemStack itemstack = context.getItemInHand();
-                if (player instanceof ServerPlayer) {
-                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockpos, itemstack);
-                }
 
-                level.setBlock(blockpos, optional.get(), 11);
-                level.gameEvent(GameEvent.BLOCK_CHANGE, blockpos, GameEvent.Context.of(player, optional.get()));
-                if (player != null) {
-                    itemstack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
-                }
+        if (player == null || level.isClientSide) return InteractionResult.PASS;
+        if (playerHasShieldUseIntent(context)) return InteractionResult.PASS;
 
-                return InteractionResult.sidedSuccess(level.isClientSide);
+        int range = 3; // 7x7 equivalente
+        List<BlockPos> targets = getBlocksToBeDestroyed(range, clickedPos, (ServerPlayer) player);
+        boolean changedAny = false;
+
+        for (BlockPos pos : targets) {
+            BlockState state = level.getBlockState(pos);
+            Optional<BlockState> opt = this.evaluateNewBlockState(level, pos, player, state,
+                    new UseOnContext(player, context.getHand(), new BlockHitResult(player.position(), context.getClickedFace(), pos, false)));
+            if (opt.isPresent()) {
+                BlockState newState = opt.get();
+                level.setBlock(pos, newState, 11);
+                level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newState));
+                changedAny = true;
             }
         }
+
+        if (changedAny) {
+            // som principal (strip/scrape/wax é decidido no evaluate)
+            Optional<BlockState> headOpt = this.evaluateNewBlockState(level, clickedPos, player, level.getBlockState(clickedPos), context);
+            headOpt.ifPresent(s -> level.playSound(null, clickedPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F));
+            context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+            if (player instanceof ServerPlayer sp) {
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(sp, clickedPos, context.getItemInHand());
+            }
+            return InteractionResult.SUCCESS;
+        }
+
+        return InteractionResult.PASS;
     }
 
     private static boolean playerHasShieldUseIntent(UseOnContext context) {
