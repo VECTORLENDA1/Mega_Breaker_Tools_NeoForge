@@ -19,6 +19,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.core.Vec3i;
 
 @EventBusSubscriber(modid = MegaBreakerTools.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class ModEvents {
@@ -1109,7 +1115,7 @@ public class ModEvents {
         //**********************************************************************************************************************//
 
 
-        // SIMPLE AXE //
+        // SIMPLE HOE //
         if (mainHandItem.getItem() instanceof SimpleHoeItem Simplehoe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if (HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1138,7 +1144,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA SIMPLE AXE //
+        // MEGA SIMPLE HOE //
         if(mainHandItem.getItem() instanceof MegaSimpleScytheItem MegaSimplescythe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1168,7 +1174,7 @@ public class ModEvents {
         }
 
 
-        //ADVANCE AXE//
+        //ADVANCE HOE//
         if(mainHandItem.getItem() instanceof AdvanceHoeItem Advancehoe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1197,7 +1203,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ADVANCE AXE//
+        // MEGA ADVANCE HOE//
         if(mainHandItem.getItem() instanceof MegaAdvanceScytheItem MegaAdvancescythe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1226,7 +1232,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //ULTRA AXE//
+        //ULTRA HOE//
         if(mainHandItem.getItem() instanceof UltraHoeItem Ultrahoe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1255,7 +1261,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ULTRA AXE//
+        // MEGA ULTRA HOE//
         if(mainHandItem.getItem() instanceof MegaUltraScytheItem MegaUltrascythe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1284,7 +1290,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //ULTIMATE AXE//
+        //ULTIMATE HOE//
         if(mainHandItem.getItem() instanceof UltimateHoeItem Ultimatehoe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1313,7 +1319,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ULTIMATE AXE//
+        // MEGA ULTIMATE HOE//
         if(mainHandItem.getItem() instanceof MegaUltimateScytheItem MegaUltimatescythe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1342,7 +1348,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //LEGENDARY AXE//
+        //LEGENDARY HOE//
         if(mainHandItem.getItem() instanceof LegendaryHoeItem Legendaryhoe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1371,7 +1377,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA LEGENDARY AXE//
+        // MEGA LEGENDARY HOE//
         if(mainHandItem.getItem() instanceof MegaLegendaryScytheItem MegaLegendaryscythe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1400,7 +1406,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        //ATOMIC AXE//
+        //ATOMIC HOE//
         if(mainHandItem.getItem() instanceof AtomicHoeItem Atomichoe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
@@ -1429,7 +1435,7 @@ public class ModEvents {
             blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
         }
 
-        // MEGA ATOMIC AXE//
+        // MEGA ATOMIC HOE//
         if(mainHandItem.getItem() instanceof MegaAtomicScytheItem MegaAtomicscythe && player instanceof ServerPlayer serverPlayer) {
             BlockPos initialBlockPos = event.getPos();
             if(HARVESTED_BLOCKS.contains(initialBlockPos)) {
