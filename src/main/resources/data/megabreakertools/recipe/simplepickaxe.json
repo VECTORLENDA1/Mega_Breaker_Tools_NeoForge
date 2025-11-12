@@ -10,9 +10,9 @@
     }
   },
   "pattern": [
-    "BBB",
-    "B#B",
-    " # "
+    "SSS",
+    "SsS",
+    " s "
   ],
   "result": {
     "count": 1,
