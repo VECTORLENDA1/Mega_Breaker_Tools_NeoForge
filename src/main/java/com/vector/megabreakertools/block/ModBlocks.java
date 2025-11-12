@@ -1,7 +1,9 @@
 package com.vector.megabreakertools.block;
 
 
+import com.vector.megabreakertools.block.custom.AtomicCraftingTable;
 import com.vector.megabreakertools.block.custom.SimpleCraftingTable;
+import com.vector.megabreakertools.block.custom.UltraCraftingTable;
 import com.vector.megabreakertools.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -25,6 +27,14 @@ public class ModBlocks {
     //Entity Blocks
     public static final DeferredBlock<Block> SIMPLE_CRAFTING_TABLE = registerBlockItem("simple_crafting_table",
             () -> new SimpleCraftingTable(BlockBehaviour.Properties.of().strength(2.5f,10)
+                    .requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+    public static final DeferredBlock<Block> ULTRA_CRAFTING_TABLE = registerBlockItem("ultra_crafting_table",
+            () -> new UltraCraftingTable(BlockBehaviour.Properties.of().strength(2.5f,10)
+                    .requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+    public static final DeferredBlock<Block> ATOMIC_CRAFTING_TABLE = registerBlockItem("atomic_crafting_table",
+            () -> new AtomicCraftingTable(BlockBehaviour.Properties.of().strength(2.5f,10)
                     .requiresCorrectToolForDrops().sound(SoundType.METAL)));
 
 

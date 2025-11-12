@@ -2,22 +2,22 @@
   "type": "simpleores:simple_crafting_table",
   "category": "equipment",
   "ingredient": {
-    "S": {
+    "s": {
       "item": "minecraft:stick"
     },
-    "N": {
-      "item": "simpleores:nexalite"
+    "S": {
+      "item": "minecraft:stone"
     }
   },
   "pattern": [
-    "NNNNN",
-    "NNSNN",
-    "  S  ",
-    "  S  ",
-    "  S  "
+    "SSSSS",
+    "SSsSS",
+    "  s  ",
+    "  s  ",
+    "  s  "
   ],
   "result": {
     "count": 1,
-    "id": "megabreakertools:advance_breaker"
+    "id": "megabreakertools:advance_pickaxe"
   }
 }

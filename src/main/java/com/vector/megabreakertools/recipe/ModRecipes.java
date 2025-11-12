@@ -26,6 +26,26 @@ public class ModRecipes {
                 }
             });
 
+    public static final Supplier<RecipeSerializer<UltraCraftingTableRecipe>> ULTRA_CRAFTING_TABLE_SERIALIZER =
+            SERIALIZERS.register("ultra_crafting_table", UltraCraftingTableRecipe.Serializer::new);
+    public static final Supplier<RecipeType<UltraCraftingTableRecipe>> ULTRA_CRAFTING_TABLE_TYPE =
+            TYPES.register("ultra_crafting_table", () -> new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return "ultra_crafting_table";
+                }
+            });
+
+    public static final Supplier<RecipeSerializer<AtomicCraftingTableRecipe>> ATOMIC_CRAFTING_TABLE_SERIALIZER =
+            SERIALIZERS.register("atomic_crafting_table", AtomicCraftingTableRecipe.Serializer::new);
+    public static final Supplier<RecipeType<AtomicCraftingTableRecipe>> ATOMIC_CRAFTING_TABLE_TYPE =
+            TYPES.register("atomic_crafting_table", () -> new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return "atomic_crafting_table";
+                }
+            });
+
 
 
 

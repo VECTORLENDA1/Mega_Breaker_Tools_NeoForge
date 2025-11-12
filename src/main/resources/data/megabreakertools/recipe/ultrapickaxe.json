@@ -1,0 +1,23 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "SSSSS",
+    "SSsSS",
+    "  s  ",
+    "  s  ",
+    "  s  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:ultra_pickaxe"
+  }
+}
