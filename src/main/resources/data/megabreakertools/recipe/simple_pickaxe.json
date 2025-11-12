@@ -2,17 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "s": {
+    "S": {
       "item": "minecraft:stick"
     },
-    "S": {
-      "item": "minecraft:stone"
+    "I": {
+      "item": "simpleores:ignithra_block"
     }
   },
   "pattern": [
-    "SSS",
-    "SsS",
-    " s "
+    "III",
+    " S ",
+    " S "
   ],
   "result": {
     "count": 1,

@@ -1,0 +1,42 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    },
+    "a": {
+      "item": "megabreakertools:atomic_pickaxe"
+    },
+    "O": {
+      "item": "simpleores:obscuridium_block"
+    },
+    "o": {
+      "item": "simpleores:obscurite_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    "ZOOoooOOC",
+    "ZOOoooOOC",
+    "ZZNNaNNCC",
+    "ZZZZSCCCC",
+    "    S    ",
+    "    S    ",
+    "    S    ",
+    "    S    ",
+    "    S    "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_atomic_breaker"
+  }
+}
