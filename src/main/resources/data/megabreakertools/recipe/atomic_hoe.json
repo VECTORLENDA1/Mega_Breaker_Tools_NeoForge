@@ -11,6 +11,9 @@
     "O": {
       "item": "simpleores:obscuridium_block"
     },
+    "o": {
+      "item": "simpleores:obscurite_block"
+    },
     "A": {
       "item": "simpleores:astralite_block"
     },
@@ -25,8 +28,8 @@
     }
   },
   "pattern": [
-    " NAZZCCOO",
-    "DNAZZCCOO",
+    " NAZZCCOo",
+    "DNAZZCCOo",
     "D       S",
     "        S",
     "        S",
