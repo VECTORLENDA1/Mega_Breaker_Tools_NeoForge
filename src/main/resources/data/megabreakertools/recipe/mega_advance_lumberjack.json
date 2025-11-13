@@ -1,0 +1,40 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "a": {
+      "item": "megabreakertools:advance_axe"
+    }
+  },
+  "pattern": [
+    " i S i ",
+    "IN S AI",
+    "INDaDAI",
+    "IN S AI",
+    " i S i ",
+    "   S   ",
+    "   S   "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_advance_lumberjack"
+  }
+}

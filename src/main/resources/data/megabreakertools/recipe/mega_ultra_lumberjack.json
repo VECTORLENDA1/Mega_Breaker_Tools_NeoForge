@@ -1,0 +1,42 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "a": {
+      "item": "megabreakertools:ultra_axe"
+    }
+  },
+  "pattern": [
+    " i  S  i ",
+    "iN  S  Ai",
+    "INN S AAI",
+    "IIDDaDDII",
+    "INN S AAI",
+    "iN  S  Ai",
+    " i  S  i ",
+    "    S    ",
+    "    S    "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_ultra_lumberjack"
+  }
+}

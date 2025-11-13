@@ -1,0 +1,43 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    }
+  },
+  "pattern": [
+    "  iAADI",
+    " iNZCDI",
+    " iNZCSI",
+    "  iiIS ",
+    "     S ",
+    "     S ",
+    "     S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:ultimate_axe"
+  }
+}
