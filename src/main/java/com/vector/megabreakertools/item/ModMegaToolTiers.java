@@ -7,7 +7,7 @@ import net.neoforged.neoforge.common.SimpleTier;
 
 public class ModMegaToolTiers {
     public static final Tier IGNITHRA = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_IGNITHRA_TOOL,
-            6000, 4f, 0f, 15, () -> Ingredient.of(ModItems.IGNITHRA));
+            600, 4f, 0f, 15, () -> Ingredient.of(ModItems.IGNITHRA));
 
     public static final Tier ASTRALITE = new SimpleTier(ModTags.Blocks.INCORRECT_FOR_ASTRALITE_TOOL,
             1200, 6f, 0f, 18, () -> Ingredient.of(ModItems.ASTRALITE));
