@@ -1,0 +1,48 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "H": {
+      "item": "megabreakertools:legendary_hoe"
+    },
+    "O": {
+      "item": "simpleores:obscuridium_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "n": {
+      "item": "minecraft:nether_star"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    }
+  },
+  "pattern": [
+    " NAZZCCOn",
+    "DNAZZCCOn",
+    "DD      H",
+    "        S",
+    "        S",
+    "        S",
+    "        S",
+    "        S",
+    "        S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_legendary_scythe"
+  }
+}

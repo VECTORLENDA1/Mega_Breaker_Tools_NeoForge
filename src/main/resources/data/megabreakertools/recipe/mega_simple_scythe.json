@@ -1,0 +1,35 @@
+{
+  "type": "simpleores:simple_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "H": {
+      "item": "megabreakertools:simple_hoe"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    " AAIi",
+    "NNAiH",
+    "N   S",
+    "    S",
+    "    S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_simple_scythe"
+  }
+}
