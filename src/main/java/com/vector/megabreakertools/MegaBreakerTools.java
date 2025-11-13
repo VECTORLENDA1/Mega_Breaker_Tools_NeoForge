@@ -5,6 +5,7 @@ import com.vector.megabreakertools.block.ModBlocks;
 import com.vector.megabreakertools.block.entity.ModBlockEntities;
 import com.vector.megabreakertools.item.ModCreativeModTabs;
 import com.vector.megabreakertools.item.ModItems;
+import com.vector.megabreakertools.network.ToggleMiningModePacket;
 import com.vector.megabreakertools.recipe.ModRecipes;
 import com.vector.megabreakertools.screen.ModMenuTypes;
 import com.vector.megabreakertools.screen.custom.SimpleCraftingTableScreen;
@@ -21,6 +22,8 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.slf4j.Logger;
 
 
@@ -45,6 +48,7 @@ public class MegaBreakerTools {
 
 
 
+        modEventBus.addListener(this::registerPackets);
 
         modEventBus.addListener(this::addCreative);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -73,6 +77,16 @@ public class MegaBreakerTools {
             event.register(ModMenuTypes.SIMPLE_CRAFTING_TABLE_MENU.get(), SimpleCraftingTableScreen::new);
         }
 
+    }
+
+    private void registerPackets(RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar registrar = event.registrar(MODID);
+
+        registrar.playToServer(
+                ToggleMiningModePacket.TYPE,
+                ToggleMiningModePacket.STREAM_CODEC,
+                ToggleMiningModePacket::handle
+        );
     }
 
 }

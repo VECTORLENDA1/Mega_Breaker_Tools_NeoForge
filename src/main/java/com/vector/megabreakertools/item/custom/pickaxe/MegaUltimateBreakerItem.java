@@ -1,11 +1,15 @@
 package com.vector.megabreakertools.item.custom.pickaxe;
 
+import com.vector.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -13,12 +17,31 @@ import net.minecraft.world.phys.HitResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MegaUltimateBreakerItem extends DiggerItem {
+public class MegaUltimateBreakerItem extends DiggerItem implements IModeSwitchable {
     public MegaUltimateBreakerItem(Tier pTier, Properties pProperties) {
         super(pTier, BlockTags.MINEABLE_WITH_PICKAXE, pProperties);
     }
 
-    public static List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initialBlockPos, ServerPlayer player) {
+    @Override
+    public int getRange() {
+        return 4; /// 9x9x9 (range=4)
+    }
+
+    @Override
+    public boolean is3DMining() {
+        return true; /// false = 9x9 = 2D, true = 9x9x9 = 3D
+    }
+
+    /// This shows the text on the tooltip of the tool
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        addModeTooltip(stack, tooltipComponents);
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    /// Calculates an area of destruction based on the direction of impact
+    @Override
+    public List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initialBlockPos, ServerPlayer player) {
         List<BlockPos> positions = new ArrayList<>();
 
         BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
@@ -32,7 +55,7 @@ public class MegaUltimateBreakerItem extends DiggerItem {
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {  // A destruição vai a partir do bloco para baixo
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y + 1, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y + 4, initialBlockPos.getZ() + z));
                     }
                 }
             }
@@ -43,7 +66,7 @@ public class MegaUltimateBreakerItem extends DiggerItem {
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {  // A destruição vai a partir do bloco para cima
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y - 1, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y - 4, initialBlockPos.getZ() + z));
                     }
                 }
             }

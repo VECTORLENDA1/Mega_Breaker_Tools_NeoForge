@@ -1,0 +1,40 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "a": {
+      "item": "megabreakertools:advance_shovel"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "    Iii",
+    "   INDi",
+    "  INaAI",
+    "   SAI ",
+    "  S I  ",
+    " S     ",
+    "S      "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_advance_excavator"
+  }
+}

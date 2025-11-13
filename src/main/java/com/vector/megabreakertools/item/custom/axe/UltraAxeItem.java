@@ -1,9 +1,11 @@
 package com.vector.megabreakertools.item.custom.axe;
 
 import com.google.common.collect.ImmutableMap;
+import com.vector.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,10 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DiggerItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -33,12 +32,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class UltraAxeItem extends DiggerItem {
+public class UltraAxeItem extends DiggerItem implements IModeSwitchable {
     public UltraAxeItem(Tier pTier, Properties pProperties) {
         super(pTier, BlockTags.MINEABLE_WITH_AXE, pProperties);
     }
 
-    public static List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initalBlockPos, ServerPlayer player) {
+    @Override
+    public int getRange() {
+        return 3; /// 7x7 area (range=3)
+    }
+
+    @Override
+    public boolean is3DMining() {
+        return false; /// false = 7x7 = 2D, true = 7x7x7 = 3D
+    }
+
+    /// This shows the text on the tooltip of the tool
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        addModeTooltip(stack, tooltipComponents);
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    /// Calculates an area of destruction based on the direction of impact
+    @Override
+    public List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initalBlockPos, ServerPlayer player) {
         List<BlockPos> positions = new ArrayList<>();
 
         BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
@@ -74,6 +92,7 @@ public class UltraAxeItem extends DiggerItem {
 
         return positions;
     }
+
     protected static final Map<Block, Block> STRIPPABLES = new ImmutableMap.Builder<Block, Block>()
             .put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD)
             .put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
@@ -98,24 +117,49 @@ public class UltraAxeItem extends DiggerItem {
             .put(Blocks.BAMBOO_BLOCK, Blocks.STRIPPED_BAMBOO_BLOCK)
             .build();
 
-    /**
-     * Called when this item is used when targeting a Block
-     */
+    /// Method to get the positions for stripping based on the mode
+    private List<BlockPos> getAxePositions(BlockPos initialPos, Player player, ItemStack stack) {
+        List<BlockPos> positions = new ArrayList<>();
+
+        /// Verify the mode
+        int mode = IModeSwitchable.getMiningMode(stack);
+
+        /// If it is single block mode, it returns only the clicked position
+        if (mode == IModeSwitchable.MODE_SINGLE) {
+            positions.add(initialPos);
+            return positions;
+        }
+
+        /// Area mode – uses the range of the tool
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            positions.add(initialPos);
+            return positions;
+        }
+
+        return getBlocksToBeDestroyed(getRange(), initialPos, serverPlayer);
+    }
+
+    /// Called when this item is used when targeting a Block
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         BlockPos clickedPos = context.getClickedPos();
         Player player = context.getPlayer();
+        ItemStack itemStack = context.getItemInHand();
 
-        if (player == null || level.isClientSide) return InteractionResult.PASS;
+        if (player == null) return InteractionResult.PASS;
+        if (level.isClientSide) return InteractionResult.SUCCESS;
         if (playerHasShieldUseIntent(context)) return InteractionResult.PASS;
 
-        int range = 3; // 7x7 equivalente
-        List<BlockPos> targets = getBlocksToBeDestroyed(range, clickedPos, (ServerPlayer) player);
+        /// Gets the positions based on the mode
+        List<BlockPos> targets = getAxePositions(clickedPos, player, itemStack);
+
         boolean changedAny = false;
+        int durabilityUsed = 0;
 
         for (BlockPos pos : targets) {
             BlockState state = level.getBlockState(pos);
+            /// Try to strip/scrape/wax-off in the standard order
             Optional<BlockState> opt = this.evaluateNewBlockState(level, pos, player, state,
                     new UseOnContext(player, context.getHand(), new BlockHitResult(player.position(), context.getClickedFace(), pos, false)));
             if (opt.isPresent()) {
@@ -123,16 +167,19 @@ public class UltraAxeItem extends DiggerItem {
                 level.setBlock(pos, newState, 11);
                 level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newState));
                 changedAny = true;
+                durabilityUsed++;
             }
         }
 
         if (changedAny) {
-            // som principal (strip/scrape/wax é decidido no evaluate)
-            Optional<BlockState> headOpt = this.evaluateNewBlockState(level, clickedPos, player, level.getBlockState(clickedPos), context);
-            headOpt.ifPresent(s -> level.playSound(null, clickedPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F));
-            context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+            /// Play a sound consistent with the action on the original block
+            level.playSound(null, clickedPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+            /// Applies durability (0 for now, like the other tools in your mod)
+            itemStack.hurtAndBreak(0, player, LivingEntity.getSlotForHand(context.getHand()));
+
             if (player instanceof ServerPlayer sp) {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(sp, clickedPos, context.getItemInHand());
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(sp, clickedPos, itemStack);
             }
             return InteractionResult.SUCCESS;
         }
@@ -140,11 +187,13 @@ public class UltraAxeItem extends DiggerItem {
         return InteractionResult.PASS;
     }
 
+    /// Check if player is trying to use a shield with the offhand
     private static boolean playerHasShieldUseIntent(UseOnContext context) {
         Player player = context.getPlayer();
         return context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().is(Items.SHIELD) && !player.isSecondaryUseActive();
     }
 
+    /// Evaluate what the new block state should be after axe interaction
     private Optional<BlockState> evaluateNewBlockState(Level level, BlockPos pos, @Nullable Player player, BlockState state, UseOnContext p_40529_) {
         Optional<BlockState> optional = Optional.ofNullable(state.getToolModifiedState(p_40529_, net.neoforged.neoforge.common.ItemAbilities.AXE_STRIP, false));
         if (optional.isPresent()) {
@@ -169,12 +218,14 @@ public class UltraAxeItem extends DiggerItem {
         }
     }
 
+    /// Get the stripped version of a log/wood block
     @org.jetbrains.annotations.Nullable
     public static BlockState getAxeStrippingState(BlockState originalState) {
         Block block = STRIPPABLES.get(originalState.getBlock());
         return block != null ? block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, originalState.getValue(RotatedPillarBlock.AXIS)) : null;
     }
 
+    /// Get the stripped state from an unstripped block
     private Optional<BlockState> getStripped(BlockState unstrippedState) {
         return Optional.ofNullable(STRIPPABLES.get(unstrippedState.getBlock()))
                 .map(p_150689_ -> p_150689_.defaultBlockState().setValue(RotatedPillarBlock.AXIS, unstrippedState.getValue(RotatedPillarBlock.AXIS)));
@@ -184,6 +235,5 @@ public class UltraAxeItem extends DiggerItem {
     public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
         return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
     }
-
 }
 

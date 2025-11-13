@@ -1,0 +1,29 @@
+{
+  "type": "simpleores:simple_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    }
+  },
+  "pattern": [
+    "   IA",
+    "  NAI",
+    "  SN ",
+    " S   ",
+    "S    "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:advance_shovel"
+  }
+}

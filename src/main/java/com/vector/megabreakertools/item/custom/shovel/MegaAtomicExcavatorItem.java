@@ -1,24 +1,61 @@
 package com.vector.megabreakertools.item.custom.shovel;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.vector.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class MegaAtomicExcavatorItem extends DiggerItem {
+public class MegaAtomicExcavatorItem extends DiggerItem implements IModeSwitchable{
     public MegaAtomicExcavatorItem(Tier pTier, Properties pProperties) {
         super(pTier, BlockTags.MINEABLE_WITH_SHOVEL, pProperties);
     }
 
-    public static List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initialBlockPos, ServerPlayer player) {
+    @Override
+    public int getRange() {
+        return 6; /// 13x13x13 (range=6)
+    }
+
+    @Override
+    public boolean is3DMining() {
+        return true; /// false = 13x13 = 2D, true = 13x13x13 = 3D
+    }
+
+    /// This shows the text on the tooltip of the tool
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        addModeTooltip(stack, tooltipComponents);
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    /// Calculates an area of destruction based on the direction of impact
+    @Override
+    public List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initialBlockPos, ServerPlayer player) {
         List<BlockPos> positions = new ArrayList<>();
 
         BlockHitResult traceResult = player.level().clip(new ClipContext(player.getEyePosition(1f),
@@ -32,7 +69,7 @@ public class MegaAtomicExcavatorItem extends DiggerItem {
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {  // A destruição vai a partir do bloco para baixo
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y + 1, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y + 6, initialBlockPos.getZ() + z));
                     }
                 }
             }
@@ -43,7 +80,7 @@ public class MegaAtomicExcavatorItem extends DiggerItem {
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {  // A destruição vai a partir do bloco para cima
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y - 1, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y - 6, initialBlockPos.getZ() + z));
                     }
                 }
             }
@@ -94,6 +131,128 @@ public class MegaAtomicExcavatorItem extends DiggerItem {
         }
 
         return positions;
+    }
+
+    protected static final Map<Block, BlockState> FLATTENABLES = Maps.newHashMap(
+            new ImmutableMap.Builder<Block, BlockState>()
+                    .put(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.defaultBlockState())
+                    .put(Blocks.DIRT, Blocks.DIRT_PATH.defaultBlockState())
+                    .put(Blocks.PODZOL, Blocks.DIRT_PATH.defaultBlockState())
+                    .put(Blocks.COARSE_DIRT, Blocks.DIRT_PATH.defaultBlockState())
+                    .put(Blocks.MYCELIUM, Blocks.DIRT_PATH.defaultBlockState())
+                    .put(Blocks.ROOTED_DIRT, Blocks.DIRT_PATH.defaultBlockState())
+                    .build()
+    );
+
+    /// Method to get the positions for flatten based on the mode
+    private List<BlockPos> getFlattenPositions(BlockPos initialPos, Player player, ItemStack stack) {
+        List<BlockPos> positions = new ArrayList<>();
+
+        /// Verify the mode
+        int mode = IModeSwitchable.getMiningMode(stack);
+
+        /// If it is single block mode, it returns only the clicked position
+        if (mode == IModeSwitchable.MODE_SINGLE) {
+            positions.add(initialPos);
+            return positions;
+        }
+
+        /// Area mode – uses the range of the tool and respects the direction
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            positions.add(initialPos);
+            return positions;
+        }
+
+        /// Use the same logic as getBlocksToBeDestroyed for 3D area
+        return getBlocksToBeDestroyed(getRange(), initialPos, serverPlayer);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        BlockState blockstate = level.getBlockState(blockpos);
+        ItemStack itemStack = context.getItemInHand();
+
+        if (context.getClickedFace() == Direction.DOWN) {
+            return InteractionResult.PASS;
+        } else {
+            Player player = context.getPlayer();
+
+            /// Gets the positions based on the mode
+            List<BlockPos> positionsToFlatten = getFlattenPositions(blockpos, player, itemStack);
+
+            boolean anyFlattened = false;
+            boolean anyDouse = false;
+
+            /// Iterate over all positions
+            for (BlockPos pos : positionsToFlatten) {
+                BlockState currentState = level.getBlockState(pos);
+                BlockState modifiedState = null;
+
+                /// Try to make flatten
+                BlockState flattenState = currentState.getToolModifiedState(
+                        new UseOnContext(level, player, context.getHand(), itemStack,
+                                new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, context.isInside())),
+                        net.neoforged.neoforge.common.ItemAbilities.SHOVEL_FLATTEN,
+                        false
+                );
+
+                if (flattenState != null && level.getBlockState(pos.above()).isAir()) {
+                    modifiedState = flattenState;
+                    anyFlattened = true;
+                }
+                /// Try to put out fire
+                else {
+                    BlockState douseState = currentState.getToolModifiedState(
+                            new UseOnContext(level, player, context.getHand(), itemStack,
+                                    new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, context.isInside())),
+                            net.neoforged.neoforge.common.ItemAbilities.SHOVEL_DOUSE,
+                            false
+                    );
+
+                    if (douseState != null) {
+                        modifiedState = douseState;
+                        anyDouse = true;
+                    }
+                }
+
+                /// Apply the modification
+                if (modifiedState != null && !level.isClientSide) {
+                    level.setBlock(pos, modifiedState, 11);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, modifiedState));
+                }
+            }
+
+            /// Sounds and Tool Damage
+            if (anyFlattened || anyDouse) {
+                if (anyFlattened) {
+                    level.playSound(player, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                }
+                if (anyDouse && !level.isClientSide()) {
+                    level.levelEvent(null, 1009, blockpos, 0);
+                }
+
+                /// Applies durability based on the number of blocks modified
+                if (player != null && !level.isClientSide) {
+                    itemStack.hurtAndBreak(0, player, LivingEntity.getSlotForHand(context.getHand()));
+                }
+
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            } else {
+                return InteractionResult.PASS;
+            }
+        }
+    }
+
+    @org.jetbrains.annotations.Nullable
+    public static BlockState getShovelPathingState(BlockState originalState) {
+        return FLATTENABLES.get(originalState.getBlock());
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
+        return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
     }
 }
 

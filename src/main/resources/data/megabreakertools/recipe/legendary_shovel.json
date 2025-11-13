@@ -1,0 +1,42 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "o": {
+      "item": "simpleores:obscuridium_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    }
+  },
+  "pattern": [
+    "      NZD",
+    "     NZoC",
+    "     NoCA",
+    "     SAA ",
+    "    S    ",
+    "   S     ",
+    "  S      ",
+    " S       ",
+    "S        "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:legendary_shovel"
+  }
+}
