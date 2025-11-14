@@ -25,9 +25,9 @@
     }
   },
   "pattern": [
-    " NDCDA ",
-    "iNDCDAi",
-    "ZZ S ZZ",
+    " NCCCA ",
+    "iNZZZAi",
+    "DD S DD",
     "i  S  i",
     "   S   ",
     "   S   ",
