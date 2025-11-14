@@ -1,9 +1,7 @@
 package com.vector.megabreakertools.block.entity.custom;
 
 import com.vector.megabreakertools.block.entity.ModBlockEntities;
-import com.vector.megabreakertools.recipe.ModRecipes;
-import com.vector.megabreakertools.recipe.UltraCraftingTableRecipe;
-import com.vector.megabreakertools.recipe.UltraCraftingTableRecipeInput;
+import com.vector.megabreakertools.recipe.*;
 import com.vector.megabreakertools.screen.custom.UltraCraftingTableMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -339,7 +337,7 @@ public class UltraCraftingTableEntity extends BlockEntity implements MenuProvide
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.megabreakertools.ultra_crafting_table");
+        return Component.translatable("block.simpleores.ultra_crafting_table");
     }
 
 

@@ -89,92 +89,128 @@ public class SimpleCraftingTableMenu extends AbstractContainerMenu {
     public static final int TE_INVENTORY_SLOT_COUNT = 26;  // must be the number of slots you have!
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
-        ItemStack sourceStack = ItemStack.EMPTY;
         Slot sourceSlot = this.slots.get(pIndex);
+        if (sourceSlot == null || !sourceSlot.hasItem()) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack stackInSlot = sourceSlot.getItem();
+        ItemStack sourceStack = stackInSlot.copy();
+
         int teSlotStart = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
         int teOutputSlot = teSlotStart + 25;
 
-        if (sourceSlot != null && sourceSlot.hasItem()) {
-            ItemStack stackInSlot = sourceSlot.getItem();
-            sourceStack = stackInSlot.copy();
+        /// Shift-clicking FROM output slot
+        if (pIndex == teOutputSlot) {
+            Optional<RecipeHolder<SimpleCraftingTableRecipe>> recipeOptional = blockEntity.getCurrentRecipe();
 
-            if (pIndex == teOutputSlot) {
-                Optional<RecipeHolder<SimpleCraftingTableRecipe>> recipeOptional = blockEntity.getCurrentRecipe();
+            if (recipeOptional.isPresent()) {
+                /// Handle custom 5x5 recipes
+                SimpleCraftingTableRecipe recipe = recipeOptional.get().value();
+                ItemStack resultItem = recipe.getResultItem(level.registryAccess());
+                int resultCountPerCraft = resultItem.getCount();
 
-                if (recipeOptional.isPresent()) {
-                    SimpleCraftingTableRecipe recipe = recipeOptional.get().value();
-                    ItemStack resultItem = recipe.getResultItem(level.registryAccess());
-                    int resultCountPerCraft = resultItem.getCount();
-                    int maxCraftsPossible = Integer.MAX_VALUE;
-
-                    for (int i = 0; i < SimpleCraftingTableEntity.INPUT_SLOT.length; i++) {
-                        int required = recipe.getRequiredCountForSlot(i);
-                        if (required > 0) {
-                            ItemStack ingredient = blockEntity.itemHandler.getStackInSlot(i);
-                            if (ingredient.isEmpty() || ingredient.getCount() < required) {
-                                maxCraftsPossible = 0;
-                                break;
-                            }
-                            maxCraftsPossible = Math.min(maxCraftsPossible, ingredient.getCount() / required);
+                /// Calculate max possible crafts
+                int maxCraftsPossible = Integer.MAX_VALUE;
+                for (int i = 0; i < SimpleCraftingTableEntity.INPUT_SLOT.length; i++) {
+                    int required = recipe.getRequiredCountForSlot(i);
+                    if (required > 0) {
+                        ItemStack ingredient = blockEntity.itemHandler.getStackInSlot(i);
+                        if (ingredient.isEmpty() || ingredient.getCount() < required) {
+                            maxCraftsPossible = 0;
+                            break;
                         }
-                    }
-
-                    if (maxCraftsPossible > 0) {
-                        int canMoveTotal = 0;
-                        ItemStack toMoveTemplate = resultItem.copy();
-                        toMoveTemplate.setCount(resultCountPerCraft * maxCraftsPossible);
-
-                        ItemStack toMove = toMoveTemplate.copy();
-                        for (int i = VANILLA_FIRST_SLOT_INDEX; i < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT && !toMove.isEmpty(); ++i) {
-                            Slot targetSlot = this.slots.get(i);
-                            ItemStack targetStack = targetSlot.getItem();
-                            if (targetSlot.mayPlace(toMove)) {
-                                int moveAmount = Math.min(toMove.getCount(), targetSlot.getMaxStackSize() - targetStack.getCount());
-                                if (moveAmount > 0) {
-                                    toMove.shrink(moveAmount);
-                                    canMoveTotal += moveAmount;
-                                }
-                            }
-                        }
-
-                        if (canMoveTotal > 0) {
-                            int actualMovedItems = Math.min(canMoveTotal, resultCountPerCraft * maxCraftsPossible);
-                            ItemStack craftedItem = resultItem.copy();
-                            craftedItem.setCount(actualMovedItems);
-
-                            int originalCount = craftedItem.getCount();
-
-                            if (this.moveItemStackTo(craftedItem, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                                int movedCount = originalCount - craftedItem.getCount();
-                                int actualMovedCrafts = movedCount / resultCountPerCraft;
-                                blockEntity.consumeIngredients(actualMovedCrafts);
-                                blockEntity.updateResult(0);
-                            }
-                        }
+                        maxCraftsPossible = Math.min(maxCraftsPossible, ingredient.getCount() / required);
                     }
                 }
 
-            } else if (pIndex < VANILLA_SLOT_COUNT) {
-                if (!this.moveItemStackTo(stackInSlot, teSlotStart, teOutputSlot, false)) {
-                    return ItemStack.EMPTY;
+                if (maxCraftsPossible > 0) {
+                    ItemStack toMove = resultItem.copy();
+                    toMove.setCount(resultCountPerCraft * maxCraftsPossible);
+                    int originalCount = toMove.getCount();
+
+                    /// Try to move to player inventory
+                    if (this.moveItemStackTo(toMove, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, true)) {
+                        int movedCount = originalCount - toMove.getCount();
+                        int actualMovedCrafts = movedCount / resultCountPerCraft;
+                        if (actualMovedCrafts > 0) {
+                            /// Consume ingredients for all crafts that were moved
+                            blockEntity.consumeIngredients(actualMovedCrafts);
+                            blockEntity.updateResult(0);
+                            this.broadcastChanges();
+
+                            /// Clear the output slot to prevent duplicate extraction
+                            sourceSlot.set(ItemStack.EMPTY);
+                            return sourceStack;
+                        }
+                    }
                 }
-            } else if (pIndex >= teSlotStart && pIndex < teOutputSlot) {
-                if (!this.moveItemStackTo(stackInSlot, VANILLA_FIRST_SLOT_INDEX, VANILLA_SLOT_COUNT, false)) {
-                    return ItemStack.EMPTY;
+            } else if (blockEntity.hasVanillaMatch()) {
+                /// Handle vanilla 3x3 recipes
+                int totalMoved = 0;
+                int safety = 256;
+
+                while (safety-- > 0 && blockEntity.hasVanillaMatch()) {
+                    ItemStack preview = blockEntity.getVanillaResultPreview();
+                    if (preview.isEmpty()) break;
+
+                    int maxStack = preview.getMaxStackSize();
+                    int remainingToFill = Math.max(0, maxStack - totalMoved);
+                    if (remainingToFill <= 0) break;
+
+                    ItemStack toMove = preview.copy();
+                    if (toMove.getCount() > remainingToFill) {
+                        toMove.setCount(remainingToFill);
+                    }
+
+                    int original = toMove.getCount();
+                    if (!this.moveItemStackTo(toMove, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, true)) {
+                        break;
+                    }
+
+                    int moved = original - toMove.getCount();
+                    if (moved <= 0) break;
+
+                    totalMoved += moved;
+
+                    /// Consume one vanilla craft
+                    blockEntity.consumeVanillaOnce();
+                    blockEntity.updateResult(0);
+                    this.broadcastChanges();
+
+                    if (totalMoved >= maxStack) break;
+                }
+
+                if (totalMoved > 0) {
+                    /// Clear the output slot
+                    sourceSlot.set(ItemStack.EMPTY);
+                    return sourceStack;
                 }
             }
 
-            if (stackInSlot.isEmpty()) {
-                sourceSlot.set(ItemStack.EMPTY);
-            } else {
-                sourceSlot.setChanged();
-            }
-
-            if (stackInSlot.getCount() == sourceStack.getCount()) {
+            return ItemStack.EMPTY;
+        }
+        /// Shift-clicking FROM player inventory TO crafting grid
+        else if (pIndex < VANILLA_SLOT_COUNT) {
+            if (!this.moveItemStackTo(stackInSlot, teSlotStart, teOutputSlot, false)) {
                 return ItemStack.EMPTY;
             }
+        }
+        /// Shift-clicking FROM crafting grid TO player inventory
+        else if (pIndex >= teSlotStart && pIndex < teOutputSlot) {
+            if (!this.moveItemStackTo(stackInSlot, VANILLA_FIRST_SLOT_INDEX, VANILLA_SLOT_COUNT, true)) {
+                return ItemStack.EMPTY;
+            }
+        }
 
-            sourceSlot.onTake(playerIn, stackInSlot);
+        if (stackInSlot.isEmpty()) {
+            sourceSlot.set(ItemStack.EMPTY);
+        } else {
+            sourceSlot.setChanged();
+        }
+
+        if (stackInSlot.getCount() == sourceStack.getCount()) {
+            return ItemStack.EMPTY;
         }
 
         return sourceStack;
