@@ -1,0 +1,42 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    },
+    "B": {
+      "item": "megabreakertools:mega_ultra_breaker"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    }
+  },
+  "pattern": [
+    "         ",
+    "  i i i  ",
+    " iZZDCDi ",
+    "  ZANAC  ",
+    "  DNBND  ",
+    "  CANAZ  ",
+    " iDCDZZi ",
+    "  i i i  ",
+    "         "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_ultimate_breaker"
+  }
+}

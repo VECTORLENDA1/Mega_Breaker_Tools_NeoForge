@@ -1,0 +1,37 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "S": {
+      "item": "megabreakertools:mega_simple_scythe"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "       ",
+    "   N   ",
+    "  NDN  ",
+    " IiSiI ",
+    "  AAA  ",
+    "  I I  ",
+    "       "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_advance_scythe"
+  }
+}

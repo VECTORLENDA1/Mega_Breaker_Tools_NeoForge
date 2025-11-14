@@ -1,0 +1,45 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "H": {
+      "item": "megabreakertools:legendary_hoe"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "O": {
+      "item": "simpleores:obscuridium_block"
+    },
+    "o": {
+      "item": "simpleores:obscurite_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    }
+  },
+  "pattern": [
+    "         ",
+    "         ",
+    "   Z Z   ",
+    "  ACoCN  ",
+    "  DOHOD  ",
+    "  NCoCA  ",
+    "   Z Z   ",
+    "         ",
+    "         "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:atomic_hoe"
+  }
+}

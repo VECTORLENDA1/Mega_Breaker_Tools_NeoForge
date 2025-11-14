@@ -1,0 +1,40 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "H": {
+      "item": "megabreakertools:ultra_hoe"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    }
+  },
+  "pattern": [
+    "       ",
+    "  N N  ",
+    "  CDZ  ",
+    "  iHi  ",
+    "  ZDC  ",
+    "  A A  ",
+    "       "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:ultimate_hoe"
+  }
+}

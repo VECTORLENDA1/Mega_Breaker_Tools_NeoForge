@@ -1,0 +1,39 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "s": {
+      "item": "megabreakertools:ultimate_shovel"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "o": {
+      "item": "simpleores:obscuridium_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    }
+  },
+  "pattern": [
+    "         ",
+    "         ",
+    "    N    ",
+    "   ZoC   ",
+    "  AAsNN  ",
+    "   CoZ   ",
+    "    A    ",
+    "         ",
+    "         "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:legendary_shovel"
+  }
+}

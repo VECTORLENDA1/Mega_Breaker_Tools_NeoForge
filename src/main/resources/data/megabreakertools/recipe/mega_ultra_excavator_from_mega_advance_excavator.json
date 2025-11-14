@@ -1,0 +1,39 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "s": {
+      "item": "megabreakertools:mega_advance_excavator"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "         ",
+    "         ",
+    "         ",
+    "  NiDIA  ",
+    "  NNsAA  ",
+    "  NIDiA  ",
+    "         ",
+    "         ",
+    "         "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_ultra_excavator"
+  }
+}

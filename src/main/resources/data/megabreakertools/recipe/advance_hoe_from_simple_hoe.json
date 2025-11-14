@@ -1,0 +1,32 @@
+{
+  "type": "simpleores:simple_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "H": {
+      "item": "megabreakertools:simple_hoe"
+    },
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    }
+  },
+  "pattern": [
+    "     ",
+    "  I  ",
+    " AHi ",
+    " NI  ",
+    "     "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:advance_hoe"
+  }
+}

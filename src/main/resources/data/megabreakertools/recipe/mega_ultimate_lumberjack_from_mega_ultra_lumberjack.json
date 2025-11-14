@@ -1,0 +1,45 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    },
+    "a": {
+      "item": "megabreakertools:mega_ultra_lumberjack"
+    }
+  },
+  "pattern": [
+    "         ",
+    "   iii   ",
+    "  AAiNN  ",
+    " IAZDCNI ",
+    " IIZaCII ",
+    " INZDCAI ",
+    "  NNiAA  ",
+    "   iii   ",
+    "         "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_ultimate_lumberjack"
+  }
+}

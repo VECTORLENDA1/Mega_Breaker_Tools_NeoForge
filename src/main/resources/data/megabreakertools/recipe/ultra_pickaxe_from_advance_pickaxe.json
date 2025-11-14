@@ -1,0 +1,34 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "P": {
+      "item": "megabreakertools:advance_pickaxe"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "pattern": [
+    "       ",
+    "   N   ",
+    " NADAN ",
+    "  iPi  ",
+    " iANAi ",
+    "       ",
+    "       "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:ultra_pickaxe"
+  }
+}

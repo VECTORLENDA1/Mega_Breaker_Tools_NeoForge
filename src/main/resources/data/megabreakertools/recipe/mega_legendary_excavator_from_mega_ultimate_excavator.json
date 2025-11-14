@@ -1,0 +1,42 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "e": {
+      "item": "megabreakertools:mega_ultimate_excavator"
+    },
+    "O": {
+      "item": "simpleores:obscurite_block"
+    },
+    "o": {
+      "item": "simpleores:obscuridium_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "         ",
+    "         ",
+    "  D Z    ",
+    "   ZoN   ",
+    "  ZOeOC  ",
+    "   NoCD  ",
+    "    CD   ",
+    "         ",
+    "         "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_legendary_excavator"
+  }
+}

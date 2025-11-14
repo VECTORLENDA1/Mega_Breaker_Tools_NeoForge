@@ -1,0 +1,45 @@
+{
+  "type": "simpleores:atomic_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "P": {
+      "item": "megabreakertools:legendary_pickaxe"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    },
+    "O": {
+      "item": "simpleores:obscuridium_block"
+    },
+    "o": {
+      "item": "simpleores:obscurite_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    }
+  },
+  "pattern": [
+    "         ",
+    "         ",
+    "  ADADA  ",
+    "  ZOoOC  ",
+    "  ZDPDC  ",
+    "  ZOoOC  ",
+    "  NDNDN  ",
+    "         ",
+    "         "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:atomic_pickaxe"
+  }
+}

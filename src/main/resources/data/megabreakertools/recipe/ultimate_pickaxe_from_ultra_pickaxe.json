@@ -1,0 +1,40 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "P": {
+      "item": "megabreakertools:ultra_pickaxe"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "C": {
+      "item": "simpleores:celestine_block"
+    },
+    "Z": {
+      "item": "simpleores:zenithra_block"
+    }
+  },
+  "pattern": [
+    "       ",
+    " Di iD ",
+    "  ZAC  ",
+    " NZPCN ",
+    "  ZAC  ",
+    " Di iD ",
+    "       "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:ultimate_pickaxe"
+  }
+}

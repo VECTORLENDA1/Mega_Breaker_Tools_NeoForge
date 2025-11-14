@@ -1,0 +1,37 @@
+{
+  "type": "simpleores:ultra_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "I": {
+      "item": "simpleores:ignithra_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    },
+    "e": {
+      "item": "megabreakertools:mega_simple_excavator"
+    },
+    "i": {
+      "item": "minecraft:iron_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "       ",
+    "   i   ",
+    "  NDN  ",
+    " iIeIi ",
+    "  AIA  ",
+    "       ",
+    "       "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_advance_excavator"
+  }
+}

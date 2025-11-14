@@ -1,0 +1,29 @@
+{
+  "type": "simpleores:simple_crafting_table",
+  "category": "equipment",
+  "ingredient": {
+    "s": {
+      "item": "megabreakertools:simple_shovel"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "A": {
+      "item": "simpleores:astralite_block"
+    },
+    "N": {
+      "item": "simpleores:nexalite_block"
+    }
+  },
+  "pattern": [
+    "     ",
+    " IN  ",
+    " AsA ",
+    "  NI ",
+    "     "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:advance_shovel"
+  }
+}
