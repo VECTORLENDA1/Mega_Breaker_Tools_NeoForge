@@ -29,8 +29,18 @@ public class ModTags {
     }
 
     public static class Items {
+
+        public static final TagKey<Item> PICKAXES = createVanillaTag("pickaxes");
+        public static final TagKey<Item> AXES = createVanillaTag("axes");
+        public static final TagKey<Item> SHOVELS = createVanillaTag("shovels");
+        public static final TagKey<Item> HOES = createVanillaTag("hoes");
+
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath("megabreakertools", name));
+        }
+
+        private static TagKey<Item> createVanillaTag(String name) {
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("minecraft", name));
         }
     }
 }

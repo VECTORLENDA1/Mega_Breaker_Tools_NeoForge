@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "megabreakertools:simple_shovel",
+    "megabreakertools:advance_shovel",
+    "megabreakertools:ultra_shovel",
+    "megabreakertools:ultimate_shovel",
+    "megabreakertools:legendary_shovel",
+    "megabreakertools:atomic_shovel",
+    "megabreakertools:mega_simple_excavator",
+    "megabreakertools:mega_advance_excavator",
+    "megabreakertools:mega_ultra_excavator",
+    "megabreakertools:mega_ultimate_excavator",
+    "megabreakertools:mega_legendary_excavator",
+    "megabreakertools:mega_atomic_excavator"
+  ]
+}

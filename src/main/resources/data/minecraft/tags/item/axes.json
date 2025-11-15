@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "megabreakertools:simple_axe",
+    "megabreakertools:advance_axe",
+    "megabreakertools:ultra_axe",
+    "megabreakertools:ultimate_axe",
+    "megabreakertools:legendary_axe",
+    "megabreakertools:atomic_axe",
+    "megabreakertools:mega_simple_lumberjack",
+    "megabreakertools:mega_advance_lumberjack",
+    "megabreakertools:mega_ultra_lumberjack",
+    "megabreakertools:mega_ultimate_lumberjack",
+    "megabreakertools:mega_legendary_lumberjack",
+    "megabreakertools:mega_atomic_lumberjack"
+  ]
+}

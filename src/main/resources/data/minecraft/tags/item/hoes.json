@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "megabreakertools:simple_hoe",
+    "megabreakertools:advance_hoe",
+    "megabreakertools:ultra_hoe",
+    "megabreakertools:ultimate_hoe",
+    "megabreakertools:legendary_hoe",
+    "megabreakertools:atomic_hoe",
+    "megabreakertools:mega_simple_scythe",
+    "megabreakertools:mega_advance_scythe",
+    "megabreakertools:mega_ultra_scythe",
+    "megabreakertools:mega_ultimate_scythe",
+    "megabreakertools:mega_legendary_scythe",
+    "megabreakertools:mega_atomic_scythe"
+  ]
+}
