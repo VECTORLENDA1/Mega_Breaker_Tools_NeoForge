@@ -1,5 +1,9 @@
 package com.vector.megabreakertools.item.custom.hoe;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
+import net.minecraft.world.item.component.TooltipDisplay;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
@@ -37,9 +41,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class SimpleHoeItem extends DiggerItem implements IModeSwitchable {
-    public SimpleHoeItem(Tier pTier, Properties pProperties) {
-        super(pTier, BlockTags.MINEABLE_WITH_HOE, pProperties);
+public class SimpleHoeItem extends Item implements IModeSwitchable {
+    public SimpleHoeItem(Properties pProperties) {
+        super(pProperties);
     }
 
     @Override
@@ -54,9 +58,9 @@ public class SimpleHoeItem extends DiggerItem implements IModeSwitchable {
 
     /// This shows the text on the tooltip of the tool
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         addModeTooltip(stack, tooltipComponents);
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        super.appendHoverText(stack, context, display, tooltipComponents, tooltipFlag);
     }
 
     /// Calculates an area of destruction based on the direction of impact
@@ -169,7 +173,7 @@ public class SimpleHoeItem extends DiggerItem implements IModeSwitchable {
         Block block = state.getBlock();
 
         /// Do nothing on the client
-        if (level.isClientSide) return false;
+        if (level.isClientSide()) return false;
 
         ServerLevel serverLevel = (ServerLevel) level;
 
@@ -265,7 +269,7 @@ public class SimpleHoeItem extends DiggerItem implements IModeSwitchable {
         ItemStack itemStack = context.getItemInHand();
 
         if (player == null) return InteractionResult.PASS;
-        if (level.isClientSide) return InteractionResult.SUCCESS;
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
 
         /// Gets the positions based on the mode
         List<BlockPos> positions = getHoePositions(clickedPos, player, itemStack);
@@ -287,7 +291,7 @@ public class SimpleHoeItem extends DiggerItem implements IModeSwitchable {
         /// If he picked something, he plays sound and returns
         if (harvestedAny) {
             level.playSound(null, clickedPos, SoundEvents.CROP_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
-            itemStack.hurtAndBreak(0, player, LivingEntity.getSlotForHand(context.getHand()));
+            itemStack.hurtAndBreak(0, player, context.getHand());
             return InteractionResult.SUCCESS;
         }
 
@@ -312,7 +316,7 @@ public class SimpleHoeItem extends DiggerItem implements IModeSwitchable {
 
         if (tilledAny) {
             level.playSound(null, clickedPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-            itemStack.hurtAndBreak(0, player, LivingEntity.getSlotForHand(context.getHand()));
+            itemStack.hurtAndBreak(0, player, context.getHand());
             return InteractionResult.SUCCESS;
         }
 
@@ -339,7 +343,7 @@ public class SimpleHoeItem extends DiggerItem implements IModeSwitchable {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
         return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility);
     }
 }

@@ -1,5 +1,10 @@
 package com.vector.megabreakertools.item.custom.shovel;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.vector.megabreakertools.item.custom.IModeSwitchable;
@@ -13,9 +18,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
@@ -31,9 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MegaSimpleExcavatorItem extends DiggerItem implements IModeSwitchable {
-    public MegaSimpleExcavatorItem(Tier pTier, Properties pProperties) {
-        super(pTier, BlockTags.MINEABLE_WITH_SHOVEL, pProperties);
+public class MegaSimpleExcavatorItem extends Item implements IModeSwitchable {
+    public MegaSimpleExcavatorItem(Properties pProperties) {
+        super(pProperties);
     }
 
     @Override
@@ -48,9 +51,9 @@ public class MegaSimpleExcavatorItem extends DiggerItem implements IModeSwitchab
 
     /// This shows the text on the tooltip of the tool
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         addModeTooltip(stack, tooltipComponents);
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        super.appendHoverText(stack, context, display, tooltipComponents, tooltipFlag);
     }
 
     /// Calculates an area of destruction based on the direction of impact
@@ -193,7 +196,7 @@ public class MegaSimpleExcavatorItem extends DiggerItem implements IModeSwitchab
 
                 /// Try to make flatten
                 BlockState flattenState = currentState.getToolModifiedState(
-                        new UseOnContext(level, player, context.getHand(), itemStack,
+                        new UseOnContext(player, context.getHand(),
                                 new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, context.isInside())),
                         net.neoforged.neoforge.common.ItemAbilities.SHOVEL_FLATTEN,
                         false
@@ -206,7 +209,7 @@ public class MegaSimpleExcavatorItem extends DiggerItem implements IModeSwitchab
                 /// Try to put out fire
                 else {
                     BlockState douseState = currentState.getToolModifiedState(
-                            new UseOnContext(level, player, context.getHand(), itemStack,
+                            new UseOnContext(player, context.getHand(),
                                     new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, context.isInside())),
                             net.neoforged.neoforge.common.ItemAbilities.SHOVEL_DOUSE,
                             false
@@ -219,7 +222,7 @@ public class MegaSimpleExcavatorItem extends DiggerItem implements IModeSwitchab
                 }
 
                 /// Apply the modification
-                if (modifiedState != null && !level.isClientSide) {
+                if (modifiedState != null && !level.isClientSide()) {
                     level.setBlock(pos, modifiedState, 11);
                     level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, modifiedState));
                 }
@@ -235,11 +238,11 @@ public class MegaSimpleExcavatorItem extends DiggerItem implements IModeSwitchab
                 }
 
                 /// Applies durability based on the number of blocks modified
-                if (player != null && !level.isClientSide) {
-                    itemStack.hurtAndBreak(0, player, LivingEntity.getSlotForHand(context.getHand()));
+                if (player != null && !level.isClientSide()) {
+                    itemStack.hurtAndBreak(0, player, context.getHand());
                 }
 
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.PASS;
             }
@@ -252,7 +255,7 @@ public class MegaSimpleExcavatorItem extends DiggerItem implements IModeSwitchab
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
         return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
     }
 }

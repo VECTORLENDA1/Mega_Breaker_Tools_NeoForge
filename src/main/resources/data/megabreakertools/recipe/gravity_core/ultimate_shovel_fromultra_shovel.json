@@ -1,0 +1,15 @@
+{
+  "type": "simpleores:gravity_craft",
+  "tier": 2,
+  "time_per_tier": [200, 160, 80, 0],
+  "ingredients": [
+    { "item": "simpleores:astralite_block", "count": 6 },
+    { "item": "simpleores:zenithra_block", "count": 2 },
+    { "item": "minecraft:diamond_block", "count": 2 },
+    { "item": "simpleores:celestine_block", "count": 2 },
+    { "item": "megabreakertools:ultra_shovel", "count": 1 }
+  ],
+  "result": {
+    "id": "megabreakertools:ultimate_shovel"
+  }
+}

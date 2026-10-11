@@ -5,23 +5,22 @@ import com.vector.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@EventBusSubscriber(modid = MegaBreakerTools.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = MegaBreakerTools.MODID)
 public class ModEvents {
     private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
 
     @SubscribeEvent
-    public static void onToolsUsage(BlockEvent.BreakEvent event) {
+    public static void onToolsUsage(BreakBlockEvent event) {
         Player player = event.getPlayer();
         ItemStack mainHandItem = player.getMainHandItem();
 
@@ -50,10 +49,8 @@ public class ModEvents {
             if (pos.equals(initialBlockPos)) continue;
 
             // Checks if the tool can break the block
-            if (tool instanceof DiggerItem digger) {
-                if (!digger.isCorrectToolForDrops(mainHandItem, event.getLevel().getBlockState(pos))) {
-                    continue;
-                }
+            if (!mainHandItem.isCorrectToolForDrops(event.getLevel().getBlockState(pos))) {
+                continue;
             }
 
             blocksToBreak.add(pos);

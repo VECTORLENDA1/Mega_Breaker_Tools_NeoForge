@@ -1,8 +1,13 @@
 package com.vector.megabreakertools.item.custom.axe;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+
 import com.google.common.collect.ImmutableMap;
 import com.vector.megabreakertools.item.custom.IModeSwitchable;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -32,9 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class MegaUltimateLumberjackItem extends DiggerItem implements IModeSwitchable{
-    public MegaUltimateLumberjackItem(Tier pTier, Properties pProperties) {
-        super(pTier, BlockTags.MINEABLE_WITH_AXE, pProperties);
+public class MegaUltimateLumberjackItem extends Item implements IModeSwitchable{
+    public MegaUltimateLumberjackItem(Properties pProperties) {
+        super(pProperties);
     }
 
     @Override
@@ -49,9 +54,9 @@ public class MegaUltimateLumberjackItem extends DiggerItem implements IModeSwitc
 
     /// This shows the text on the tooltip of the tool
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         addModeTooltip(stack, tooltipComponents);
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        super.appendHoverText(stack, context, display, tooltipComponents, tooltipFlag);
     }
 
     /// Calculates an area of destruction based on the direction of impact
@@ -189,7 +194,7 @@ public class MegaUltimateLumberjackItem extends DiggerItem implements IModeSwitc
         ItemStack itemStack = context.getItemInHand();
 
         if (player == null) return InteractionResult.PASS;
-        if (level.isClientSide) return InteractionResult.SUCCESS;
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
         if (playerHasShieldUseIntent(context)) return InteractionResult.PASS;
 
         /// Gets the positions based on the mode
@@ -217,7 +222,7 @@ public class MegaUltimateLumberjackItem extends DiggerItem implements IModeSwitc
             level.playSound(null, clickedPos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
 
             /// Applies durability (0 for now, like the other tools in your mod)
-            itemStack.hurtAndBreak(0, player, LivingEntity.getSlotForHand(context.getHand()));
+            itemStack.hurtAndBreak(0, player, context.getHand());
 
             if (player instanceof ServerPlayer sp) {
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(sp, clickedPos, itemStack);
@@ -273,7 +278,7 @@ public class MegaUltimateLumberjackItem extends DiggerItem implements IModeSwitc
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
         return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
     }
 }

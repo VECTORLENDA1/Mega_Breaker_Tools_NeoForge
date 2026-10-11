@@ -1,0 +1,17 @@
+{
+  "type": "simpleores:gravity_craft",
+  "tier": 2,
+  "time_per_tier": [200, 160, 80, 0],
+  "ingredients": [
+    { "item": "minecraft:iron_block", "count": 4 },
+    { "item": "minecraft:stick", "count": 6 },
+    { "item": "simpleores:ignithra_block", "count": 6 },
+    { "item": "simpleores:nexalite_block", "count": 3 },
+    { "item": "simpleores:astralite_block", "count": 3 },
+    { "item": "minecraft:diamond_block", "count": 2 },
+    { "item": "megabreakertools:advance_axe", "count": 1 }
+  ],
+  "result": {
+    "id": "megabreakertools:mega_advance_lumberjack"
+  }
+}

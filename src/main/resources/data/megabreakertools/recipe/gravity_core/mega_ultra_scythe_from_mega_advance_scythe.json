@@ -1,0 +1,16 @@
+{
+  "type": "simpleores:gravity_craft",
+  "tier": 3,
+  "time_per_tier": [200, 160, 80, 0],
+  "ingredients": [
+    { "item": "simpleores:ignithra_block", "count": 4 },
+    { "item": "simpleores:astralite_block", "count": 4 },
+    { "item": "minecraft:iron_block", "count": 4 },
+    { "item": "minecraft:diamond_block", "count": 2 },
+    { "item": "simpleores:nexalite_block", "count": 4 },
+    { "item": "megabreakertools:mega_advance_scythe", "count": 1 }
+  ],
+  "result": {
+    "id": "megabreakertools:mega_ultra_scythe"
+  }
+}

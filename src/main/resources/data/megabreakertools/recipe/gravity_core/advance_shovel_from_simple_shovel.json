@@ -1,0 +1,14 @@
+{
+  "type": "simpleores:gravity_craft",
+  "tier": 1,
+  "time_per_tier": [200, 160, 80, 0],
+  "ingredients": [
+    { "item": "minecraft:iron_block", "count": 2 },
+    { "item": "simpleores:nexalite_block", "count": 2 },
+    { "item": "simpleores:astralite_block", "count": 2 },
+    { "item": "megabreakertools:simple_shovel", "count": 1 }
+  ],
+  "result": {
+    "id": "megabreakertools:advance_shovel"
+  }
+}

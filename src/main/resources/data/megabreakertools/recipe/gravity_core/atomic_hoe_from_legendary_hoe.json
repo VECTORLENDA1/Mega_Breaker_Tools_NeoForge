@@ -1,0 +1,18 @@
+{
+  "type": "simpleores:gravity_craft",
+  "tier": 4,
+  "time_per_tier": [200, 160, 80, 0],
+  "ingredients": [
+    { "item": "simpleores:zenithra_block", "count": 4 },
+    { "item": "simpleores:astralite_block", "count": 2 },
+    { "item": "simpleores:celestine_block", "count": 4 },
+    { "item": "simpleores:obscurite_block", "count": 2 },
+    { "item": "simpleores:nexalite_block", "count": 2 },
+    { "item": "minecraft:diamond_block", "count": 2 },
+    { "item": "simpleores:obscuridium_block", "count": 2 },
+    { "item": "megabreakertools:legendary_hoe", "count": 1 }
+  ],
+  "result": {
+    "id": "megabreakertools:atomic_hoe"
+  }
+}

@@ -13,9 +13,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
-@EventBusSubscriber(modid = MegaBreakerTools.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = MegaBreakerTools.MODID, value = Dist.CLIENT)
 public class ClientEvents {
 
     @SubscribeEvent
@@ -56,13 +56,12 @@ public class ClientEvents {
             }
 
             /// Send it to the server
-            PacketDistributor.sendToServer(new ToggleMiningModePacket());
+            ClientPacketDistributor.sendToServer(new ToggleMiningModePacket());
 
             // Visual feedback
-            player.displayClientMessage(
+            player.sendOverlayMessage(
                     Component.literal("Mode: " + newModeText)
-                            .withStyle(ChatFormatting.GOLD),
-                    true
+                            .withStyle(ChatFormatting.GOLD)
             );
 
             /// Sound feedback

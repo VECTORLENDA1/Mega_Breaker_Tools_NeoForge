@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public interface IModeSwitchable {
     String MINING_MODE_KEY = "MiningMode";
@@ -30,7 +31,7 @@ public interface IModeSwitchable {
     /// Method to get the current mode
     static int getMiningMode(ItemStack stack) {
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        return tag.getInt(MINING_MODE_KEY);
+        return tag.getIntOr(MINING_MODE_KEY, MODE);
     }
 
     /// Method to set the mode
@@ -49,7 +50,7 @@ public interface IModeSwitchable {
     }
 
     /// Standard method for adding tooltip
-    default void addModeTooltip(ItemStack stack, List<Component> tooltipComponents) {
+    default void addModeTooltip(ItemStack stack, Consumer<Component> tooltipComponents) {
         int mode = IModeSwitchable.getMiningMode(stack);
         int range = getRange();
         int size = (range * 2) + 1; /// Calculates the size (e.g. range=1 -> 3x3, range=2 -> 5x5)
@@ -66,9 +67,9 @@ public interface IModeSwitchable {
             }
         }
 
-        tooltipComponents.add(Component.literal("Mode: " + modeText)
+        tooltipComponents.accept(Component.literal("Mode: " + modeText)
                 .withStyle(ChatFormatting.GOLD));
-        tooltipComponents.add(Component.literal("Shift + Scroll to change")
+        tooltipComponents.accept(Component.literal("Shift + Scroll to change")
                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
     }
 }

@@ -75,5 +75,8 @@
   "item.megabreakertools.mega_atomic_scythe": "Mega Atomic Scythe",
 
 
-  "creativetab.mega_breaker_tools": "Mega Breaker Tools"
+  "creativetab.mega_breaker_tools": "Mega Breaker Tools",
+
+  "jei.megabreakertools.crafted_in": "Crafted in a Gravity Core (Simple Ores)",
+  "jei.megabreakertools.mode_info": "Shift + Scroll to change between area mode and single block mode"
 }

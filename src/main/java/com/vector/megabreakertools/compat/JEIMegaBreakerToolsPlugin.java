@@ -1,64 +1,33 @@
 package com.vector.megabreakertools.compat;
 
 
-import com.vector.megabreakertools.block.ModBlocks;
-import com.vector.megabreakertools.recipe.ModRecipes;
-import com.vector.megabreakertools.recipe.SimpleCraftingTableRecipe;
-import com.vector.megabreakertools.screen.custom.SimpleCraftingTableScreen;
+import com.vector.megabreakertools.MegaBreakerTools;
+import com.vector.megabreakertools.item.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
-import java.util.List;
-
+/// The tool recipes are "simpleores:gravity_craft" recipes, so they show up in the
+/// Gravity Core category that Simple Ores adds to JEI. This plugin adds an info page to every tool.
 @JeiPlugin
 public class JEIMegaBreakerToolsPlugin implements IModPlugin {
     @Override
-    public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath("megabreakertools", "jei_plugin");
-    }
-
-    @Override
-    public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new SimpleCraftingTableRecipeCategory(
-                registration.getJeiHelpers().getGuiHelper()));
+    public Identifier getPluginUid() {
+        return Identifier.fromNamespaceAndPath(MegaBreakerTools.MODID, "jei_plugin");
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
-
-        List<SimpleCraftingTableRecipe> simpleCraftingTableRecipes = recipeManager
-                .getAllRecipesFor(ModRecipes.SIMPLE_CRAFTING_TABLE_TYPE.get())
-                .stream()
-                .map(RecipeHolder::value)
-                .toList();
-        registration.addRecipes(SimpleCraftingTableRecipeCategory.SIMPLE_CRAFTING_TABLE_RECIPE_CATEGORY_RECIPE_TYPE, simpleCraftingTableRecipes);
-    }
-
-    // A clickable area for the Simple Crafting Table arrow
-    @Override
-    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(SimpleCraftingTableScreen.class,112,54,22,16,
-                SimpleCraftingTableRecipeCategory.SIMPLE_CRAFTING_TABLE_RECIPE_CATEGORY_RECIPE_TYPE);
-    }
-
-    // You can houver the Simple Crafting Table in JEI to see the recipes
-    @Override
-    public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.SIMPLE_CRAFTING_TABLE.get().asItem()),
-                SimpleCraftingTableRecipeCategory.SIMPLE_CRAFTING_TABLE_RECIPE_CATEGORY_RECIPE_TYPE);
+        for (DeferredHolder<Item, ? extends Item> tool : ModItems.ITEMS.getEntries()) {
+            if (!(tool.get() instanceof com.vector.megabreakertools.item.custom.IModeSwitchable)) continue;
+            registration.addIngredientInfo(tool.get(),
+                    Component.translatable("jei.megabreakertools.crafted_in"),
+                    Component.literal(" "),
+                    Component.translatable("jei.megabreakertools.mode_info"));
+        }
     }
 }
-
-
-

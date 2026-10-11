@@ -1,6 +1,6 @@
 package com.vector.megabreakertools.util;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -24,7 +24,7 @@ public class ModTags {
 
 
         private static TagKey<Block> createTag(String name) {
-            return BlockTags.create(ResourceLocation.fromNamespaceAndPath("megabreakertools", name));
+            return BlockTags.create(Identifier.fromNamespaceAndPath("megabreakertools", name));
         }
     }
 
@@ -35,12 +35,19 @@ public class ModTags {
         public static final TagKey<Item> SHOVELS = createVanillaTag("shovels");
         public static final TagKey<Item> HOES = createVanillaTag("hoes");
 
+        public static final TagKey<Item> IGNITHRA_REPAIR = createTag("repairs/ignithra");
+        public static final TagKey<Item> ASTRALITE_REPAIR = createTag("repairs/astralite");
+        public static final TagKey<Item> NEXALITE_REPAIR = createTag("repairs/nexalite");
+        public static final TagKey<Item> ZENITHRA_REPAIR = createTag("repairs/zenithra");
+        public static final TagKey<Item> CELESTINE_REPAIR = createTag("repairs/celestine");
+        public static final TagKey<Item> OBSCURITE_REPAIR = createTag("repairs/obscurite");
+
         private static TagKey<Item> createTag(String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("megabreakertools", name));
+            return ItemTags.create(Identifier.fromNamespaceAndPath("megabreakertools", name));
         }
 
         private static TagKey<Item> createVanillaTag(String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath("minecraft", name));
+            return ItemTags.create(Identifier.fromNamespaceAndPath("minecraft", name));
         }
     }
 }

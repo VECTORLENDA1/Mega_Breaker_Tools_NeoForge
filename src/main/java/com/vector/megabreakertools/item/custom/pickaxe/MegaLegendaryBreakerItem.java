@@ -1,14 +1,17 @@
 package com.vector.megabreakertools.item.custom.pickaxe;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+
 import com.vector.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
@@ -17,9 +20,9 @@ import net.minecraft.world.phys.HitResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MegaLegendaryBreakerItem extends DiggerItem implements IModeSwitchable {
-    public MegaLegendaryBreakerItem(Tier pTier, Properties pProperties) {
-        super(pTier, BlockTags.MINEABLE_WITH_PICKAXE, pProperties);
+public class MegaLegendaryBreakerItem extends Item implements IModeSwitchable {
+    public MegaLegendaryBreakerItem(Properties pProperties) {
+        super(pProperties);
     }
 
     @Override
@@ -34,9 +37,9 @@ public class MegaLegendaryBreakerItem extends DiggerItem implements IModeSwitcha
 
     /// This shows the text on the tooltip of the tool
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         addModeTooltip(stack, tooltipComponents);
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        super.appendHoverText(stack, context, display, tooltipComponents, tooltipFlag);
     }
 
     /// Calculates an area of destruction based on the direction of impact
