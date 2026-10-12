@@ -35,9 +35,6 @@ public class MegaBreakerTools {
         ModItems.Register(modEventBus);
         ModCreativeModTabs.register(modEventBus);
 
-
-
-
         modEventBus.addListener(this::registerPackets);
 
         modEventBus.addListener(this::addCreative);
