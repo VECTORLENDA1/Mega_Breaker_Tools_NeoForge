@@ -125,18 +125,19 @@ public class ModEvents {
         }
     }
 
-    /// Puts the items in the cluster close to this position, or makes a new cluster if there is none
+    /// Makes a cluster with these items here. The old clusters close by join this new one
+    /// (their items move here), so the cluster always follows the last area broken.
     private static void addToCluster(ServerLevel level, Vec3 pos, ClusterContents contents) {
         if (contents.isEmpty()) return;
 
-        ItemEntity nearby = findNearbyCluster(level, pos, null);
-        if (nearby != null) {
-            ClusterContents merged = DropClusterItem.getContents(nearby.getItem()).merge(contents);
-            nearby.setItem(DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
-            return;
+        ClusterContents merged = contents;
+        ItemEntity old;
+        while ((old = findNearbyCluster(level, pos, null)) != null) {
+            merged = DropClusterItem.getContents(old.getItem()).merge(merged);
+            old.discard();
         }
 
-        ItemEntity cluster = new ItemEntity(level, pos.x, pos.y, pos.z, DropClusterItem.create(ModItems.DROP_CLUSTER.get(), contents), 0, 0, 0);
+        ItemEntity cluster = new ItemEntity(level, pos.x, pos.y, pos.z, DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged), 0, 0, 0);
         cluster.setDefaultPickUpDelay();
         level.addFreshEntity(cluster);
     }
@@ -160,7 +161,7 @@ public class ModEvents {
         }
     }
 
-    /// Two clusters on the ground close to each other join into one
+    /// Two clusters on the ground close to each other join into one: the older one goes into the newer one
     @SubscribeEvent
     public static void onClusterTick(EntityTickEvent.Post event) {
         if (!(event.getEntity() instanceof ItemEntity cluster) || cluster.level().isClientSide()) return;
@@ -169,6 +170,8 @@ public class ModEvents {
 
         ItemEntity other = findNearbyCluster(cluster.level(), cluster.position(), cluster);
         if (other == null) return;
+        // Only the newer cluster (fewer ticks alive) takes the other one
+        if (other.tickCount < cluster.tickCount) return;
 
         ClusterContents merged = DropClusterItem.getContents(cluster.getItem()).merge(DropClusterItem.getContents(other.getItem()));
         cluster.setItem(DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
