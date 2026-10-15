@@ -4,7 +4,15 @@ import com.vector.megabreakertools.MegaBreakerTools;
 import com.vector.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import com.vector.megabreakertools.component.ClusterContents;
+import com.vector.megabreakertools.item.ModItems;
+import com.vector.megabreakertools.item.custom.DropClusterItem;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,8 +31,14 @@ import java.util.Set;
 @EventBusSubscriber(modid = MegaBreakerTools.MODID)
 public class ModEvents {
     private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
-    /// While a tool is breaking an area: player -> where the drops are gathered (the block the player broke)
-    private static final Map<ServerPlayer, Vec3> DROP_CLUSTER = new HashMap<>();
+    /// While a tool is breaking an area: player -> the drops gathered for the cluster
+    private static final Map<ServerPlayer, ClusterContents.Builder> DROP_CLUSTER = new HashMap<>();
+    /// The block the player broke with the tool (its drops come after the area): player -> where and when
+    private static final Map<ServerPlayer, InitialBlock> INITIAL_BLOCK = new HashMap<>();
+    /// Clusters on the ground closer than this (in blocks) join into one.
+    public static final double CLUSTER_MERGE_RADIUS = 1.5;
+
+    private record InitialBlock(BlockPos pos, long gameTime) {}
 
     @SubscribeEvent
     public static void onToolsUsage(BreakBlockEvent event) {
@@ -67,8 +81,9 @@ public class ModEvents {
 
         int initialDamage = mainHandItem.getDamageValue();
 
-        // All the drops of the area are gathered in one place (see onBlockDrops)
-        DROP_CLUSTER.put(serverPlayer, Vec3.atCenterOf(initialBlockPos));
+        // All the drops of the area go inside one Drop Cluster (see onBlockDrops)
+        ClusterContents.Builder drops = new ClusterContents.Builder(ClusterContents.EMPTY);
+        DROP_CLUSTER.put(serverPlayer, drops);
         try {
             for (BlockPos pos : blocksToBreak) {
                 serverPlayer.gameMode.destroyBlock(pos);
@@ -80,19 +95,83 @@ public class ModEvents {
         mainHandItem.setDamageValue(initialDamage);
 
         blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
+
+        ServerLevel level = serverPlayer.level();
+        addToCluster(level, Vec3.atCenterOf(initialBlockPos), drops.build());
+        // The block the player broke drops its items right after this: they go to the cluster too
+        INITIAL_BLOCK.put(serverPlayer, new InitialBlock(initialBlockPos, level.getGameTime()));
     }
 
-    /// Drops of the blocks broken by the area mode: instead of falling where each block was,
-    /// they all go to the block the player broke, so they come together in one cluster
+    /// Drops of the blocks broken by the area mode (and of the block the player broke):
+    /// instead of falling on the ground, they go inside the Drop Cluster
     @SubscribeEvent
     public static void onBlockDrops(BlockDropsEvent event) {
         if (!(event.getBreaker() instanceof ServerPlayer player)) return;
-        Vec3 cluster = DROP_CLUSTER.get(player);
-        if (cluster == null || !HARVESTED_BLOCKS.contains(event.getPos())) return;
 
-        for (ItemEntity drop : event.getDrops()) {
-            drop.setPos(cluster.x, cluster.y, cluster.z);
-            drop.setDeltaMovement(Vec3.ZERO);
+        ClusterContents.Builder cluster = DROP_CLUSTER.get(player);
+        if (cluster != null && HARVESTED_BLOCKS.contains(event.getPos())) {
+            for (ItemEntity drop : event.getDrops()) cluster.add(drop.getItem());
+            event.getDrops().clear();
+            return;
         }
+
+        InitialBlock initial = INITIAL_BLOCK.get(player);
+        if (initial != null && initial.pos().equals(event.getPos()) && initial.gameTime() == event.getLevel().getGameTime()) {
+            INITIAL_BLOCK.remove(player);
+            ClusterContents.Builder drops = new ClusterContents.Builder(ClusterContents.EMPTY);
+            for (ItemEntity drop : event.getDrops()) drops.add(drop.getItem());
+            event.getDrops().clear();
+            addToCluster(event.getLevel(), Vec3.atCenterOf(event.getPos()), drops.build());
+        }
+    }
+
+    /// Puts the items in the cluster close to this position, or makes a new cluster if there is none
+    private static void addToCluster(ServerLevel level, Vec3 pos, ClusterContents contents) {
+        if (contents.isEmpty()) return;
+
+        ItemEntity nearby = findNearbyCluster(level, pos, null);
+        if (nearby != null) {
+            ClusterContents merged = DropClusterItem.getContents(nearby.getItem()).merge(contents);
+            nearby.setItem(DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
+            return;
+        }
+
+        ItemEntity cluster = new ItemEntity(level, pos.x, pos.y, pos.z, DropClusterItem.create(ModItems.DROP_CLUSTER.get(), contents), 0, 0, 0);
+        cluster.setDefaultPickUpDelay();
+        level.addFreshEntity(cluster);
+    }
+
+    private static ItemEntity findNearbyCluster(Level level, Vec3 pos, ItemEntity except) {
+        AABB area = new AABB(pos, pos).inflate(CLUSTER_MERGE_RADIUS);
+        for (ItemEntity entity : level.getEntitiesOfClass(ItemEntity.class, area)) {
+            if (entity != except && entity.isAlive() && entity.getItem().getItem() instanceof DropClusterItem
+                    && entity.position().distanceTo(pos) <= CLUSTER_MERGE_RADIUS) {
+                return entity;
+            }
+        }
+        return null;
+    }
+
+    /// Clusters never disappear from the ground (they can have a lot of items inside)
+    @SubscribeEvent
+    public static void onClusterSpawn(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof ItemEntity item && item.getItem().getItem() instanceof DropClusterItem) {
+            item.setUnlimitedLifetime();
+        }
+    }
+
+    /// Two clusters on the ground close to each other join into one
+    @SubscribeEvent
+    public static void onClusterTick(EntityTickEvent.Post event) {
+        if (!(event.getEntity() instanceof ItemEntity cluster) || cluster.level().isClientSide()) return;
+        if (cluster.tickCount % 10 != 0 || !cluster.isAlive()) return;
+        if (!(cluster.getItem().getItem() instanceof DropClusterItem)) return;
+
+        ItemEntity other = findNearbyCluster(cluster.level(), cluster.position(), cluster);
+        if (other == null) return;
+
+        ClusterContents merged = DropClusterItem.getContents(cluster.getItem()).merge(DropClusterItem.getContents(other.getItem()));
+        cluster.setItem(DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
+        other.discard();
     }
 }

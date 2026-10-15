@@ -1,5 +1,6 @@
 package com.vector.megabreakertools.item;
 
+import com.vector.megabreakertools.item.custom.DropClusterItem;
 import com.vector.megabreakertools.item.custom.axe.*;
 import com.vector.megabreakertools.item.custom.hoe.*;
 import com.vector.megabreakertools.item.custom.pickaxe.*;
@@ -128,6 +129,10 @@ public class ModItems {
             p -> p.hoe(ModMegaToolTiers.ZENITHRA, 12, -0.2F));
     public static final DeferredItem<MegaAtomicScytheItem> MEGA_ATOMIC_SCYTHE = ITEMS.registerItem("mega_atomic_scythe", MegaAtomicScytheItem::new,
             p -> p.fireResistant().hoe(ModMegaToolTiers.OBSCURITE, 14, 0f));
+
+    //Drop Cluster\\ (all the drops of an area broken by a Mega tool)
+    public static final DeferredItem<DropClusterItem> DROP_CLUSTER = ITEMS.registerItem("drop_cluster", DropClusterItem::new,
+            p -> p.stacksTo(1).fireResistant());
 
 
     public static void Register(IEventBus eventBus) {

@@ -1,6 +1,7 @@
 package com.vector.megabreakertools;
 
 import com.mojang.logging.LogUtils;
+import com.vector.megabreakertools.component.ModDataComponents;
 import com.vector.megabreakertools.item.ModCreativeModTabs;
 import com.vector.megabreakertools.item.ModItems;
 import com.vector.megabreakertools.network.ToggleMiningModePacket;
@@ -33,6 +34,7 @@ public class MegaBreakerTools {
 
 
         ModItems.Register(modEventBus);
+        ModDataComponents.register(modEventBus);
         ModCreativeModTabs.register(modEventBus);
 
         modEventBus.addListener(this::registerPackets);
