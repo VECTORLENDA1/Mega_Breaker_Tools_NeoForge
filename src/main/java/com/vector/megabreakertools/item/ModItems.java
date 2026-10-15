@@ -17,14 +17,6 @@ import static com.vector.megabreakertools.MegaBreakerTools.MODID;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
 
-    //Items\\
-    public static final DeferredItem<Item> CELESTINE = ITEMS.registerSimpleItem("celestine");
-    public static final DeferredItem<Item> ZENITHRA = ITEMS.registerSimpleItem("zenithra");
-    public static final DeferredItem<Item> ASTRALITE = ITEMS.registerSimpleItem("astralite");
-    public static final DeferredItem<Item> NEXALITE = ITEMS.registerSimpleItem("nexalite");
-    public static final DeferredItem<Item> IGNITHRA = ITEMS.registerSimpleItem("ignithra");
-    public static final DeferredItem<Item> OBSCURITE = ITEMS.registerSimpleItem("obscurite");
-
     //Pickaxe Tools\\
     public static final DeferredItem<SimplePickaxeItem> SIMPLE_PICKAXE = ITEMS.registerItem("simple_pickaxe", SimplePickaxeItem::new,
             p -> p.pickaxe(ModMegaToolTiers.IGNITHRA, 1, -2.8F));//defaut - 1 damage, 4 attack speed
