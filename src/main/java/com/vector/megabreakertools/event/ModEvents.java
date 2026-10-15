@@ -36,7 +36,7 @@ public class ModEvents {
     /// The block the player broke with the tool (its drops come after the area): player -> where and when
     private static final Map<ServerPlayer, InitialBlock> INITIAL_BLOCK = new HashMap<>();
     /// Clusters on the ground closer than this (in blocks) join into one.
-    public static final double CLUSTER_MERGE_RADIUS = 8.0;
+    public static final double CLUSTER_MERGE_RADIUS = 20.0;
 
     private record InitialBlock(BlockPos pos, long gameTime) {}
 
