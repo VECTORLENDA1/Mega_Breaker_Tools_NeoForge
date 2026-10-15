@@ -1,6 +1,9 @@
 package com.vector.megabreakertools;
 
 import com.mojang.logging.LogUtils;
+import com.vector.megabreakertools.client.DropClusterItemRenderer;
+import net.minecraft.resources.Identifier;
+import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import com.vector.megabreakertools.component.ModDataComponents;
 import com.vector.megabreakertools.item.ModCreativeModTabs;
 import com.vector.megabreakertools.item.ModItems;
@@ -59,6 +62,12 @@ public class MegaBreakerTools {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
+        }
+
+        // 3D item model of the Drop Cluster ("type": "megabreakertools:drop_cluster" in the item model file)
+        @SubscribeEvent
+        public static void registerItemRenderers(RegisterSpecialModelRendererEvent event) {
+            event.register(Identifier.fromNamespaceAndPath(MODID, "drop_cluster"), DropClusterItemRenderer.Unbaked.MAP_CODEC);
         }
 
     }

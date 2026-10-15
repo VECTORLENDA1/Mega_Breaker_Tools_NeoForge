@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:block/block",
   "textures": {
-    "layer0": "megabreakertools:item/drop_cluster"
+    "particle": "megabreakertools:item/drop_cluster"
   }
 }
