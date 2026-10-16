@@ -66,6 +66,13 @@ public class DropClusterItem extends Item {
             if (remaining > 0) left.add(new ClusterContents.Entry(entry.item(), remaining));
         }
 
+        // All the experience of the broken blocks is given at once
+        if (contents.experience() > 0) {
+            player.giveExperiencePoints(contents.experience());
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS,
+                    0.5F, 0.9F + level.getRandom().nextFloat() * 0.2F);
+        }
+
         ClusterContents rest = left.build();
         if (rest.isEmpty()) {
             cluster.shrink(1);
@@ -86,6 +93,9 @@ public class DropClusterItem extends Item {
         ClusterContents contents = getContents(stack);
         tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.tooltip").withStyle(ChatFormatting.GOLD));
         tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.total", contents.totalCount()).withStyle(ChatFormatting.GRAY));
+        if (contents.experience() > 0) {
+            tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.experience", contents.experience()).withStyle(ChatFormatting.GREEN));
+        }
 
         // The kinds of items with more first
         List<ClusterContents.Entry> sorted = new ArrayList<>(contents.entries());

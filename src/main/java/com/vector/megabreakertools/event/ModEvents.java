@@ -103,7 +103,7 @@ public class ModEvents {
     }
 
     /// Drops of the blocks broken by the area mode (and of the block the player broke):
-    /// instead of falling on the ground, they go inside the Drop Cluster
+    /// instead of falling on the ground, they (and their experience) go inside the Drop Cluster
     @SubscribeEvent
     public static void onBlockDrops(BlockDropsEvent event) {
         if (!(event.getBreaker() instanceof ServerPlayer player)) return;
@@ -112,6 +112,9 @@ public class ModEvents {
         if (cluster != null && HARVESTED_BLOCKS.contains(event.getPos())) {
             for (ItemEntity drop : event.getDrops()) cluster.add(drop.getItem());
             event.getDrops().clear();
+            // The experience of the block (e.g. ores) also goes into the cluster
+            cluster.addExperience(event.getDroppedExperience());
+            event.setDroppedExperience(0);
             return;
         }
 
@@ -121,6 +124,8 @@ public class ModEvents {
             ClusterContents.Builder drops = new ClusterContents.Builder(ClusterContents.EMPTY);
             for (ItemEntity drop : event.getDrops()) drops.add(drop.getItem());
             event.getDrops().clear();
+            drops.addExperience(event.getDroppedExperience());
+            event.setDroppedExperience(0);
             addToCluster(event.getLevel(), Vec3.atCenterOf(event.getPos()), drops.build());
         }
     }

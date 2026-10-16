@@ -79,6 +79,7 @@
   "item.megabreakertools.drop_cluster": "Drop Cluster",
   "item.megabreakertools.drop_cluster.tooltip": "Right-click to collect the items inside",
   "item.megabreakertools.drop_cluster.total": "Items inside: %s",
+  "item.megabreakertools.drop_cluster.experience": "Experience inside: %s",
   "item.megabreakertools.drop_cluster.more": "...and %s more kinds of items",
   "item.megabreakertools.drop_cluster.inventory_full": "Inventory full! The rest of the items stay in the cluster",
 
