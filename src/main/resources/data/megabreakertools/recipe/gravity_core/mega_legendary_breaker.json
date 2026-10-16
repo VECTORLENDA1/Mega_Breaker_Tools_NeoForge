@@ -13,7 +13,7 @@
     { "item": "simpleores:celestine_block", "count": 12 },
     { "item": "simpleores:obscuridium_block", "count": 6 },
     { "item": "minecraft:nether_star", "count": 2 },
-    { "item": "#minecraft:logs", "count": 96 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:mega_legendary_breaker"

@@ -12,7 +12,7 @@
     { "item": "simpleores:celestine_block", "count": 8 },
     { "item": "simpleores:obscuridium_block", "count": 4 },
     { "item": "simpleores:obscurite_block", "count": 2 },
-    { "item": "#minecraft:logs", "count": 64 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:atomic_hoe"

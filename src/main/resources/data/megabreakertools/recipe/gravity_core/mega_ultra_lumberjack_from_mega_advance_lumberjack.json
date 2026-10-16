@@ -9,7 +9,7 @@
     { "item": "simpleores:astralite_block", "count": 9 },
     { "item": "minecraft:iron_block", "count": 9 },
     { "item": "minecraft:diamond_block", "count": 9 },
-    { "item": "#minecraft:logs", "count": 24 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:mega_ultra_lumberjack"

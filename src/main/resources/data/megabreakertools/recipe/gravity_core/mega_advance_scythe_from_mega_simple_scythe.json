@@ -8,7 +8,7 @@
     { "item": "simpleores:nexalite_block", "count": 6 },
     { "item": "simpleores:astralite_block", "count": 6 },
     { "item": "minecraft:iron_block", "count": 6 },
-    { "item": "#minecraft:logs", "count": 12 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:mega_advance_scythe"

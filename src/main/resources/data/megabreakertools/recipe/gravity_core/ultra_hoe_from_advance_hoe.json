@@ -9,7 +9,7 @@
     { "item": "simpleores:astralite_block", "count": 2 },
     { "item": "minecraft:iron_block", "count": 2 },
     { "item": "minecraft:diamond_block", "count": 2 },
-    { "item": "#minecraft:logs", "count": 8 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:ultra_hoe"

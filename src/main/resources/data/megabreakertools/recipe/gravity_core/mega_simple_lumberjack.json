@@ -5,7 +5,7 @@
   "ingredients": [
     { "item": "megabreakertools:simple_axe", "count": 1 },
     { "item": "simpleores:ignithra_block", "count": 6 },
-    { "item": "#minecraft:logs", "count": 6 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:mega_simple_lumberjack"

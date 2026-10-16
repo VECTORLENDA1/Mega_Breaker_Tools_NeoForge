@@ -12,7 +12,7 @@
     { "item": "simpleores:zenithra_block", "count": 2 },
     { "item": "simpleores:celestine_block", "count": 2 },
     { "item": "minecraft:nether_star", "count": 1 },
-    { "item": "#minecraft:logs", "count": 48 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:mega_ultimate_excavator"
