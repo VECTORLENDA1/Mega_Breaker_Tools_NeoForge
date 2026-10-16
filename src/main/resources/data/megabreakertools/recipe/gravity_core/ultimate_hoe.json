@@ -1,15 +1,16 @@
 {
   "type": "simpleores:gravity_craft",
-  "tier": 2,
+  "tier": 3,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "simpleores:nexalite_block", "count": 2 },
-    { "item": "minecraft:diamond_block", "count": 2 },
-    { "item": "simpleores:zenithra_block", "count": 2 },
-    { "item": "simpleores:celestine_block", "count": 2 },
-    { "item": "minecraft:iron_block", "count": 2 },
-    { "item": "simpleores:astralite_block", "count": 2 },
-    { "item": "minecraft:stick", "count": 5 }
+    { "item": "simpleores:nexalite_block", "count": 8 },
+    { "item": "minecraft:diamond_block", "count": 4 },
+    { "item": "simpleores:zenithra_block", "count": 4 },
+    { "item": "simpleores:celestine_block", "count": 4 },
+    { "item": "minecraft:iron_block", "count": 8 },
+    { "item": "simpleores:astralite_block", "count": 8 },
+    { "item": "simpleores:ignithra_block", "count": 8 },
+    { "item": "minecraft:log", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:ultimate_hoe"

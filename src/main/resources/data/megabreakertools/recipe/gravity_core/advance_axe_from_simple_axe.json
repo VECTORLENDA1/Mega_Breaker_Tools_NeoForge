@@ -3,9 +3,8 @@
   "tier": 1,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "minecraft:iron_block", "count": 2 },
+    { "item": "minecraft:iron_block", "count": 3 },
     { "item": "simpleores:nexalite_block", "count": 3 },
-    { "item": "simpleores:ignithra_block", "count": 2 },
     { "item": "megabreakertools:simple_axe", "count": 1 },
     { "item": "simpleores:astralite_block", "count": 3 }
   ],

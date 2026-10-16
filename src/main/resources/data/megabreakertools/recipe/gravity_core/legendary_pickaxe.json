@@ -1,15 +1,17 @@
 {
   "type": "simpleores:gravity_craft",
-  "tier": 3,
+  "tier": 4,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "simpleores:celestine_block", "count": 6 },
-    { "item": "minecraft:diamond_block", "count": 4 },
-    { "item": "simpleores:obscuridium_block", "count": 2 },
-    { "item": "simpleores:zenithra_block", "count": 6 },
-    { "item": "minecraft:stick", "count": 7 },
-    { "item": "simpleores:nexalite_block", "count": 3 },
-    { "item": "simpleores:astralite_block", "count": 3 }
+    { "item": "simpleores:celestine_block", "count": 16 },
+    { "item": "minecraft:diamond_block", "count": 16 },
+    { "item": "simpleores:obscuridium_block", "count": 8 },
+    { "item": "simpleores:zenithra_block", "count": 16 },
+    { "item": "minecraft:log", "count": 4 },
+    { "item": "minecraft:iron_block", "count": 24 },
+    { "item": "simpleores:nexalite_block", "count": 24 },
+    { "item": "simpleores:ignithra_block", "count": 24 },
+    { "item": "simpleores:astralite_block", "count": 24 }
   ],
   "result": {
     "id": "megabreakertools:legendary_pickaxe"

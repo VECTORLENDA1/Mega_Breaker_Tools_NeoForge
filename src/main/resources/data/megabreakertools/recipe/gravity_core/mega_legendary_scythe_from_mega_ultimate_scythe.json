@@ -1,6 +1,6 @@
 {
   "type": "simpleores:gravity_craft",
-  "tier": 3,
+  "tier": 4,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
     { "item": "simpleores:zenithra_block", "count": 4 },
