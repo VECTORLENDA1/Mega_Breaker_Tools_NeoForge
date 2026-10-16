@@ -3,6 +3,11 @@ package com.vector.megabreakertools.event;
 import com.vector.megabreakertools.MegaBreakerTools;
 import com.vector.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -27,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 @EventBusSubscriber(modid = MegaBreakerTools.MODID)
 public class ModEvents {
@@ -37,6 +43,11 @@ public class ModEvents {
     private static final Map<ServerPlayer, InitialBlock> INITIAL_BLOCK = new HashMap<>();
     /// Clusters on the ground closer than this (in blocks) join into one.
     public static final double CLUSTER_MERGE_RADIUS = 20.0;
+    /// How many blocks under the bottom of the world a cluster falls before it is saved from the void
+    /// (the game deletes items 64 blocks under the bottom).
+    public static final int VOID_RESCUE_DEPTH = 16;
+    /// Where the player who made the cluster is saved (in the cluster on the ground).
+    private static final String CLUSTER_OWNER = "megabreakertools:owner";
 
     private record InitialBlock(BlockPos pos, long gameTime) {}
 
@@ -97,7 +108,7 @@ public class ModEvents {
         blocksToBreak.forEach(HARVESTED_BLOCKS::remove);
 
         ServerLevel level = serverPlayer.level();
-        addToCluster(level, Vec3.atCenterOf(initialBlockPos), drops.build());
+        addToCluster(level, Vec3.atCenterOf(initialBlockPos), drops.build(), serverPlayer);
         // The block the player broke drops its items right after this: they go to the cluster too
         INITIAL_BLOCK.put(serverPlayer, new InitialBlock(initialBlockPos, level.getGameTime()));
     }
@@ -126,13 +137,13 @@ public class ModEvents {
             event.getDrops().clear();
             drops.addExperience(event.getDroppedExperience());
             event.setDroppedExperience(0);
-            addToCluster(event.getLevel(), Vec3.atCenterOf(event.getPos()), drops.build());
+            addToCluster(event.getLevel(), Vec3.atCenterOf(event.getPos()), drops.build(), player);
         }
     }
 
     /// Makes a cluster with these items here. The old clusters close by join this new one
     /// (their items move here), so the cluster always follows the last area broken.
-    private static void addToCluster(ServerLevel level, Vec3 pos, ClusterContents contents) {
+    private static void addToCluster(ServerLevel level, Vec3 pos, ClusterContents contents, ServerPlayer owner) {
         if (contents.isEmpty()) return;
 
         ClusterContents merged = contents;
@@ -144,6 +155,7 @@ public class ModEvents {
 
         ItemEntity cluster = new ItemEntity(level, pos.x, pos.y, pos.z, DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged), 0, 0, 0);
         cluster.setDefaultPickUpDelay();
+        cluster.setThrower(owner);
         level.addFreshEntity(cluster);
     }
 
@@ -159,19 +171,68 @@ public class ModEvents {
     }
 
     /// Clusters never disappear from the ground (they can have a lot of items inside)
+    /// and nothing can destroy them: fire, lava, explosions, cactus, lightning...
+    /// The player who made (or threw) the cluster is remembered, to give it back if it falls into the void.
     @SubscribeEvent
     public static void onClusterSpawn(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ItemEntity item && item.getItem().getItem() instanceof DropClusterItem) {
             item.setUnlimitedLifetime();
+            item.setInvulnerable(true);
+            if (item.getOwner() instanceof Player owner && item.getPersistentData().getString(CLUSTER_OWNER).isEmpty()) {
+                item.getPersistentData().putString(CLUSTER_OWNER, owner.getUUID().toString());
+            }
         }
+    }
+
+    /// A cluster that falls into the void goes to the inventory of its player (or to their feet if the
+    /// inventory is full). If that player is not in the game, it goes to the world spawn.
+    private static void rescueFromVoid(ItemEntity cluster) {
+        MinecraftServer server = cluster.level().getServer();
+        if (server == null) return;
+        ItemStack stack = cluster.getItem().copy();
+        cluster.discard();
+
+        ServerPlayer owner = null;
+        String id = cluster.getPersistentData().getStringOr(CLUSTER_OWNER, "");
+        if (!id.isEmpty()) {
+            try {
+                owner = server.getPlayerList().getPlayer(UUID.fromString(id));
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+
+        if (owner != null && owner.isAlive()) {
+            if (!owner.getInventory().add(stack)) {
+                spawnCluster(owner.level(), owner.position(), stack, owner);
+            }
+            owner.level().playSound(null, owner.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.6F, 1.0F);
+            return;
+        }
+        LevelData.RespawnData spawn = server.getRespawnData();
+        ServerLevel level = server.getLevel(spawn.dimension());
+        if (level == null) level = server.overworld();
+        BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, spawn.pos());
+        spawnCluster(level, Vec3.atBottomCenterOf(top), stack, null);
+    }
+
+    private static void spawnCluster(ServerLevel level, Vec3 pos, ItemStack stack, ServerPlayer owner) {
+        ItemEntity cluster = new ItemEntity(level, pos.x, pos.y + 0.5, pos.z, stack, 0, 0, 0);
+        if (owner != null) cluster.setThrower(owner);
+        level.addFreshEntity(cluster);
     }
 
     /// Two clusters on the ground close to each other join into one: the older one goes into the newer one
     @SubscribeEvent
     public static void onClusterTick(EntityTickEvent.Post event) {
         if (!(event.getEntity() instanceof ItemEntity cluster) || cluster.level().isClientSide()) return;
-        if (cluster.tickCount % 10 != 0 || !cluster.isAlive()) return;
-        if (!(cluster.getItem().getItem() instanceof DropClusterItem)) return;
+        if (!cluster.isAlive() || !(cluster.getItem().getItem() instanceof DropClusterItem)) return;
+
+        // Fell into the void: saved before the game deletes it
+        if (cluster.getY() < cluster.level().getMinY() - VOID_RESCUE_DEPTH) {
+            rescueFromVoid(cluster);
+            return;
+        }
+        if (cluster.tickCount % 10 != 0) return;
 
         ItemEntity other = findNearbyCluster(cluster.level(), cluster.position(), cluster);
         if (other == null) return;
