@@ -11,6 +11,7 @@
     { "item": "minecraft:diamond_block", "count": 12 },
     { "item": "simpleores:zenithra_block", "count": 6 },
     { "item": "simpleores:celestine_block", "count": 6 },
+    { "item": "minecraft:nether_star", "count": 1 },
     { "item": "#minecraft:logs", "count": 48 }
   ],
   "result": {

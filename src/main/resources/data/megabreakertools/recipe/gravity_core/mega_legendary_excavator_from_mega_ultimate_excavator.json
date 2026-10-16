@@ -12,6 +12,7 @@
     { "item": "simpleores:zenithra_block", "count": 3 },
     { "item": "simpleores:celestine_block", "count": 3 },
     { "item": "simpleores:obscuridium_block", "count": 3 },
+    { "item": "minecraft:nether_star", "count": 1 },
     { "item": "#minecraft:logs", "count": 96 }
   ],
   "result": {
