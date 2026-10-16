@@ -3,7 +3,7 @@
   "tier": 1,
   "time_per_tier": [100, 60, 40, 0],
   "ingredients": [
-    {"S": "minecraft:stick", "count": 2 },
+    {"S": "#minecraft:logs", "count": 2 },
     {"I": "simpleores:ignithra_block", "count": 2}
   ],
   "result": {
