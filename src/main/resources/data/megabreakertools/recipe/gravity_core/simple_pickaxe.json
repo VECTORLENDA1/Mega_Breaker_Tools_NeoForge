@@ -1,0 +1,12 @@
+{
+  "type": "simpleores:gravity_craft",
+  "tier": 1,
+  "time_per_tier": [100, 60, 40, 0],
+  "ingredients": [
+    {"S": "minecraft:stick", "count": 2 },
+    {"I": "simpleores:ignithra_block", "count": 3}
+  ],
+  "result": {
+    "id": "megabreakertools:simple_pickaxe"
+  }
+}
