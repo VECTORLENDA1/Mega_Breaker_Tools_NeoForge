@@ -3,13 +3,15 @@
   "tier": 4,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "minecraft:iron_block", "count": 10 },
-    { "item": "simpleores:zenithra_block", "count": 6 },
-    { "item": "minecraft:diamond_block", "count": 6 },
-    { "item": "simpleores:celestine_block", "count": 4 },
-    { "item": "simpleores:astralite_block", "count": 4 },
-    { "item": "simpleores:nexalite_block", "count": 4 },
-    { "item": "megabreakertools:mega_ultra_breaker", "count": 1 }
+    { "item": "megabreakertools:mega_ultra_breaker", "count": 1 },
+    { "item": "simpleores:ignithra_block", "count": 36 },
+    { "item": "simpleores:nexalite_block", "count": 18 },
+    { "item": "simpleores:astralite_block", "count": 18 },
+    { "item": "minecraft:iron_block", "count": 18 },
+    { "item": "minecraft:diamond_block", "count": 9 },
+    { "item": "simpleores:zenithra_block", "count": 9 },
+    { "item": "simpleores:celestine_block", "count": 9 },
+    { "item": "#minecraft:logs", "count": 48 }
   ],
   "result": {
     "id": "megabreakertools:mega_ultimate_breaker"

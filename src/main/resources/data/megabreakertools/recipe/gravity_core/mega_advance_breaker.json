@@ -3,12 +3,12 @@
   "tier": 2,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "simpleores:ignithra_block", "count": 9 },
-    { "item": "simpleores:nexalite_block", "count": 9 },
-    { "item": "simpleores:astralite_block", "count": 9 },
-    { "item": "minecraft:iron_block", "count": 9 },
     { "item": "megabreakertools:advance_pickaxe", "count": 1 },
-    { "item": "minecraft:log", "count": 4 }
+    { "item": "simpleores:ignithra_block", "count": 12 },
+    { "item": "simpleores:nexalite_block", "count": 6 },
+    { "item": "simpleores:astralite_block", "count": 6 },
+    { "item": "minecraft:iron_block", "count": 6 },
+    { "item": "#minecraft:logs", "count": 12 }
   ],
   "result": {
     "id": "megabreakertools:mega_advance_breaker"

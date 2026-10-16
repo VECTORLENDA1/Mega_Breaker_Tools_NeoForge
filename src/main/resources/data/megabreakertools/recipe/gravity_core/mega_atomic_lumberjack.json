@@ -3,17 +3,17 @@
   "tier": 4,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "minecraft:iron_block", "count": 8 },
-    { "item": "minecraft:stick", "count": 8 },
-    { "item": "simpleores:obscuridium_block", "count": 4 },
-    { "item": "simpleores:nexalite_block", "count": 3 },
-    { "item": "simpleores:zenithra_block", "count": 4 },
-    { "item": "minecraft:nether_star", "count": 4 },
-    { "item": "simpleores:celestine_block", "count": 4 },
-    { "item": "simpleores:astralite_block", "count": 3 },
-    { "item": "minecraft:diamond_block", "count": 4 },
-    { "item": "simpleores:obscurite_block", "count": 2 },
-    { "item": "megabreakertools:atomic_axe", "count": 1 }
+    { "item": "megabreakertools:atomic_axe", "count": 1 },
+    { "item": "simpleores:ignithra_block", "count": 192 },
+    { "item": "simpleores:nexalite_block", "count": 96 },
+    { "item": "simpleores:astralite_block", "count": 96 },
+    { "item": "minecraft:iron_block", "count": 96 },
+    { "item": "minecraft:diamond_block", "count": 48 },
+    { "item": "simpleores:zenithra_block", "count": 24 },
+    { "item": "simpleores:celestine_block", "count": 24 },
+    { "item": "simpleores:obscuridium_block", "count": 12 },
+    { "item": "simpleores:obscurite_block", "count": 6 },
+    { "item": "#minecraft:logs", "count": 192 }
   ],
   "result": {
     "id": "megabreakertools:mega_atomic_lumberjack"

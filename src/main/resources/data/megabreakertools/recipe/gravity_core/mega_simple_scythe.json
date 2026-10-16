@@ -3,11 +3,9 @@
   "tier": 1,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "simpleores:ignithra_block", "count": 6 },
-    { "item": "simpleores:astralite_block", "count": 2 },
-    { "item": "simpleores:nexalite_block", "count": 2 },
     { "item": "megabreakertools:simple_hoe", "count": 1 },
-    { "item": "minecraft:log", "count": 3 }
+    { "item": "simpleores:ignithra_block", "count": 4 },
+    { "item": "#minecraft:logs", "count": 6 }
   ],
   "result": {
     "id": "megabreakertools:mega_simple_scythe"

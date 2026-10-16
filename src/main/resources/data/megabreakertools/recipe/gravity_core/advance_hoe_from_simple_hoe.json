@@ -3,10 +3,12 @@
   "tier": 1,
   "time_per_tier": [200, 160, 80, 0],
   "ingredients": [
-    { "item": "simpleores:astralite_block", "count": 2 },
     { "item": "megabreakertools:simple_hoe", "count": 1 },
+    { "item": "simpleores:ignithra_block", "count": 2 },
+    { "item": "simpleores:nexalite_block", "count": 2 },
+    { "item": "simpleores:astralite_block", "count": 2 },
     { "item": "minecraft:iron_block", "count": 2 },
-    { "item": "simpleores:nexalite_block", "count": 2 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:advance_hoe"

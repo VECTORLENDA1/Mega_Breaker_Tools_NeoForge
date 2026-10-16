@@ -7,7 +7,7 @@
     { "item": "simpleores:nexalite_block", "count": 3 },
     { "item": "simpleores:astralite_block", "count": 3 },
     { "item": "minecraft:iron_block", "count": 3 },
-    { "item": "minecraft:log", "count": 4 }
+    { "item": "#minecraft:logs", "count": 4 }
   ],
   "result": {
     "id": "megabreakertools:advance_pickaxe"
