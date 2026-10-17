@@ -687,26 +687,26 @@
 		"thirdperson_righthand": {
 			"rotation": [6.53, 47.5, -12.24],
 			"translation": [-4.75, -3.5, -1.5],
-			"scale": [0.8, 0.8, 0.8]
+			"scale": [0.68, 0.68, 0.68]
 		},
 		"thirdperson_lefthand": {
 			"rotation": [6.53, 47.5, -12.24],
 			"translation": [-4.75, -3.5, -1.5],
-			"scale": [0.8, 0.8, 0.8]
+			"scale": [0.68, 0.68, 0.68]
 		},
 		"firstperson_righthand": {
 			"rotation": [-24, 31, -1],
 			"translation": [-0.5, -3.5, 2.25],
-			"scale": [0.6, 0.6, 0.6]
+			"scale": [0.36, 0.36, 0.36]
 		},
 		"firstperson_lefthand": {
 			"rotation": [-24, 31, -1],
 			"translation": [-0.5, -3.5, 2.25],
-			"scale": [0.6, 0.6, 0.6]
+			"scale": [0.36, 0.36, 0.36]
 		},
 		"ground": {
 			"rotation": [-31, 0, 48],
-			"scale": [0.7, 0.7, 0.7]
+			"scale": [0.595, 0.595, 0.595]
 		},
 		"gui": {
 			"rotation": [90, 33.23, -90.6],
