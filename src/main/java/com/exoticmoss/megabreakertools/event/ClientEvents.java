@@ -38,22 +38,7 @@ public class ClientEvents {
         double scrollDelta = event.getScrollDeltaY();
         if (scrollDelta != 0) {
             // Gets CURRENT mode before sending the packet
-            int currentMode = IModeSwitchable.getMiningMode(mainHand);
-            String newModeText;
-            if (currentMode == IModeSwitchable.MODE) {
-                /// Will switch to Single Block
-                newModeText = "Single Block";
-            } else {
-                /// Will change to area - calculates the correct size
-                int range = tool.getRange();
-                int size = (range * 2) + 1;
-
-                if (tool.is3DMining()) {
-                    newModeText = size + "x" + size + "x" + size;
-                } else {
-                    newModeText = size + "x" + size;
-                }
-            }
+            String newModeText = tool.modeName(IModeSwitchable.nextMode(mainHand));
 
             /// Send it to the server
             ClientPacketDistributor.sendToServer(new ToggleMiningModePacket());

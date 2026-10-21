@@ -16,6 +16,8 @@ public interface IModeSwitchable {
     String MINING_MODE_KEY = "MiningMode";
     int MODE = 0;
     int MODE_SINGLE = 1;
+    /// Axes only: breaking a log cuts the whole tree (up to maxBlocks)
+    int MODE_TREE = 2;
 
     /// Each tool defines its range
     int getRange();
@@ -25,7 +27,7 @@ public interface IModeSwitchable {
         return false; // By default it is 2D = 3x3 - 3D = 3x3x3 / false = 3x3 / true = 3x3x3
     }
 
-    /// True for the axes: breaking a log cuts the whole tree (up to maxBlocks), instead of the square area
+    /// True for the axes: they have the "Tree Chopper" mode
     default boolean fellsTrees() {
         return false;
     }
@@ -54,29 +56,32 @@ public interface IModeSwitchable {
         });
     }
 
+    /// The next mode: Area -> (Tree Chopper, axes only) -> Single Block -> Area
+    static int nextMode(ItemStack stack) {
+        int currentMode = getMiningMode(stack);
+        boolean axe = stack.getItem() instanceof IModeSwitchable tool && tool.fellsTrees();
+        if (currentMode == MODE) return axe ? MODE_TREE : MODE_SINGLE;
+        if (currentMode == MODE_TREE) return MODE_SINGLE;
+        return MODE;
+    }
+
     /// Method to alternate the mode
     static void toggleMiningMode(ItemStack stack) {
-        int currentMode = getMiningMode(stack);
-        setMiningMode(stack, currentMode == MODE ? MODE_SINGLE : MODE);
+        setMiningMode(stack, nextMode(stack));
+    }
+
+    /// The name of a mode, as shown to the player ("5x5", "5x5x5", "Tree Chopper", "Single Block")
+    default String modeName(int mode) {
+        if (mode == MODE_SINGLE) return "Single Block";
+        if (mode == MODE_TREE) return "Tree Chopper";
+        int size = (getRange() * 2) + 1; /// Calculates the size (e.g. range=1 -> 3x3, range=2 -> 5x5)
+        /// Shows "3x3x3" for 3D and "3x3" for 2D
+        return is3DMining() ? size + "x" + size + "x" + size : size + "x" + size;
     }
 
     /// Standard method for adding tooltip
     default void addModeTooltip(ItemStack stack, Consumer<Component> tooltipComponents) {
-        int mode = IModeSwitchable.getMiningMode(stack);
-        int range = getRange();
-        int size = (range * 2) + 1; /// Calculates the size (e.g. range=1 -> 3x3, range=2 -> 5x5)
-
-        String modeText;
-        if (mode == MODE_SINGLE) {
-            modeText = "Single Block";
-        } else {
-            /// Shows "3x3x3" for 3D and "3x3" for 2D
-            if (is3DMining()) {
-                modeText = size + "x" + size + "x" + size;
-            } else {
-                modeText = size + "x" + size;
-            }
-        }
+        String modeText = modeName(IModeSwitchable.getMiningMode(stack));
 
         tooltipComponents.accept(Component.literal("Mode: " + modeText)
                 .withStyle(ChatFormatting.GOLD));

@@ -81,13 +81,17 @@ public class ModEvents {
             return;
         }
 
-        // Axes on a log: the whole tree (like Tree Capitator), up to the number of blocks of the area.
-        // Everything else: the normal square/cube area
-        BlockState initialState = event.getLevel().getBlockState(initialBlockPos);
-        List<BlockPos> allPositions = tool.fellsTrees() && initialState.is(BlockTags.LOGS)
-                ? findTree(event.getLevel(), initialBlockPos, initialState.getBlock(), tool.maxBlocks())
-                // ONE CALL - WORKS FOR ALL TOOLS!
-                : tool.getBlocksToBeDestroyed(tool.getRange(), initialBlockPos, serverPlayer);
+        // Tree Chopper mode (axes): the whole tree (like Tree Capitator), up to the number of blocks
+        // of the area. On a block that is not a log it breaks only that block
+        List<BlockPos> allPositions;
+        if (miningMode == IModeSwitchable.MODE_TREE) {
+            BlockState initialState = event.getLevel().getBlockState(initialBlockPos);
+            if (!initialState.is(BlockTags.LOGS)) return;
+            allPositions = findTree(event.getLevel(), initialBlockPos, initialState.getBlock(), tool.maxBlocks());
+        } else {
+            // ONE CALL - WORKS FOR ALL TOOLS!
+            allPositions = tool.getBlocksToBeDestroyed(tool.getRange(), initialBlockPos, serverPlayer);
+        }
 
         List<BlockPos> blocksToBreak = new ArrayList<>();
 
