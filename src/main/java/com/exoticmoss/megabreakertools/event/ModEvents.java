@@ -1,5 +1,10 @@
 package com.exoticmoss.megabreakertools.event;
 
+import java.util.ArrayDeque;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.tags.BlockTags;
 import com.exoticmoss.megabreakertools.MegaBreakerTools;
 import com.exoticmoss.megabreakertools.item.custom.IModeSwitchable;
 import net.minecraft.core.BlockPos;
@@ -76,8 +81,13 @@ public class ModEvents {
             return;
         }
 
-        // ONE CALL - WORKS FOR ALL TOOLS!
-        List<BlockPos> allPositions = tool.getBlocksToBeDestroyed(tool.getRange(), initialBlockPos, serverPlayer);
+        // Axes on a log: the whole tree (like Tree Capitator), up to the number of blocks of the area.
+        // Everything else: the normal square/cube area
+        BlockState initialState = event.getLevel().getBlockState(initialBlockPos);
+        List<BlockPos> allPositions = tool.fellsTrees() && initialState.is(BlockTags.LOGS)
+                ? findTree(event.getLevel(), initialBlockPos, initialState.getBlock(), tool.maxBlocks())
+                // ONE CALL - WORKS FOR ALL TOOLS!
+                : tool.getBlocksToBeDestroyed(tool.getRange(), initialBlockPos, serverPlayer);
 
         List<BlockPos> blocksToBreak = new ArrayList<>();
 
@@ -115,6 +125,29 @@ public class ModEvents {
         addToCluster(level, Vec3.atCenterOf(initialBlockPos), drops.build(), serverPlayer);
         // The block the player broke drops its items right after this: they go to the cluster too
         INITIAL_BLOCK.put(serverPlayer, new InitialBlock(initialBlockPos, level.getGameTime()));
+    }
+
+    /// The logs of the tree: every log of the same kind touching the first one (also diagonally),
+    /// the closest first, up to "maxBlocks" (the first log counts too)
+    private static List<BlockPos> findTree(LevelAccessor level, BlockPos start, Block log, int maxBlocks) {
+        List<BlockPos> tree = new ArrayList<>();
+        Set<BlockPos> seen = new HashSet<>();
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+        queue.add(start);
+        seen.add(start);
+        while (!queue.isEmpty() && tree.size() < maxBlocks) {
+            BlockPos pos = queue.poll();
+            tree.add(pos);
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        BlockPos next = pos.offset(dx, dy, dz);
+                        if (seen.add(next) && level.getBlockState(next).is(log)) queue.add(next);
+                    }
+                }
+            }
+        }
+        return tree;
     }
 
     /// Drops of the blocks broken by the area mode (and of the block the player broke):

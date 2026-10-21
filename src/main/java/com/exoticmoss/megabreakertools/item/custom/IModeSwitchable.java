@@ -25,6 +25,17 @@ public interface IModeSwitchable {
         return false; // By default it is 2D = 3x3 - 3D = 3x3x3 / false = 3x3 / true = 3x3x3
     }
 
+    /// True for the axes: breaking a log cuts the whole tree (up to maxBlocks), instead of the square area
+    default boolean fellsTrees() {
+        return false;
+    }
+
+    /// How many blocks the area mode breaks (3x3 = 9, 3x3x3 = 27...)
+    default int maxBlocks() {
+        int size = getRange() * 2 + 1;
+        return is3DMining() ? size * size * size : size * size;
+    }
+
     /// Each tool implements how to pick up the blocks
     List<BlockPos> getBlocksToBeDestroyed(int range, BlockPos initialBlockPos, ServerPlayer player);
 

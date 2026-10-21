@@ -36,6 +36,12 @@ import java.util.Map;
 import java.util.Optional;
 
 public class MegaUltraLumberjackItem extends Item implements IModeSwitchable{
+    /// Breaking a log fells the whole tree (see ModEvents.findTree)
+    @Override
+    public boolean fellsTrees() {
+        return true;
+    }
+
     public MegaUltraLumberjackItem(Properties pProperties) {
         super(pProperties);
     }
