@@ -18,6 +18,10 @@ import com.vector.megabreakertools.item.ModItems;
 import com.vector.megabreakertools.item.custom.DropClusterItem;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
+import net.minecraft.util.TriState;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -242,5 +246,49 @@ public class ModEvents {
         ClusterContents merged = DropClusterItem.getContents(cluster.getItem()).merge(DropClusterItem.getContents(other.getItem()));
         cluster.setItem(DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
         other.discard();
+    }
+
+    /// Clusters in the inventory join into one, like on the ground (checked every few ticks)
+    @SubscribeEvent
+    public static void onPlayerTick(PlayerTickEvent.Post event) {
+        if (!(event.getEntity() instanceof ServerPlayer player) || player.tickCount % 5 != 0) return;
+        Inventory inventory = player.getInventory();
+        int first = -1;
+        ClusterContents merged = null;
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack stack = inventory.getItem(slot);
+            if (!(stack.getItem() instanceof DropClusterItem)) continue;
+            if (first < 0) {
+                first = slot;
+                merged = DropClusterItem.getContents(stack);
+            } else {
+                merged = merged.merge(DropClusterItem.getContents(stack));
+                inventory.setItem(slot, ItemStack.EMPTY);
+                inventory.setItem(first, DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
+            }
+        }
+    }
+
+    /// Picking up a cluster when you already have one: it goes straight into the one in the inventory
+    /// (works even with a full inventory)
+    @SubscribeEvent
+    public static void onClusterPickup(ItemEntityPickupEvent.Pre event) {
+        ItemEntity cluster = event.getItemEntity();
+        Player player = event.getPlayer();
+        if (player.level().isClientSide() || cluster.hasPickUpDelay() || !cluster.isAlive()) return;
+        if (!(cluster.getItem().getItem() instanceof DropClusterItem)) return;
+
+        Inventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack stack = inventory.getItem(slot);
+            if (stack.getItem() instanceof DropClusterItem) {
+                ClusterContents merged = DropClusterItem.getContents(stack).merge(DropClusterItem.getContents(cluster.getItem()));
+                inventory.setItem(slot, DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
+                player.take(cluster, 1);
+                cluster.discard();
+                event.setCanPickup(TriState.FALSE);
+                return;
+            }
+        }
     }
 }
