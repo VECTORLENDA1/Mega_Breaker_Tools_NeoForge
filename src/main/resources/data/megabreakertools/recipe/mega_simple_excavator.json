@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "L": "#minecraft:logs",
-    "S": "simpleores:simple_shovel",
+    "S": "megabreakertools:simple_shovel",
     "I": "simpleores:ignithra_block"
   },
   "pattern": [
