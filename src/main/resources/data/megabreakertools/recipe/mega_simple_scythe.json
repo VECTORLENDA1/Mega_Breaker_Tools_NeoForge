@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "L": "#minecraft:logs",
+    "S": "simpleores:simple_hoe",
+    "I": "simpleores:ignithra_block"
+  },
+  "pattern": [
+    "III",
+    " SI",
+    " L "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_simple_scythe"
+  }
+}

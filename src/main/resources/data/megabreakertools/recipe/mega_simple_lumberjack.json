@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "L": "#minecraft:logs",
+    "S": "simpleores:simple_axe",
+    "I": "simpleores:ignithra_block"
+  },
+  "pattern": [
+    "III",
+    "ISI",
+    "IL "
+  ],
+  "result": {
+    "count": 1,
+    "id": "megabreakertools:mega_simple_lumberjack"
+  }
+}
+
