@@ -25,9 +25,11 @@ public class ToolSettingsScreen extends Screen {
     /// Size of the box with the turning tool, and of the whole panel (pixels).
     private static final int VIEW = 104;
     private static final int PANEL_WIDTH = 236;
-    private static final int PANEL_HEIGHT = 178;
+    private static final int PANEL_HEIGHT = 188;
+    /// Where the tool box and the size buttons start (under the name of the tool).
+    private static final int CONTENT_Y = 34;
     /// Size of the tool inside the box, and how fast it turns.
-    private static final float TOOL_SCALE = 90;
+    private static final float TOOL_SCALE = 74;
     private static final float TURN_SPEED = 1.0F;
     /// Colors (0xAARRGGBB).
     private static final int PANEL = 0xE0101018;
@@ -74,7 +76,7 @@ public class ToolSettingsScreen extends Screen {
         for (int i = 0; i < modes.size(); i++) {
             int m = modes.get(i);
             Button button = Button.builder(Component.translatable(modeKey(m)), b -> choose(m, IModeSwitchable.areaRange(tool())))
-                    .bounds(left + 10 + i * (modeWidth + 3), top + 24 + VIEW + 14, modeWidth, 20).build();
+                    .bounds(left + 10 + i * (modeWidth + 3), top + CONTENT_Y + VIEW + 14, modeWidth, 20).build();
             button.active = m != mode;
             addRenderableWidget(button);
         }
@@ -82,11 +84,11 @@ public class ToolSettingsScreen extends Screen {
         // Area sizes: on the right, from the smallest to the biggest the tool can do
         int sizesX = left + 10 + VIEW + 12;
         int sizesWidth = PANEL_WIDTH - (sizesX - left) - 10;
-        int rowHeight = Math.min(22, (PANEL_HEIGHT - 34) / Math.max(1, tool.getRange()));
+        int rowHeight = Math.min(22, (PANEL_HEIGHT - CONTENT_Y - 10) / Math.max(1, tool.getRange()));
         for (int r = 1; r <= tool.getRange(); r++) {
             int chosen = r;
             Button button = Button.builder(Component.literal(tool.sizeName(r)), b -> choose(IModeSwitchable.getMiningMode(tool()), chosen))
-                    .bounds(sizesX, top + 24 + (r - 1) * rowHeight, sizesWidth, rowHeight - 2).build();
+                    .bounds(sizesX, top + CONTENT_Y + (r - 1) * rowHeight, sizesWidth, rowHeight - 2).build();
             button.active = r != range;
             addRenderableWidget(button);
         }
@@ -123,7 +125,7 @@ public class ToolSettingsScreen extends Screen {
         graphics.centeredText(font, stack.getHoverName(), left + PANEL_WIDTH / 2, top + 8, TEXT);
 
         // The tool, turning slowly (drawn like an item on the ground, inside the box)
-        int vx = left + 10, vy = top + 24;
+        int vx = left + 10, vy = top + CONTENT_Y;
         graphics.fill(vx, vy, vx + VIEW, vy + VIEW, VIEW_COLOR);
         if (!stack.isEmpty() && minecraft.level != null) {
             if (display == null || !ItemStack.isSameItem(display.getItem(), stack)) {
@@ -135,17 +137,17 @@ public class ToolSettingsScreen extends Screen {
             state.ageInTicks = (minecraft.player != null ? minecraft.player.tickCount : 0) * TURN_SPEED + a;
             state.shadowPieces.clear();
             state.outlineColor = 0;
-            graphics.entity(state, TOOL_SCALE, new Vector3f(0, 0.25F, 0), new Quaternionf().rotateZ((float) Math.PI), null,
+            graphics.entity(state, TOOL_SCALE, new Vector3f(0, 0.35F, 0), new Quaternionf().rotateZ((float) Math.PI), null,
                     vx, vy, vx + VIEW, vy + VIEW);
         }
         graphics.text(font, Component.translatable("screen.megabreakertools.tool.mode"), vx, vy + VIEW + 4, TEXT_DIM);
-        graphics.text(font, Component.translatable("screen.megabreakertools.tool.size"), vx + VIEW + 12, top + 14, TEXT_DIM);
+        graphics.text(font, Component.translatable("screen.megabreakertools.tool.size"), vx + VIEW + 12, top + CONTENT_Y - 11, TEXT_DIM);
 
         super.extractRenderState(graphics, mouseX, mouseY, a);
     }
 
     @Override
     public boolean isPauseScreen() {
-        return false;
+        return true;
     }
 }
