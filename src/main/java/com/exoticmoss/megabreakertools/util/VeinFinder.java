@@ -75,7 +75,7 @@ public final class VeinFinder {
     /// The "c:ores/<something>" tags of the block (e.g. c:ores/iron).
     private static Set<TagKey<Block>> oreTags(BlockState state) {
         Set<TagKey<Block>> tags = new HashSet<>();
-        state.getTags().forEach(tag -> {
+        state.typeHolder().tags().forEach(tag -> {
             Identifier id = tag.location();
             if (id.getNamespace().equals("c") && id.getPath().startsWith("ores/")) tags.add(tag);
         });
