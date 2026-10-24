@@ -244,7 +244,7 @@ public class MegaUltimateExcavatorItem extends Item implements IModeSwitchable{
         }
     }
 
-    @org.jetbrains.annotations.Nullable
+    @org.jspecify.annotations.Nullable
     public static BlockState getShovelPathingState(BlockState originalState) {
         return FLATTENABLES.get(originalState.getBlock());
     }

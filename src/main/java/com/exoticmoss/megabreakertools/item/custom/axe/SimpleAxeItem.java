@@ -29,7 +29,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -228,7 +228,7 @@ public class SimpleAxeItem extends Item implements IModeSwitchable {
     }
 
     /// Get the stripped version of a log/wood block
-    @org.jetbrains.annotations.Nullable
+    @org.jspecify.annotations.Nullable
     public static BlockState getAxeStrippingState(BlockState originalState) {
         Block block = STRIPPABLES.get(originalState.getBlock());
         return block != null ? block.defaultBlockState().setValue(RotatedPillarBlock.AXIS, originalState.getValue(RotatedPillarBlock.AXIS)) : null;

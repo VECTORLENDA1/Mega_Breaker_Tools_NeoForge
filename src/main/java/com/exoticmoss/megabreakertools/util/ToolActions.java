@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
