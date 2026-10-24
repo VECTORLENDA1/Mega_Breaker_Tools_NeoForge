@@ -36,6 +36,16 @@ public class MegaBreakerTools implements ModInitializer {
                 ToggleMiningModePacket.TYPE,
                 ToggleMiningModePacket::handle
         );
+
+        // Cluster screen: take everything out / delete items
+        PayloadTypeRegistry.serverboundPlay().register(
+                com.exoticmoss.megabreakertools.network.ClusterActionPacket.TYPE,
+                com.exoticmoss.megabreakertools.network.ClusterActionPacket.STREAM_CODEC
+        );
+        ServerPlayNetworking.registerGlobalReceiver(
+                com.exoticmoss.megabreakertools.network.ClusterActionPacket.TYPE,
+                com.exoticmoss.megabreakertools.network.ClusterActionPacket::handle
+        );
     }
 
 }

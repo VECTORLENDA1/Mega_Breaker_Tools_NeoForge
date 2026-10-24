@@ -25,6 +25,9 @@ import java.util.function.Consumer;
 public class DropClusterItem extends Item {
     /// How many kinds of items the tooltip shows (the rest is "...and X more").
     private static final int TOOLTIP_LINES = 8;
+    /// From this many items inside, right-click opens the cluster screen (to delete items) instead of
+    /// taking everything out. Below it, right-click works as always.
+    public static final int MANAGE_THRESHOLD = 5000;
 
     public DropClusterItem(Properties properties) {
         super(properties);
@@ -44,8 +47,20 @@ public class DropClusterItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack cluster = player.getItemInHand(hand);
+        // Big clusters (MANAGE_THRESHOLD items or more): right-click opens the cluster screen, where items
+        // can be deleted or all taken out. Shift + right-click always takes everything out right away
+        if (getContents(cluster).totalCount() >= MANAGE_THRESHOLD && !player.isShiftKeyDown()) {
+            if (level.isClientSide()) com.exoticmoss.megabreakertools.client.ClusterScreen.open(hand);
+            return InteractionResult.SUCCESS;
+        }
         if (level.isClientSide()) return InteractionResult.SUCCESS;
+        takeAll(level, player, cluster);
+        return InteractionResult.SUCCESS;
+    }
 
+    /// Takes the items out of the cluster into the player's inventory (what doesn't fit stays inside)
+    /// and gives all the experience. Used by right-click and by the "Take all" button of the cluster screen.
+    public static void takeAll(Level level, Player player, ItemStack cluster) {
         ClusterContents contents = getContents(cluster);
         ClusterContents.Builder left = new ClusterContents.Builder(ClusterContents.EMPTY);
         boolean collectedAny = false;
@@ -85,13 +100,16 @@ public class DropClusterItem extends Item {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS,
                     0.4F, 1.0F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.4F);
         }
-        return InteractionResult.SUCCESS;
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
         ClusterContents contents = getContents(stack);
-        tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.tooltip").withStyle(ChatFormatting.GOLD));
+        if (contents.totalCount() >= MANAGE_THRESHOLD) {
+            tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.tooltip_manage").withStyle(ChatFormatting.GOLD));
+        } else {
+            tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.tooltip").withStyle(ChatFormatting.GOLD));
+        }
         tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.total", contents.totalCount()).withStyle(ChatFormatting.GRAY));
         if (contents.experience() > 0) {
             tooltip.accept(Component.translatable("item.megabreakertools.drop_cluster.experience", contents.experience()).withStyle(ChatFormatting.GREEN));

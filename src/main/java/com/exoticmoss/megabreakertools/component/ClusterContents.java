@@ -71,6 +71,17 @@ public record ClusterContents(List<Entry> entries, int experience) {
         return builder.build();
     }
 
+    /// A new cluster with "amount" items less of the entry at "index" (the entry goes away at 0).
+    public ClusterContents without(int index, int amount) {
+        if (index < 0 || index >= entries.size() || amount <= 0) return this;
+        List<Entry> list = new ArrayList<>(entries);
+        Entry entry = list.get(index);
+        int left = entry.count() - amount;
+        if (left > 0) list.set(index, new Entry(entry.item(), left));
+        else list.remove(index);
+        return new ClusterContents(List.copyOf(list), experience);
+    }
+
     /// A new cluster with the items of both clusters.
     public ClusterContents merge(ClusterContents other) {
         Builder builder = new Builder(this);
