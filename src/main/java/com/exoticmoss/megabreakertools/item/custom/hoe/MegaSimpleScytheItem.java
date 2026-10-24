@@ -72,7 +72,7 @@ public class MegaSimpleScytheItem extends Item implements IModeSwitchable{
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {  // A destruição vai a partir do bloco para baixo
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y + 1, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y + range, initialBlockPos.getZ() + z));
                     }
                 }
             }
@@ -83,7 +83,7 @@ public class MegaSimpleScytheItem extends Item implements IModeSwitchable{
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {  // A destruição vai a partir do bloco para cima
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y - 1, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y - range, initialBlockPos.getZ() + z));
                     }
                 }
             }
@@ -116,7 +116,7 @@ public class MegaSimpleScytheItem extends Item implements IModeSwitchable{
             for (int x = -range; x <= range; x++) {  // A destruição vai para frente (no eixo X positivo)
                 for (int y = -range; y <= range; y++) {
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x - 1, initialBlockPos.getY() + y, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x - range, initialBlockPos.getY() + y, initialBlockPos.getZ() + z));
                     }
                 }
             }
@@ -127,7 +127,7 @@ public class MegaSimpleScytheItem extends Item implements IModeSwitchable{
             for (int x = -range; x <= range; x++) {  // A destruição vai para frente (no eixo X negativo)
                 for (int y = -range; y <= range; y++) {
                     for (int z = -range; z <= range; z++) {
-                        positions.add(new BlockPos(initialBlockPos.getX() + x + 1, initialBlockPos.getY() + y, initialBlockPos.getZ() + z));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x + range, initialBlockPos.getY() + y, initialBlockPos.getZ() + z));
                     }
                 }
             }
