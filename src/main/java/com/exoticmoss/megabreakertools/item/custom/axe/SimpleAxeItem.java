@@ -145,7 +145,7 @@ public class SimpleAxeItem extends Item implements IModeSwitchable {
             return positions;
         }
 
-        return getBlocksToBeDestroyed(getRange(), initialPos, serverPlayer);
+        return getBlocksToBeDestroyed(IModeSwitchable.areaRange(stack), initialPos, serverPlayer);
     }
 
     /// Called when this item is used when targeting a Block

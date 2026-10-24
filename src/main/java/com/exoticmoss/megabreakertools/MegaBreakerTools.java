@@ -37,6 +37,16 @@ public class MegaBreakerTools implements ModInitializer {
                 ToggleMiningModePacket::handle
         );
 
+        // Tool settings screen: mode and area size
+        PayloadTypeRegistry.serverboundPlay().register(
+                com.exoticmoss.megabreakertools.network.ToolSettingsPacket.TYPE,
+                com.exoticmoss.megabreakertools.network.ToolSettingsPacket.STREAM_CODEC
+        );
+        ServerPlayNetworking.registerGlobalReceiver(
+                com.exoticmoss.megabreakertools.network.ToolSettingsPacket.TYPE,
+                com.exoticmoss.megabreakertools.network.ToolSettingsPacket::handle
+        );
+
         // Cluster screen: take everything out / delete items
         PayloadTypeRegistry.serverboundPlay().register(
                 com.exoticmoss.megabreakertools.network.ClusterActionPacket.TYPE,

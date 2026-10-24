@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 
 public interface IModeSwitchable {
     String MINING_MODE_KEY = "MiningMode";
+    /// The area size chosen in the tool settings screen (range: 1 = 3x3, 2 = 5x5...). Missing = the biggest.
+    String AREA_RANGE_KEY = "AreaRange";
     int MODE = 0;
     int MODE_SINGLE = 1;
     /// Axes only: breaking a log cuts the whole tree (up to maxBlocks)
@@ -41,8 +43,42 @@ public interface IModeSwitchable {
 
     /// How many blocks the area mode breaks (3x3 = 9, 3x3x3 = 27...)
     default int maxBlocks() {
-        int size = getRange() * 2 + 1;
+        return maxBlocks(getRange());
+    }
+
+    /// How many blocks an area of this range breaks.
+    default int maxBlocks(int range) {
+        int size = range * 2 + 1;
         return is3DMining() ? size * size * size : size * size;
+    }
+
+    /// The area range chosen for this tool (never bigger than the tool can do).
+    static int areaRange(ItemStack stack) {
+        if (!(stack.getItem() instanceof IModeSwitchable tool)) return 1;
+        CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        return Math.clamp(tag.getIntOr(AREA_RANGE_KEY, tool.getRange()), 1, tool.getRange());
+    }
+
+    /// Chooses the area range of the tool (1 = 3x3, 2 = 5x5...).
+    static void setAreaRange(ItemStack stack, int range) {
+        stack.update(DataComponents.CUSTOM_DATA, CustomData.EMPTY, tag -> {
+            CompoundTag nbt = tag.copyTag();
+            nbt.putInt(AREA_RANGE_KEY, range);
+            return CustomData.of(nbt);
+        });
+    }
+
+    /// The modes this tool has, in order: Area, (Tree Chopper / Vein Miner), Single Block.
+    default java.util.List<Integer> modes() {
+        if (fellsTrees()) return java.util.List.of(MODE, MODE_TREE, MODE_SINGLE);
+        if (minesVeins()) return java.util.List.of(MODE, MODE_VEIN, MODE_SINGLE);
+        return java.util.List.of(MODE, MODE_SINGLE);
+    }
+
+    /// "3x3" or "3x3x3" for an area of this range.
+    default String sizeName(int range) {
+        int size = range * 2 + 1;
+        return is3DMining() ? size + "x" + size + "x" + size : size + "x" + size;
     }
 
     /// Each tool implements how to pick up the blocks
@@ -83,21 +119,26 @@ public interface IModeSwitchable {
 
     /// The name of a mode, as shown to the player ("5x5", "5x5x5", "Tree Chopper", "Single Block")
     default String modeName(int mode) {
+        return modeName(mode, getRange());
+    }
+
+    /// The same, with the area of the chosen range.
+    default String modeName(int mode, int range) {
         if (mode == MODE_SINGLE) return "Single Block";
         if (mode == MODE_TREE) return "Tree Chopper";
         if (mode == MODE_VEIN) return "Vein Miner";
-        int size = (getRange() * 2) + 1; /// Calculates the size (e.g. range=1 -> 3x3, range=2 -> 5x5)
-        /// Shows "3x3x3" for 3D and "3x3" for 2D
-        return is3DMining() ? size + "x" + size + "x" + size : size + "x" + size;
+        return sizeName(range);
     }
 
     /// Standard method for adding tooltip
     default void addModeTooltip(ItemStack stack, Consumer<Component> tooltipComponents) {
-        String modeText = modeName(IModeSwitchable.getMiningMode(stack));
+        String modeText = modeName(IModeSwitchable.getMiningMode(stack), IModeSwitchable.areaRange(stack));
 
         tooltipComponents.accept(Component.literal("Mode: " + modeText)
                 .withStyle(ChatFormatting.GOLD));
         tooltipComponents.accept(Component.literal("Shift + Scroll to change")
+                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+        tooltipComponents.accept(Component.translatable("item.megabreakertools.settings_hint")
                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
     }
 }

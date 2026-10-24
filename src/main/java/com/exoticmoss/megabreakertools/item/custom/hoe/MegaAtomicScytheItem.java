@@ -154,7 +154,7 @@ public class MegaAtomicScytheItem extends Item implements IModeSwitchable{
             return positions;
         }
 
-        return getBlocksToBeDestroyed(getRange(), initialPos, serverPlayer);
+        return getBlocksToBeDestroyed(IModeSwitchable.areaRange(stack), initialPos, serverPlayer);
     }
 
     /// Checks if the block is a mature plantation

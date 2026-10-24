@@ -118,7 +118,7 @@ public class SimpleShovelItem extends Item implements IModeSwitchable {
         }
 
         /// Area mode – uses the range of the tool
-        int range = getRange();
+        int range = IModeSwitchable.areaRange(stack);
 
         /// Determines the direction the player is looking
         BlockHitResult traceResult = player.level().clip(new ClipContext(

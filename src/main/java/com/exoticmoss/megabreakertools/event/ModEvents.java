@@ -103,15 +103,15 @@ public class ModEvents {
         if (miningMode == IModeSwitchable.MODE_TREE) {
             BlockState initialState = eventLevel.getBlockState(initialBlockPos);
             if (!initialState.is(BlockTags.LOGS)) return;
-            allPositions = findTree(eventLevel, initialBlockPos, initialState.getBlock(), tool.maxBlocks());
+            allPositions = findTree(eventLevel, initialBlockPos, initialState.getBlock(), tool.maxBlocks(IModeSwitchable.areaRange(mainHandItem)));
         } else if (miningMode == IModeSwitchable.MODE_VEIN) {
             // Vein Miner mode (pickaxes): the whole vein of ore, up to the number of blocks of the area.
             // On a block that is not an ore it breaks only that block
             if (!VeinFinder.isOre(eventLevel.getBlockState(initialBlockPos))) return;
-            allPositions = VeinFinder.findVein(eventLevel, initialBlockPos, tool.maxBlocks());
+            allPositions = VeinFinder.findVein(eventLevel, initialBlockPos, tool.maxBlocks(IModeSwitchable.areaRange(mainHandItem)));
         } else {
             // ONE CALL - WORKS FOR ALL TOOLS!
-            allPositions = tool.getBlocksToBeDestroyed(tool.getRange(), initialBlockPos, serverPlayer);
+            allPositions = tool.getBlocksToBeDestroyed(IModeSwitchable.areaRange(mainHandItem), initialBlockPos, serverPlayer);
         }
 
         List<BlockPos> blocksToBreak = new ArrayList<>();

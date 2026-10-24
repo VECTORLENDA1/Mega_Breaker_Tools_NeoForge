@@ -33,7 +33,7 @@ public class ClientEvents {
         /// Sends packet to server switch mode
         if (scrollDeltaY != 0) {
             // Gets CURRENT mode before sending the packet
-            String newModeText = tool.modeName(IModeSwitchable.nextMode(mainHand));
+            String newModeText = tool.modeName(IModeSwitchable.nextMode(mainHand), IModeSwitchable.areaRange(mainHand));
 
             /// Send it to the server
             ClientPlayNetworking.send(new ToggleMiningModePacket());
