@@ -82,9 +82,9 @@ public class MegaAtomicBreakerItem extends Item implements IModeSwitchable {
         // Destruição para DIREÇÃO NORTH
         if (traceResult.getDirection() == Direction.NORTH) {
             for (int x = -range; x <= range; x++) {
-                for (int y = -1; y <= 11; y++) {
+                for (int y = -1; y <= 2 * range - 1; y++) {
                     for (int z = -range; z <= range; z++) {  // A destruição vai para frente (no eixo Z negativo)
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z + 6));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z + range));
                     }
                 }
             }
@@ -93,9 +93,9 @@ public class MegaAtomicBreakerItem extends Item implements IModeSwitchable {
         // Destruição para DIREÇÃO SOUTH
         if (traceResult.getDirection() == Direction.SOUTH) {
             for (int x = -range; x <= range; x++) {
-                for (int y = -1; y <= 11; y++) {
+                for (int y = -1; y <= 2 * range - 1; y++) {
                     for (int z = -range; z <= range; z++) {  // A destruição vai para frente (no eixo Z positivo)
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z - 6));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z - range));
                     }
                 }
             }
@@ -104,7 +104,7 @@ public class MegaAtomicBreakerItem extends Item implements IModeSwitchable {
         // Destruição para DIREÇÃO EAST
         if (traceResult.getDirection() == Direction.EAST) {
             for (int x = -range; x <= range; x++) {  // A destruição vai para frente (no eixo X positivo)
-                for (int y = -1; y <= 11; y++) {
+                for (int y = -1; y <= 2 * range - 1; y++) {
                     for (int z = -range; z <= range; z++) {
                         positions.add(new BlockPos(initialBlockPos.getX() + x - 6, initialBlockPos.getY() + y, initialBlockPos.getZ() + z));
                     }
@@ -115,7 +115,7 @@ public class MegaAtomicBreakerItem extends Item implements IModeSwitchable {
         // Destruição para DIREÇÃO WEST
         if (traceResult.getDirection() == Direction.WEST) {
             for (int x = -range; x <= range; x++) {  // A destruição vai para frente (no eixo X negativo)
-                for (int y = -1; y <= 11; y++) {
+                for (int y = -1; y <= 2 * range - 1; y++) {
                     for (int z = -range; z <= range; z++) {
                         positions.add(new BlockPos(initialBlockPos.getX() + x + 6, initialBlockPos.getY() + y, initialBlockPos.getZ() + z));
                     }

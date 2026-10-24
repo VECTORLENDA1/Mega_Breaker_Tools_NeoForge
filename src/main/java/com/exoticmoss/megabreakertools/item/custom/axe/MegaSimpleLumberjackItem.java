@@ -102,7 +102,7 @@ public class MegaSimpleLumberjackItem extends Item implements IModeSwitchable{
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {
                     for (int z = -range; z <= range; z++) {  // A destruição vai para frente (no eixo Z negativo)
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z + 1));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z + range));
                     }
                 }
             }
@@ -113,7 +113,7 @@ public class MegaSimpleLumberjackItem extends Item implements IModeSwitchable{
             for (int x = -range; x <= range; x++) {
                 for (int y = -range; y <= range; y++) {
                     for (int z = -range; z <= range; z++) {  // A destruição vai para frente (no eixo Z positivo)
-                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z - 1));
+                        positions.add(new BlockPos(initialBlockPos.getX() + x, initialBlockPos.getY() + y, initialBlockPos.getZ() + z - range));
                     }
                 }
             }

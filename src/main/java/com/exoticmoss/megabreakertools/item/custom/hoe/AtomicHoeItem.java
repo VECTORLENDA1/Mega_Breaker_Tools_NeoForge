@@ -82,7 +82,7 @@ public class AtomicHoeItem extends Item implements IModeSwitchable{
 
         if(traceResult.getDirection() == Direction.NORTH || traceResult.getDirection() == Direction.SOUTH) {
             for(int x = -range; x <= range; x++) {
-                for(int y = -1; y <= 11; y++) {
+                for(int y = -1; y <= 2 * range - 1; y++) {
                     positions.add(new BlockPos(initalBlockPos.getX() + x, initalBlockPos.getY() + y, initalBlockPos.getZ()));
                 }
             }
@@ -90,7 +90,7 @@ public class AtomicHoeItem extends Item implements IModeSwitchable{
 
         if(traceResult.getDirection() == Direction.EAST || traceResult.getDirection() == Direction.WEST) {
             for(int x = -range; x <= range; x++) {
-                for(int y = -1; y <= 11; y++) {
+                for(int y = -1; y <= 2 * range - 1; y++) {
                     positions.add(new BlockPos(initalBlockPos.getX(), initalBlockPos.getY() + y, initalBlockPos.getZ() + x));
                 }
             }
