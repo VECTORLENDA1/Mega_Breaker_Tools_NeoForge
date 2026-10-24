@@ -1,5 +1,6 @@
 package com.exoticmoss.megabreakertools.event;
 
+import com.exoticmoss.megabreakertools.util.VeinFinder;
 import java.util.ArrayDeque;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -103,6 +104,11 @@ public class ModEvents {
             BlockState initialState = eventLevel.getBlockState(initialBlockPos);
             if (!initialState.is(BlockTags.LOGS)) return;
             allPositions = findTree(eventLevel, initialBlockPos, initialState.getBlock(), tool.maxBlocks());
+        } else if (miningMode == IModeSwitchable.MODE_VEIN) {
+            // Vein Miner mode (pickaxes): the whole vein of ore, up to the number of blocks of the area.
+            // On a block that is not an ore it breaks only that block
+            if (!VeinFinder.isOre(eventLevel.getBlockState(initialBlockPos))) return;
+            allPositions = VeinFinder.findVein(eventLevel, initialBlockPos, tool.maxBlocks());
         } else {
             // ONE CALL - WORKS FOR ALL TOOLS!
             allPositions = tool.getBlocksToBeDestroyed(tool.getRange(), initialBlockPos, serverPlayer);

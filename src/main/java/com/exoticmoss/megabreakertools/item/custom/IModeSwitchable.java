@@ -18,6 +18,8 @@ public interface IModeSwitchable {
     int MODE_SINGLE = 1;
     /// Axes only: breaking a log cuts the whole tree (up to maxBlocks)
     int MODE_TREE = 2;
+    /// Pickaxes only: mining an ore mines the whole vein (up to maxBlocks)
+    int MODE_VEIN = 3;
 
     /// Each tool defines its range
     int getRange();
@@ -29,6 +31,11 @@ public interface IModeSwitchable {
 
     /// True for the axes: they have the "Tree Chopper" mode
     default boolean fellsTrees() {
+        return false;
+    }
+
+    /// True for the pickaxes: they have the "Vein Miner" mode
+    default boolean minesVeins() {
         return false;
     }
 
@@ -56,12 +63,16 @@ public interface IModeSwitchable {
         });
     }
 
-    /// The next mode: Area -> (Tree Chopper, axes only) -> Single Block -> Area
+    /// The next mode: Area -> (Tree Chopper, axes only / Vein Miner, pickaxes only) -> Single Block -> Area
     static int nextMode(ItemStack stack) {
         int currentMode = getMiningMode(stack);
-        boolean axe = stack.getItem() instanceof IModeSwitchable tool && tool.fellsTrees();
-        if (currentMode == MODE) return axe ? MODE_TREE : MODE_SINGLE;
-        if (currentMode == MODE_TREE) return MODE_SINGLE;
+        IModeSwitchable tool = stack.getItem() instanceof IModeSwitchable t ? t : null;
+        if (currentMode == MODE) {
+            if (tool != null && tool.fellsTrees()) return MODE_TREE;
+            if (tool != null && tool.minesVeins()) return MODE_VEIN;
+            return MODE_SINGLE;
+        }
+        if (currentMode == MODE_TREE || currentMode == MODE_VEIN) return MODE_SINGLE;
         return MODE;
     }
 
@@ -74,6 +85,7 @@ public interface IModeSwitchable {
     default String modeName(int mode) {
         if (mode == MODE_SINGLE) return "Single Block";
         if (mode == MODE_TREE) return "Tree Chopper";
+        if (mode == MODE_VEIN) return "Vein Miner";
         int size = (getRange() * 2) + 1; /// Calculates the size (e.g. range=1 -> 3x3, range=2 -> 5x5)
         /// Shows "3x3x3" for 3D and "3x3" for 2D
         return is3DMining() ? size + "x" + size + "x" + size : size + "x" + size;
