@@ -80,6 +80,13 @@ public class MegaBreakerTools {
                 ToggleMiningModePacket.STREAM_CODEC,
                 ToggleMiningModePacket::handle
         );
+
+        // Cluster screen: take everything out / delete items
+        registrar.playToServer(
+                com.exoticmoss.megabreakertools.network.ClusterActionPacket.TYPE,
+                com.exoticmoss.megabreakertools.network.ClusterActionPacket.STREAM_CODEC,
+                com.exoticmoss.megabreakertools.network.ClusterActionPacket::handle
+        );
     }
 
 }
