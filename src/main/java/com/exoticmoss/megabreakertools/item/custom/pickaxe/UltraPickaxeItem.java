@@ -19,6 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UltraPickaxeItem extends Item implements IModeSwitchable {
+    /// Mining an ore in "Vein Miner" mode mines the whole vein (see VeinFinder)
+    @Override
+    public boolean minesVeins() {
+        return true;
+    }
+
     public UltraPickaxeItem(Properties pProperties) {
         super(pProperties);
     }
