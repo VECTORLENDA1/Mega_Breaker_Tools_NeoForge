@@ -128,6 +128,7 @@ public class ToolSettingsScreen extends Screen {
         if (!stack.isEmpty() && minecraft.level != null) {
             if (display == null || !ItemStack.isSameItem(display.getItem(), stack)) {
                 display = new ItemEntity(minecraft.level, 0, 0, 0, stack.copy());
+                display.setId(Integer.MIN_VALUE + 7);
             }
             EntityRenderer<? super ItemEntity, ?> renderer = minecraft.getEntityRenderDispatcher().getRenderer(display);
             EntityRenderState state = renderer.createRenderState(display, a);
