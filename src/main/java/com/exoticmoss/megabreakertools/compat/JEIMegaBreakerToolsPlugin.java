@@ -9,10 +9,11 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import com.exoticmoss.megabreakertools.util.RegistryHolder;
 
 /// The tool recipes are "simpleores:gravity_craft" recipes, so they show up in the
 /// Gravity Core category that Simple Ores adds to JEI. This plugin adds an info page to every tool.
+/// Registered with the "jei_mod_plugin" entrypoint in fabric.mod.json.
 @JeiPlugin
 public class JEIMegaBreakerToolsPlugin implements IModPlugin {
     @Override
@@ -22,7 +23,7 @@ public class JEIMegaBreakerToolsPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        for (DeferredHolder<Item, ? extends Item> tool : ModItems.ITEMS.getEntries()) {
+        for (RegistryHolder<? extends Item> tool : ModItems.getEntries()) {
             if (!(tool.get() instanceof com.exoticmoss.megabreakertools.item.custom.IModeSwitchable)) continue;
             registration.addIngredientInfo(tool.get(),
                     Component.translatable("jei.megabreakertools.crafted_in"),

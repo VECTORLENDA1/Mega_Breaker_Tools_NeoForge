@@ -1,47 +1,42 @@
 package com.exoticmoss.megabreakertools.event;
 
-import com.exoticmoss.megabreakertools.MegaBreakerTools;
 import com.exoticmoss.megabreakertools.item.custom.IModeSwitchable;
 import com.exoticmoss.megabreakertools.network.ToggleMiningModePacket;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.event.client.player.ClientHotbarScrollEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
-@EventBusSubscriber(modid = MegaBreakerTools.MODID, value = Dist.CLIENT)
 public class ClientEvents {
 
-    @SubscribeEvent
-    public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
+    public static void register() {
+        ClientHotbarScrollEvents.ALLOW.register((inventory, currentSlot, newSlot, xOffset, yOffset) -> onMouseScroll(yOffset));
+    }
+
+    /// Returns false to stop the hotbar slot from changing
+    public static boolean onMouseScroll(double scrollDeltaY) {
         Player player = Minecraft.getInstance().player;
-        if (player == null) return;
+        if (player == null) return true;
 
         /// Check if you are crouching
-        if (!player.isShiftKeyDown()) return;
+        if (!player.isShiftKeyDown()) return true;
 
         ItemStack mainHand = player.getMainHandItem();
 
         /// Checks if the tool implements IModeSwitchable
-        if (!(mainHand.getItem() instanceof IModeSwitchable tool)) return;
-
-        /// Cancels the event so as not to change the slot
-        event.setCanceled(true);
+        if (!(mainHand.getItem() instanceof IModeSwitchable tool)) return true;
 
         /// Sends packet to server switch mode
-        double scrollDelta = event.getScrollDeltaY();
-        if (scrollDelta != 0) {
+        if (scrollDeltaY != 0) {
             // Gets CURRENT mode before sending the packet
             String newModeText = tool.modeName(IModeSwitchable.nextMode(mainHand));
 
             /// Send it to the server
-            ClientPacketDistributor.sendToServer(new ToggleMiningModePacket());
+            ClientPlayNetworking.send(new ToggleMiningModePacket());
 
             // Visual feedback
             player.sendOverlayMessage(
@@ -52,5 +47,8 @@ public class ClientEvents {
             /// Sound feedback
             player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.5F, 1.0F);
         }
+
+        /// Cancels the event so as not to change the slot
+        return false;
     }
 }

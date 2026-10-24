@@ -1,24 +1,22 @@
 package com.exoticmoss.megabreakertools.item;
 
-import net.minecraft.core.registries.Registries;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.function.Supplier;
+import com.exoticmoss.megabreakertools.util.RegistryHolder;
 
 import static com.exoticmoss.megabreakertools.MegaBreakerTools.MODID;
 
 
 //Isto serve para cria um guia no modo creativo do jogo, para os teus items
 public class ModCreativeModTabs {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-            net.neoforged.neoforge.registries.DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
-    public static final Supplier<CreativeModeTab> MEGA_BREAKER_TOOLS = CREATIVE_MODE_TABS.register("mega_breaker_tools",
-            () -> CreativeModeTab.builder()
+    public static final RegistryHolder<CreativeModeTab> MEGA_BREAKER_TOOLS = new RegistryHolder<>(Registry.register(
+            BuiltInRegistries.CREATIVE_MODE_TAB, Identifier.fromNamespaceAndPath(MODID, "mega_breaker_tools"),
+            FabricCreativeModeTab.builder()
                 .icon(() -> new ItemStack(ModItems.SIMPLE_PICKAXE.get()))
                 .title(Component.translatable("creativetab.mega_breaker_tools"))
                 .displayItems((pParameters, pOutput) -> {
@@ -79,9 +77,9 @@ public class ModCreativeModTabs {
                     pOutput.accept(ModItems.MEGA_ATOMIC_SCYTHE.get());
 
             })
-                .build());
+                .build()));
 
-    public static void register(IEventBus eventBus) {
-        CREATIVE_MODE_TABS.register(eventBus);
+    /// Loads the class (the tab is registered above)
+    public static void register() {
     }
 }

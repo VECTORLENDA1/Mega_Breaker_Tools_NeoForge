@@ -1,8 +1,7 @@
 package com.exoticmoss.megabreakertools.util;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -24,7 +23,7 @@ public class ModTags {
 
 
         private static TagKey<Block> createTag(String name) {
-            return BlockTags.create(Identifier.fromNamespaceAndPath("megabreakertools", name));
+            return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath("megabreakertools", name));
         }
     }
 
@@ -43,11 +42,11 @@ public class ModTags {
         public static final TagKey<Item> OBSCURITE_REPAIR = createTag("repairs/obscurite");
 
         private static TagKey<Item> createTag(String name) {
-            return ItemTags.create(Identifier.fromNamespaceAndPath("megabreakertools", name));
+            return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("megabreakertools", name));
         }
 
         private static TagKey<Item> createVanillaTag(String name) {
-            return ItemTags.create(Identifier.fromNamespaceAndPath("minecraft", name));
+            return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("minecraft", name));
         }
     }
 }

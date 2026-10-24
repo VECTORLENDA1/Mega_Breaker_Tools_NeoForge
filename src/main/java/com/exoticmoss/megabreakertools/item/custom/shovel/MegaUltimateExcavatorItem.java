@@ -192,10 +192,9 @@ public class MegaUltimateExcavatorItem extends Item implements IModeSwitchable{
                 BlockState modifiedState = null;
 
                 /// Try to make flatten
-                BlockState flattenState = currentState.getToolModifiedState(
-                        new UseOnContext(player, context.getHand(),
+                BlockState flattenState = com.exoticmoss.megabreakertools.util.ToolActions.getToolModifiedState(currentState, new UseOnContext(player, context.getHand(),
                                 new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, context.isInside())),
-                        net.neoforged.neoforge.common.ItemAbilities.SHOVEL_FLATTEN,
+                        com.exoticmoss.megabreakertools.util.ToolActions.SHOVEL_FLATTEN,
                         false
                 );
 
@@ -205,10 +204,9 @@ public class MegaUltimateExcavatorItem extends Item implements IModeSwitchable{
                 }
                 /// Try to put out fire
                 else {
-                    BlockState douseState = currentState.getToolModifiedState(
-                            new UseOnContext(player, context.getHand(),
+                    BlockState douseState = com.exoticmoss.megabreakertools.util.ToolActions.getToolModifiedState(currentState, new UseOnContext(player, context.getHand(),
                                     new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, context.isInside())),
-                            net.neoforged.neoforge.common.ItemAbilities.SHOVEL_DOUSE,
+                            com.exoticmoss.megabreakertools.util.ToolActions.SHOVEL_DOUSE,
                             false
                     );
 
@@ -251,9 +249,5 @@ public class MegaUltimateExcavatorItem extends Item implements IModeSwitchable{
         return FLATTENABLES.get(originalState.getBlock());
     }
 
-    @Override
-    public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
-        return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
-    }
 }
 

@@ -21,19 +21,19 @@ import net.minecraft.world.level.Level;
 import com.exoticmoss.megabreakertools.component.ClusterContents;
 import com.exoticmoss.megabreakertools.item.ModItems;
 import com.exoticmoss.megabreakertools.item.custom.DropClusterItem;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
-import net.minecraft.util.TriState;
+import com.mojang.serialization.Codec;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.level.BlockDropsEvent;
-import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +43,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-@EventBusSubscriber(modid = MegaBreakerTools.MODID)
+/// The events of the tools and of the Drop Cluster.
+/// Fabric events: PlayerBlockBreakEvents.BEFORE (area breaking), ServerEntityEvents.ENTITY_LOAD (cluster spawn),
+/// ServerTickEvents.END_SERVER_TICK (inventory merge). Where Fabric has no event, mixins call these methods:
+/// BlockMixin (block drops and their experience), ItemEntityMixin (cluster tick and pickup).
 public class ModEvents {
     private static final Set<BlockPos> HARVESTED_BLOCKS = new HashSet<>();
     /// While a tool is breaking an area: player -> the drops gathered for the cluster
@@ -56,19 +59,31 @@ public class ModEvents {
     /// (the game deletes items 64 blocks under the bottom).
     public static final int VOID_RESCUE_DEPTH = 16;
     /// Where the player who made the cluster is saved (in the cluster on the ground).
-    private static final String CLUSTER_OWNER = "megabreakertools:owner";
+    private static final AttachmentType<String> CLUSTER_OWNER = AttachmentRegistry.createPersistent(
+            Identifier.fromNamespaceAndPath(MegaBreakerTools.MODID, "owner"), Codec.STRING);
+    /// While the drops of a block are being captured: the experience it dropped (see BlockMixin)
+    private static int capturedExperience = -1;
 
     private record InitialBlock(BlockPos pos, long gameTime) {}
 
-    @SubscribeEvent
-    public static void onToolsUsage(BreakBlockEvent event) {
-        Player player = event.getPlayer();
+    public static void register() {
+        PlayerBlockBreakEvents.BEFORE.register((level, player, pos, state, blockEntity) -> {
+            onToolsUsage(level, player, pos);
+            return true;
+        });
+        ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> onClusterSpawn(entity));
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) onPlayerTick(player);
+        });
+    }
+
+    public static void onToolsUsage(Level eventLevel, Player player, BlockPos eventPos) {
         ItemStack mainHandItem = player.getMainHandItem();
 
         if (!(player instanceof ServerPlayer serverPlayer)) return;
         if (!(mainHandItem.getItem() instanceof IModeSwitchable tool)) return;
 
-        BlockPos initialBlockPos = event.getPos();
+        BlockPos initialBlockPos = eventPos;
         if (HARVESTED_BLOCKS.contains(initialBlockPos)) {
             return;
         }
@@ -85,9 +100,9 @@ public class ModEvents {
         // of the area. On a block that is not a log it breaks only that block
         List<BlockPos> allPositions;
         if (miningMode == IModeSwitchable.MODE_TREE) {
-            BlockState initialState = event.getLevel().getBlockState(initialBlockPos);
+            BlockState initialState = eventLevel.getBlockState(initialBlockPos);
             if (!initialState.is(BlockTags.LOGS)) return;
-            allPositions = findTree(event.getLevel(), initialBlockPos, initialState.getBlock(), tool.maxBlocks());
+            allPositions = findTree(eventLevel, initialBlockPos, initialState.getBlock(), tool.maxBlocks());
         } else {
             // ONE CALL - WORKS FOR ALL TOOLS!
             allPositions = tool.getBlocksToBeDestroyed(tool.getRange(), initialBlockPos, serverPlayer);
@@ -99,7 +114,7 @@ public class ModEvents {
             if (pos.equals(initialBlockPos)) continue;
 
             // Checks if the tool can break the block
-            if (!mainHandItem.isCorrectToolForDrops(event.getLevel().getBlockState(pos))) {
+            if (!mainHandItem.isCorrectToolForDrops(eventLevel.getBlockState(pos))) {
                 continue;
             }
 
@@ -156,29 +171,52 @@ public class ModEvents {
 
     /// Drops of the blocks broken by the area mode (and of the block the player broke):
     /// instead of falling on the ground, they (and their experience) go inside the Drop Cluster
-    @SubscribeEvent
-    public static void onBlockDrops(BlockDropsEvent event) {
-        if (!(event.getBreaker() instanceof ServerPlayer player)) return;
+    /// True if the drops of this block go into a Drop Cluster (then BlockMixin gives them to onBlockDrops
+    /// instead of dropping them on the ground)
+    public static boolean capturesDrops(Entity breaker, ServerLevel level, BlockPos pos) {
+        if (!(breaker instanceof ServerPlayer player)) return false;
+        if (DROP_CLUSTER.get(player) != null && HARVESTED_BLOCKS.contains(pos)) return true;
+        InitialBlock initial = INITIAL_BLOCK.get(player);
+        return initial != null && initial.pos().equals(pos) && initial.gameTime() == level.getGameTime();
+    }
+
+    /// Starts counting the experience the block drops (Block#popExperience, see BlockMixin)
+    public static void startCapturingExperience() {
+        capturedExperience = 0;
+    }
+
+    /// True if the experience was counted (it does not fall on the ground)
+    public static boolean captureExperience(int amount) {
+        if (capturedExperience < 0) return false;
+        if (amount > 0) capturedExperience = (int) Math.min(Integer.MAX_VALUE, (long) capturedExperience + amount);
+        return true;
+    }
+
+    /// Stops counting and gives the experience counted
+    public static int stopCapturingExperience() {
+        int experience = Math.max(0, capturedExperience);
+        capturedExperience = -1;
+        return experience;
+    }
+
+    public static void onBlockDrops(Entity breaker, ServerLevel level, BlockPos pos, List<ItemStack> eventDrops, int droppedExperience) {
+        if (!(breaker instanceof ServerPlayer player)) return;
 
         ClusterContents.Builder cluster = DROP_CLUSTER.get(player);
-        if (cluster != null && HARVESTED_BLOCKS.contains(event.getPos())) {
-            for (ItemEntity drop : event.getDrops()) cluster.add(drop.getItem());
-            event.getDrops().clear();
+        if (cluster != null && HARVESTED_BLOCKS.contains(pos)) {
+            for (ItemStack drop : eventDrops) cluster.add(drop);
             // The experience of the block (e.g. ores) also goes into the cluster
-            cluster.addExperience(event.getDroppedExperience());
-            event.setDroppedExperience(0);
+            cluster.addExperience(droppedExperience);
             return;
         }
 
         InitialBlock initial = INITIAL_BLOCK.get(player);
-        if (initial != null && initial.pos().equals(event.getPos()) && initial.gameTime() == event.getLevel().getGameTime()) {
+        if (initial != null && initial.pos().equals(pos) && initial.gameTime() == level.getGameTime()) {
             INITIAL_BLOCK.remove(player);
             ClusterContents.Builder drops = new ClusterContents.Builder(ClusterContents.EMPTY);
-            for (ItemEntity drop : event.getDrops()) drops.add(drop.getItem());
-            event.getDrops().clear();
-            drops.addExperience(event.getDroppedExperience());
-            event.setDroppedExperience(0);
-            addToCluster(event.getLevel(), Vec3.atCenterOf(event.getPos()), drops.build(), player);
+            for (ItemStack drop : eventDrops) drops.add(drop);
+            drops.addExperience(droppedExperience);
+            addToCluster(level, Vec3.atCenterOf(pos), drops.build(), player);
         }
     }
 
@@ -214,13 +252,12 @@ public class ModEvents {
     /// Clusters never disappear from the ground (they can have a lot of items inside)
     /// and nothing can destroy them: fire, lava, explosions, cactus, lightning...
     /// The player who made (or threw) the cluster is remembered, to give it back if it falls into the void.
-    @SubscribeEvent
-    public static void onClusterSpawn(EntityJoinLevelEvent event) {
-        if (event.getEntity() instanceof ItemEntity item && item.getItem().getItem() instanceof DropClusterItem) {
+    public static void onClusterSpawn(Entity entity) {
+        if (entity instanceof ItemEntity item && item.getItem().getItem() instanceof DropClusterItem) {
             item.setUnlimitedLifetime();
             item.setInvulnerable(true);
-            if (item.getOwner() instanceof Player owner && item.getPersistentData().getString(CLUSTER_OWNER).isEmpty()) {
-                item.getPersistentData().putString(CLUSTER_OWNER, owner.getUUID().toString());
+            if (item.getOwner() instanceof Player owner && item.getAttachedOrElse(CLUSTER_OWNER, "").isEmpty()) {
+                item.setAttached(CLUSTER_OWNER, owner.getUUID().toString());
             }
         }
     }
@@ -234,7 +271,7 @@ public class ModEvents {
         cluster.discard();
 
         ServerPlayer owner = null;
-        String id = cluster.getPersistentData().getStringOr(CLUSTER_OWNER, "");
+        String id = cluster.getAttachedOrElse(CLUSTER_OWNER, "");
         if (!id.isEmpty()) {
             try {
                 owner = server.getPlayerList().getPlayer(UUID.fromString(id));
@@ -263,9 +300,9 @@ public class ModEvents {
     }
 
     /// Two clusters on the ground close to each other join into one: the older one goes into the newer one
-    @SubscribeEvent
-    public static void onClusterTick(EntityTickEvent.Post event) {
-        if (!(event.getEntity() instanceof ItemEntity cluster) || cluster.level().isClientSide()) return;
+    /// Called by ItemEntityMixin after the item on the ground ticks
+    public static void onClusterTick(Entity entity) {
+        if (!(entity instanceof ItemEntity cluster) || cluster.level().isClientSide()) return;
         if (!cluster.isAlive() || !(cluster.getItem().getItem() instanceof DropClusterItem)) return;
 
         // Fell into the void: saved before the game deletes it
@@ -286,9 +323,8 @@ public class ModEvents {
     }
 
     /// Clusters in the inventory join into one, like on the ground (checked every few ticks)
-    @SubscribeEvent
-    public static void onPlayerTick(PlayerTickEvent.Post event) {
-        if (!(event.getEntity() instanceof ServerPlayer player) || player.tickCount % 5 != 0) return;
+    public static void onPlayerTick(ServerPlayer player) {
+        if (player.tickCount % 5 != 0) return;
         Inventory inventory = player.getInventory();
         int first = -1;
         ClusterContents merged = null;
@@ -307,13 +343,11 @@ public class ModEvents {
     }
 
     /// Picking up a cluster when you already have one: it goes straight into the one in the inventory
-    /// (works even with a full inventory)
-    @SubscribeEvent
-    public static void onClusterPickup(ItemEntityPickupEvent.Pre event) {
-        ItemEntity cluster = event.getItemEntity();
-        Player player = event.getPlayer();
-        if (player.level().isClientSide() || cluster.hasPickUpDelay() || !cluster.isAlive()) return;
-        if (!(cluster.getItem().getItem() instanceof DropClusterItem)) return;
+    /// (works even with a full inventory). Called by ItemEntityMixin when a player touches an item:
+    /// returns true if the cluster was taken (then the normal pickup does not happen)
+    public static boolean onClusterPickup(ItemEntity cluster, Player player) {
+        if (player.level().isClientSide() || cluster.hasPickUpDelay() || !cluster.isAlive()) return false;
+        if (!(cluster.getItem().getItem() instanceof DropClusterItem)) return false;
 
         Inventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
@@ -323,9 +357,9 @@ public class ModEvents {
                 inventory.setItem(slot, DropClusterItem.create(ModItems.DROP_CLUSTER.get(), merged));
                 player.take(cluster, 1);
                 cluster.discard();
-                event.setCanPickup(TriState.FALSE);
-                return;
+                return true;
             }
         }
+        return false;
     }
 }

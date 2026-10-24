@@ -1,25 +1,24 @@
 package com.exoticmoss.megabreakertools.component;
 
+import com.exoticmoss.megabreakertools.util.RegistryHolder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.Registries;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 
 import static com.exoticmoss.megabreakertools.MegaBreakerTools.MODID;
 
 public class ModDataComponents {
-    public static final DeferredRegister.DataComponents DATA_COMPONENTS =
-            DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, MODID);
-
     /// The items stored inside a Drop Cluster
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ClusterContents>> CLUSTER_CONTENTS =
-            DATA_COMPONENTS.registerComponentType("cluster_contents", builder -> builder
-                    .persistent(ClusterContents.CODEC)
-                    .networkSynchronized(ClusterContents.STREAM_CODEC)
-                    .cacheEncoding());
+    public static final RegistryHolder<DataComponentType<ClusterContents>> CLUSTER_CONTENTS = new RegistryHolder<>(
+            Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(MODID, "cluster_contents"),
+                    DataComponentType.<ClusterContents>builder()
+                            .persistent(ClusterContents.CODEC)
+                            .networkSynchronized(ClusterContents.STREAM_CODEC)
+                            .cacheEncoding()
+                            .build()));
 
-    public static void register(IEventBus eventBus) {
-        DATA_COMPONENTS.register(eventBus);
+    /// Loads the class (the component is registered above)
+    public static void register() {
     }
 }

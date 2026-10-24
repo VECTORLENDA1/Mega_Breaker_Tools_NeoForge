@@ -204,18 +204,18 @@ public class UltraAxeItem extends Item implements IModeSwitchable {
 
     /// Evaluate what the new block state should be after axe interaction
     private Optional<BlockState> evaluateNewBlockState(Level level, BlockPos pos, @Nullable Player player, BlockState state, UseOnContext p_40529_) {
-        Optional<BlockState> optional = Optional.ofNullable(state.getToolModifiedState(p_40529_, net.neoforged.neoforge.common.ItemAbilities.AXE_STRIP, false));
+        Optional<BlockState> optional = Optional.ofNullable(com.exoticmoss.megabreakertools.util.ToolActions.getToolModifiedState(state, p_40529_, com.exoticmoss.megabreakertools.util.ToolActions.AXE_STRIP, false));
         if (optional.isPresent()) {
             level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
             return optional;
         } else {
-            Optional<BlockState> optional1 = Optional.ofNullable(state.getToolModifiedState(p_40529_, net.neoforged.neoforge.common.ItemAbilities.AXE_SCRAPE, false));
+            Optional<BlockState> optional1 = Optional.ofNullable(com.exoticmoss.megabreakertools.util.ToolActions.getToolModifiedState(state, p_40529_, com.exoticmoss.megabreakertools.util.ToolActions.AXE_SCRAPE, false));
             if (optional1.isPresent()) {
                 level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F);
                 level.levelEvent(player, 3005, pos, 0);
                 return optional1;
             } else {
-                Optional<BlockState> optional2 = Optional.ofNullable(state.getToolModifiedState(p_40529_, net.neoforged.neoforge.common.ItemAbilities.AXE_WAX_OFF, false));
+                Optional<BlockState> optional2 = Optional.ofNullable(com.exoticmoss.megabreakertools.util.ToolActions.getToolModifiedState(state, p_40529_, com.exoticmoss.megabreakertools.util.ToolActions.AXE_WAX_OFF, false));
                 if (optional2.isPresent()) {
                     level.playSound(player, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
                     level.levelEvent(player, 3004, pos, 0);
@@ -240,9 +240,5 @@ public class UltraAxeItem extends Item implements IModeSwitchable {
                 .map(p_150689_ -> p_150689_.defaultBlockState().setValue(RotatedPillarBlock.AXIS, unstrippedState.getValue(RotatedPillarBlock.AXIS)));
     }
 
-    @Override
-    public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
-        return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
-    }
 }
 

@@ -314,10 +314,9 @@ public class MegaAdvanceScytheItem extends Item implements IModeSwitchable{
         /// PRIORITY 2: If there are no mature plantations, try to make till
         for (BlockPos pos : positions) {
             BlockState state = level.getBlockState(pos);
-            BlockState modifiedState = state.getToolModifiedState(
-                    new UseOnContext(player, context.getHand(),
+            BlockState modifiedState = com.exoticmoss.megabreakertools.util.ToolActions.getToolModifiedState(state, new UseOnContext(player, context.getHand(),
                             new BlockHitResult(player.position(), context.getClickedFace(), pos, false)),
-                    net.neoforged.neoforge.common.ItemAbilities.HOE_TILL,
+                    com.exoticmoss.megabreakertools.util.ToolActions.HOE_TILL,
                     false
             );
 
@@ -358,9 +357,5 @@ public class MegaAdvanceScytheItem extends Item implements IModeSwitchable{
         return context.getClickedFace() != Direction.DOWN && context.getLevel().getBlockState(context.getClickedPos().above()).isAir();
     }
 
-    @Override
-    public boolean canPerformAction(ItemInstance stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
-        return net.neoforged.neoforge.common.ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility);
-    }
 }
 
