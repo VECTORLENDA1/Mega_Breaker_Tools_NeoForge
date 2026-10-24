@@ -40,6 +40,8 @@ public class ToolSettingsScreen extends Screen {
 
     private int left, top;
     private ItemEntity display;
+    /// When the screen was opened: the tool turns with the real time, so it keeps turning while the game is paused.
+    private final long openedAt = System.currentTimeMillis();
 
     public ToolSettingsScreen() {
         super(Component.empty());
@@ -134,10 +136,10 @@ public class ToolSettingsScreen extends Screen {
             }
             EntityRenderer<? super ItemEntity, ?> renderer = minecraft.getEntityRenderDispatcher().getRenderer(display);
             EntityRenderState state = renderer.createRenderState(display, a);
-            state.ageInTicks = (minecraft.player != null ? minecraft.player.tickCount : 0) * TURN_SPEED + a;
+            state.ageInTicks = (System.currentTimeMillis() - openedAt) / 50F * TURN_SPEED;
             state.shadowPieces.clear();
             state.outlineColor = 0;
-            graphics.entity(state, TOOL_SCALE, new Vector3f(0, 0.35F, 0), new Quaternionf().rotateZ((float) Math.PI), null,
+            graphics.entity(state, TOOL_SCALE, new Vector3f(0, 0.55F, 0), new Quaternionf().rotateZ((float) Math.PI), null,
                     vx, vy, vx + VIEW, vy + VIEW);
         }
         graphics.text(font, Component.translatable("screen.megabreakertools.tool.mode"), vx, vy + VIEW + 4, TEXT_DIM);
