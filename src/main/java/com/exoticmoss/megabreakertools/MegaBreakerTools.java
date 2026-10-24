@@ -64,6 +64,12 @@ public class MegaBreakerTools {
 
         }
 
+        // The key that opens the tool settings screen (G by default, can be changed in Controls)
+        @SubscribeEvent
+        public static void registerKeys(net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent event) {
+            event.register(com.exoticmoss.megabreakertools.client.ToolSettingsKey.KEY);
+        }
+
         // 3D item model of the Drop Cluster ("type": "megabreakertools:drop_cluster" in the item model file)
         @SubscribeEvent
         public static void registerItemRenderers(RegisterSpecialModelRendererEvent event) {
@@ -79,6 +85,13 @@ public class MegaBreakerTools {
                 ToggleMiningModePacket.TYPE,
                 ToggleMiningModePacket.STREAM_CODEC,
                 ToggleMiningModePacket::handle
+        );
+
+        // Tool settings screen: mode and area size
+        registrar.playToServer(
+                com.exoticmoss.megabreakertools.network.ToolSettingsPacket.TYPE,
+                com.exoticmoss.megabreakertools.network.ToolSettingsPacket.STREAM_CODEC,
+                com.exoticmoss.megabreakertools.network.ToolSettingsPacket::handle
         );
 
         // Cluster screen: take everything out / delete items

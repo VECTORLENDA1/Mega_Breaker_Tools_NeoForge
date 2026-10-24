@@ -165,7 +165,7 @@ public class MegaAdvanceExcavatorItem extends Item implements IModeSwitchable{
         }
 
         /// Use the same logic as getBlocksToBeDestroyed for 3D area
-        return getBlocksToBeDestroyed(getRange(), initialPos, serverPlayer);
+        return getBlocksToBeDestroyed(IModeSwitchable.areaRange(stack), initialPos, serverPlayer);
     }
 
     @Override

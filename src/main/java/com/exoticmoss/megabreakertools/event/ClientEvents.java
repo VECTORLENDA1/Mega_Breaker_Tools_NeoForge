@@ -38,7 +38,7 @@ public class ClientEvents {
         double scrollDelta = event.getScrollDeltaY();
         if (scrollDelta != 0) {
             // Gets CURRENT mode before sending the packet
-            String newModeText = tool.modeName(IModeSwitchable.nextMode(mainHand));
+            String newModeText = tool.modeName(IModeSwitchable.nextMode(mainHand), IModeSwitchable.areaRange(mainHand));
 
             /// Send it to the server
             ClientPacketDistributor.sendToServer(new ToggleMiningModePacket());
@@ -52,5 +52,23 @@ public class ClientEvents {
             /// Sound feedback
             player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 0.5F, 1.0F);
         }
+    }
+
+    /// Shift + right-click with a Mega Breaker tool in the main hand opens the tool settings screen
+    /// (instead of using the tool). Right-click without Shift works as always.
+    @SubscribeEvent
+    public static void onUseKey(InputEvent.InteractionKeyMappingTriggered event) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null || !event.isUseItem() || event.getHand() != net.minecraft.world.InteractionHand.MAIN_HAND) return;
+        if (!player.isShiftKeyDown() || !(player.getMainHandItem().getItem() instanceof IModeSwitchable)) return;
+        event.setCanceled(true);
+        event.setSwingHand(false);
+        com.exoticmoss.megabreakertools.client.ToolSettingsScreen.openIfHolding();
+    }
+
+    /// The tool settings key (G by default)
+    @SubscribeEvent
+    public static void onClientTick(net.neoforged.neoforge.client.event.ClientTickEvent.Post event) {
+        com.exoticmoss.megabreakertools.client.ToolSettingsKey.tick();
     }
 }
