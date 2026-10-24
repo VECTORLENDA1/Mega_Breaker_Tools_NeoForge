@@ -91,7 +91,7 @@ public class ClusterScreen extends Screen {
         // The chosen item is not in the cluster anymore (deleted, taken out)
         if (selected >= contents().entries().size()) selected = -1;
         panelWidth = VISIBLE * CELL + (VISIBLE - 1) * GAP + 2 * 28;
-        panelHeight = selected >= 0 ? 150 : 100;
+        panelHeight = selected >= 0 ? 150 : 118;
         left = (width - panelWidth) / 2;
         top = (height - panelHeight) / 2;
         rowY = top + 24;
