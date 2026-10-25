@@ -3,6 +3,10 @@
     "#megabreakertools:needs_ignithra_tool"
   ],
   "values": [
-    "#minecraft:incorrect_for_stone_tool"
+    "#minecraft:incorrect_for_stone_tool",
+    {
+      "id": "simpleores:bedrock_obscuridium_ore",
+      "required": false
+    }
   ]
 }

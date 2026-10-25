@@ -3,6 +3,10 @@
     "#megabreakertools:needs_astralite_tool"
   ],
   "values": [
-    "#minecraft:incorrect_for_iron_tool"
+    "#minecraft:incorrect_for_iron_tool",
+    {
+      "id": "simpleores:bedrock_obscuridium_ore",
+      "required": false
+    }
   ]
 }
