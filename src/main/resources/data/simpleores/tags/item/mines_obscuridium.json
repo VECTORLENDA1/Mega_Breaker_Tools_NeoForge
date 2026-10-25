@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "megabreakertools:ultimate_pickaxe",
+    "megabreakertools:legendary_pickaxe",
+    "megabreakertools:atomic_pickaxe",
+    "megabreakertools:mega_ultimate_breaker",
+    "megabreakertools:mega_legendary_breaker",
+    "megabreakertools:mega_atomic_breaker"
+  ]
+}
