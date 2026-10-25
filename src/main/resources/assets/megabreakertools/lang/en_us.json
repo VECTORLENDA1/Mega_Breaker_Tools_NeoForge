@@ -72,7 +72,7 @@
   "10":           "||DROP CLUSTER||",
   "item.megabreakertools.drop_cluster": "Drop Cluster",
   "item.megabreakertools.drop_cluster.tooltip": "Right-click to collect the items inside",
-  "item.megabreakertools.drop_cluster.tooltip_manage": "Right-click to open (delete items) - Shift + right-click to collect everything",
+  "item.megabreakertools.drop_cluster.tooltip_manage": "Right-click to open (take out or delete items) - Shift + right-click to collect everything",
   "screen.megabreakertools.cluster.title": "Drop Cluster",
   "item.megabreakertools.settings_hint": "Shift + right-click (or G) to open the tool settings",
   "key.megabreakertools.tool_settings": "Mega Breaker Tools: tool settings",
@@ -87,7 +87,12 @@
   "screen.megabreakertools.cluster.close": "Close",
   "screen.megabreakertools.cluster.delete": "Delete",
   "screen.megabreakertools.cluster.cancel": "Cancel",
-  "screen.megabreakertools.cluster.delete_hint": "Click the red X of an item to delete some of it",
+  "screen.megabreakertools.cluster.take": "Take",
+  "screen.megabreakertools.cluster.all": "All",
+  "screen.megabreakertools.cluster.take_amount": "Take out: %s / %s",
+  "screen.megabreakertools.cluster.take_percent": "Take out %s%% of %s kinds (%s items)",
+  "screen.megabreakertools.cluster.delete_percent": "Delete %s%% of %s kinds (%s items)",
+  "screen.megabreakertools.cluster.delete_hint": "Green check: take out - Red X: delete (you can pick several)",
   "screen.megabreakertools.cluster.amount": "Delete: %s / %s",
   "item.megabreakertools.drop_cluster.total": "Items inside: %s",
   "item.megabreakertools.drop_cluster.experience": "Experience inside: %s",
@@ -98,5 +103,5 @@
   "creativetab.mega_breaker_tools": "Mega Breaker Tools",
 
   "jei.megabreakertools.crafted_in": "Crafted in a Gravity Core (Simple Ores)",
-  "jei.megabreakertools.mode_info": "Shift + Scroll to change between area mode and single block mode (axes also have the Tree Chopper mode: cut the whole tree; pickaxes have the Vein Miner mode: mine the whole ore vein)"
+  "jei.megabreakertools.mode_info": "Shift + right-click (or G) opens the tool settings, to choose the size and the mode: area or single block (axes also have the Tree Chopper mode: cut the whole tree; pickaxes have the Vein Miner mode: mine the whole ore vein)"
 }
