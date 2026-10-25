@@ -136,8 +136,6 @@ public interface IModeSwitchable {
 
         tooltipComponents.accept(Component.literal("Mode: " + modeText)
                 .withStyle(ChatFormatting.GOLD));
-        tooltipComponents.accept(Component.literal("Shift + Scroll to change")
-                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         tooltipComponents.accept(Component.translatable("item.megabreakertools.settings_hint")
                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
     }

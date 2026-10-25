@@ -102,6 +102,23 @@ public class DropClusterItem extends Item {
         }
     }
 
+    /// Gives up to "amount" items of one kind to the player, in full stacks, until the inventory is full.
+    /// Returns how many were given (the caller takes them out of the cluster).
+    public static int give(Player player, ClusterContents.Entry entry, int amount) {
+        int given = 0;
+        while (given < amount) {
+            int size = Math.min(amount - given, entry.create(1).getMaxStackSize());
+            ItemStack stack = entry.create(size);
+            player.getInventory().add(stack);
+            given += size - stack.getCount();
+            if (!stack.isEmpty()) {
+                player.sendOverlayMessage(Component.translatable("item.megabreakertools.drop_cluster.inventory_full").withStyle(ChatFormatting.RED));
+                break;
+            }
+        }
+        return given;
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
         ClusterContents contents = getContents(stack);
